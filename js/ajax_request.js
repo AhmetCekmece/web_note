@@ -39,6 +39,11 @@ function SendForm(_FormID, _operation) {
 //------------------------------------------------------------------------------
 
 function Notu_Kaydet_Post(){
+    notu_kaydet_btn.disabled = true; 
+    icerik_icerik.addEventListener('input', Icerik_degistimi);
+    icerik_icerik.setAttribute("icerikdegisti", false);
+    window.removeEventListener("beforeunload", CikisEngelle);
+
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('id', 'notkaydetForm');
@@ -81,10 +86,18 @@ function Baslik_Kaydet_Post(){
 }
 
 function Not_Olustur_Post(){
+    if(!notu_kaydet_btn.disabled){
+        Notu_Kaydet_Post();
+    }
+
     // let formButtons = notolusturForm.querySelectorAll('button, input[type="button"], input[type="submit"]');
     // formButtons.forEach(function(button) {
     //     button.disabled = true;
     // });
+    create_not_ismi.value = create_not_ismi.value.trim();
+    if(create_not_ismi.value == ""){
+        create_not_ismi.value = "isimsiz";
+    }
 
     SendForm(notolusturForm.id,'not_olustur');
 
@@ -94,12 +107,24 @@ function Not_Olustur_Post(){
 }
 
 function Altnot_Olustur_Post(){
+    if(!notu_kaydet_btn.disabled){
+        Notu_Kaydet_Post();
+    }
+
+    create_altnot_ismi.value = create_altnot_ismi.value.trim();
+    if(create_altnot_ismi.value == ""){
+        create_altnot_ismi.value = "isimsiz";
+    }
+
     SendForm(altnotolusturForm.id,'altnot_olustur');
 }
 
 function Activenot_Sec_Post(_not_uindex){
     clearTimeout(timeout); // Activenot_Sec_Post tetiklendiğinde zamanlayıcıyı iptal et
-    //Notu_Kaydet_Post();
+
+    if(!notu_kaydet_btn.disabled){
+        Notu_Kaydet_Post();
+    }
 
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
@@ -108,7 +133,7 @@ function Activenot_Sec_Post(_not_uindex){
     let input1 = document.createElement('input');
     input1.setAttribute('type', 'hidden');
     input1.setAttribute('name', 'not_uindex');
-    input1.setAttribute('value', _not_uindex);  //burada birseyler yapman gerek icerikte <div> yazisi varsa bozuluyor*(bozulmuyomus)
+    input1.setAttribute('value', _not_uindex);  
     form.appendChild(input1);
 
     document.body.appendChild(form);

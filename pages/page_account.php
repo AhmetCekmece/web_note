@@ -24,14 +24,10 @@
                         <button id="ustscroll_solbuton"><</button>              
                     </div>
                     <div id="ustbar_orta">
-                        <button id="hesap_btn" onclick="ToolAc('tools_hesap');"><?php echo $username;?></button>                   
-                        <button id="giris_btn" onclick="ToolAc('tools_giris');">Giris</button>
-                        <button id="cizim_btn" onclick="ToolAc('tools_cizim');">Cizim</button>
-                        <button id="ekle_btn" onclick="ToolAc('tools_ekle');">Ekle</button>
-                        <button id="ekle_btn" >Bos1</button>
-                        <button id="ekle_btn" >Bos2</button>
-                        <button id="ekle_btn" >Bos3</button>
-                        <button id="ekle_btn">Bos4</button>                   
+                        <button id="hesap_btn" onclick="ToolAc(this, 'tools_hesap');"><?php echo $username;?></button>                   
+                        <button id="giris_btn" class="ta_active" onclick="ToolAc(this, 'tools_giris');">Giris</button>
+                        <button id="cizim_btn" onclick="ToolAc(this, 'tools_cizim');">Cizim</button>
+                        <button id="ekle_btn" onclick="ToolAc(this, 'tools_ekle');">Ekle</button>                  
                     </div>
                     <div id="ustbar_son">
                         <button id="ustscroll_sagbuton">></button>
@@ -46,29 +42,34 @@
                             <form method="post" id="logoutForm" style="display:flex">
                                 <button type="submit" style="font-size: small;" id="cikis_hesap_btn" name="logout" class="toolbox toolbox_v2">LOGOUT</button>
                             </form>
-                            <button style="font-size: small;" id="sifredegis_hesap_btn" class="toolbox toolbox_v2">Sifre Degistir</button>
+                            <button style="font-size: small;" id="sifredegis_hesap_btn" class="toolbox toolbox_v2" onclick="MenuAc('sifredegis');">Sifre Degistir</button>
                         </div>
                         <div id="tools_giris" class="tools">
-                            <button class="toolbox" id="menuac_yeninot">+</button>
-                            <button class="toolbox" id="menuac_altyeninot">++</button>
+                            <button class="toolbox" onclick="MenuAc('notolustur');" id="menuac_yeninot">+</button>
+                            <button class="toolbox" onclick="MenuAc('altnotolustur');" id="menuac_altyeninot">++</button>
                             <button class="toolbox" onclick="GeriAl();">↩</button>
                             <button class="toolbox" onclick="IleriAl();">↪</button>
                             <button class="toolbox" onclick="RemoveStyles()">Clr</button> 
                             <!-- <button class="toolbox" onclick="copyStyle()">Cpy</button>   -->
-                            <button id="renk_btn" class="toolbox"  onclick="Color_type('bcolor');ToolAc('tools_renk');"><div style="background-color: black; width: 20px; height: 20px; margin: auto;">C</div></button>
-                            <button style="color: coral ;" id="renk_btn" class="toolbox"  onclick="Color_type('color');ToolAc('tools_renk');">C</button>
+                            <button id="renk_btn" class="toolbox"  onclick="Color_type('bcolor');ToolAc(null,'tools_renk');"><div style="background-color: black; width: 20px; height: 20px; margin: auto;">C</div></button>
+                            <button style="color: coral ;" id="renk_btn" class="toolbox"  onclick="Color_type('color');ToolAc(null,'tools_renk');">C</button>
                             <button style="text-decoration: underline;" class="toolbox" onclick="AltiniCiz()">A</button> 
                             <button style="font-style: italic;" class="toolbox" onclick="Italiklestir()">T</button>
                             <button style="font-weight: bold;" class="toolbox" onclick="Kalinlastir()">K</button>  
                             <button  class="toolbox" onclick="FontSize('7')">h1</button> 
                             <button  class="toolbox" onclick="FontSize('6')">h2</button>
                             <button  class="toolbox" onclick="FontSize('5')">h3</button>  
+                            <button  class="toolbox" onclick="FontSize('4')">h4</button> 
+                            <button  class="toolbox" onclick="FontSize('3')">h5</button>
+                            <button  class="toolbox" onclick="FontSize('2')">h6</button> 
                             <button  class="toolbox toolbox_v2" onclick="Test_Post()">TEST</button>   
                             <!-- <button  class="toolbox" onclick="SubYazi()">A<span style="vertical-align: sub;">2</spans></button>    
                             <button  class="toolbox" onclick="SuperYazi()">A<span style="vertical-align: super;">2</spans></button> -->
                         </div>
                         <div id="tools_renk" class="tools">
-                            <button class="toolbox" onclick="ToolAc('tools_giris');"><</button>
+                            <button class="toolbox" onclick="ToolAc(null, 'tools_giris');"><</button>
+                            <button style="background-color: white; color: black;" class="toolbox" onclick="RenkDegistir('transparent');">T</button>
+                            <button style="background-color: #c8c8c8;" class="toolbox" onclick="RenkDegistir('#c8c8c8');"></button>
                             <button style="background-color: white;" class="toolbox" onclick="RenkDegistir('white');"></button>
                             <button style="background-color: black;" class="toolbox" onclick="RenkDegistir('black');"></button>
                             <button style="background-color: red;" class="toolbox" onclick="RenkDegistir('red');"></button>
@@ -114,10 +115,10 @@
                 <div id="container_nonav">
                     <div id="govde">
                         <div id="notlar" style="width: <?php echo $sorgu_1->notlar_width; ?>px;">
-                            <ul id='notlar_ul'>
-                            <?php
-                                echo Not_Listele();
-                            ?>
+                            <ul id='notlar_ul' onmouseleave="dragStop(true);">
+                                <?php
+                                    echo Not_Listele();
+                                ?>
                             </ul>
                         </div>
                         <div id="resizer"></div>
@@ -140,10 +141,10 @@
                                     ?>
                                 </div>
                                 <button id="baslik_degistir_btn">!</button>
-                                <button id="notu_kaydet_btn" onclick="Notu_Kaydet_Post();">K</button>
+                                <button id="notu_kaydet_btn" onclick="Notu_Kaydet_Post();" disabled>K</button>
                                 <button id="notu_sil_btn" onclick="Notu_Sil_Post();">S</button>
                             </div>
-                            <div id="icerik_icerik" contenteditable="true" spellcheck="false">
+                            <div id="icerik_icerik" contenteditable="true" spellcheck="false" icerikdegisti="false">
                                 <?php 
                                     if($activenot != ""){
                                         echo $activenot->icerik;
@@ -163,27 +164,59 @@
         <div id="hesap_container">
             <div id="karart_container"></div>
             <div id="hesap_menu_overflow">
-                <div id="menu_sifredegis">
+                <!-- <div id="menu_sifredegis">
                     <button class="menukapat_btn" onclick="MenuKapat();">X</button>
                     <form id="sifredegisForm">
-                        <input type="password" placeholder="eski sifre gir">
-                        <input type="password" placeholder="yeni sifre gir">
-                        <input type="password" placeholder="yeni sifre tekrar gir">
+                        <input class="menu_inputbox" type="password" placeholder="eski sifre gir">
+                        <input class="menu_inputbox" type="password" placeholder="yeni sifre gir">
+                        <input class="menu_inputbox" type="password" placeholder="yeni sifre tekrar gir">
                         <input type="button" value="Sifre Degistir">
+                    </form>
+                </div> -->
+                <!-- <div id="menu_notolustur">
+                    <button class="menukapat_btn" onclick="MenuKapat();">X</button>
+                    <form id="notolusturForm">
+                        <input type="text" class="menu_inputbox" id="not_ismi" name="not_ismi" placeholder="Not ismi" onkeydown="MenuPostYolla(event , 'notolustur');">
+                        <button type="button" onclick="Not_Olustur_Post();">Not Olustur</button>
+                    </form>
+                </div> -->
+                <!-- <div id="menu_altnotolustur">
+                    <button class="menukapat_btn" onclick="MenuKapat();">X</button>
+                    <form id="altnotolusturForm">
+                        <input type="text" class="menu_inputbox" id="altnot_ismi" name="altnot_ismi" placeholder="Alt Not ismi" onkeydown="MenuPostYolla(event , 'altnotolustur');">
+                        <button type="button" onclick="Altnot_Olustur_Post();">Alt Not Olustur</button>
+                    </form>
+                </div> -->
+                <div id="menu_sifredegis">
+                    <div class="menu_baslik">Sifre Degistir</div>
+                    <form id="sifredegisForm">
+                        <input type="text" class="menu_inputbox" placeholder="Eski sifre gir" >
+                        <input type="text" class="menu_inputbox" placeholder="Yeni sifre gir" >
+                        <input type="text" class="menu_inputbox" placeholder="Yeni sifre tekrar gir" >
+                        <div class="menu_altbtns">
+                            <button class="menu_btns" type="button" onclick="MenuKapat();">Iptal Et</button>
+                            <button class="menu_btns" type="button" >Degistir</button> 
+                        </div>    
                     </form>
                 </div>
                 <div id="menu_notolustur">
-                    <button class="menukapat_btn" onclick="MenuKapat();">X</button>
+                    <div class="menu_baslik">Not Olustur</div>
                     <form id="notolusturForm">
-                        <input type="text" id="not_ismi" name="not_ismi" placeholder="Not ismi">
-                        <button type="button" onclick="Not_Olustur_Post();">Not Olustur</button>
+                        <input type="text" class="menu_inputbox" id="not_ismi" name="not_ismi" placeholder="Not ismi" onkeydown="MenuPostYolla(event , 'notolustur');">
+                        <div class="menu_altbtns">
+                            <button class="menu_btns" type="button" onclick="MenuKapat();">Iptal Et</button>
+                            <button class="menu_btns" type="button" onclick="Not_Olustur_Post();">Olustur</button> 
+                        </div>    
                     </form>
                 </div>
                 <div id="menu_altnotolustur">
-                    <button class="menukapat_btn" onclick="MenuKapat();">X</button>
+                    <div class="menu_baslik">Alt Not Olustur</div>
                     <form id="altnotolusturForm">
-                        <input type="text" id="altnot_ismi" name="altnot_ismi" placeholder="Alt Not ismi">
-                        <button type="button" onclick="Altnot_Olustur_Post();">Alt Not Olustur</button>
+                        <input type="text" class="menu_inputbox" id="altnot_ismi" name="altnot_ismi" placeholder="Alt Not ismi" onkeydown="MenuPostYolla(event , 'altnotolustur');">
+                        <div class="menu_altbtns">
+                            <button class="menu_btns" type="button" onclick="MenuKapat();">Iptal Et</button>
+                            <button class="menu_btns" type="button" onclick="Altnot_Olustur_Post();">Olustur</button> 
+                        </div>    
                     </form>
                 </div>
             </div>
@@ -221,7 +254,7 @@
                 document.execCommand("styleWithCSS", false, true);
                 document.execCommand("hiliteColor", false, _renk);
             }          
-            ToolAc('tools_giris');
+            ToolAc(null, 'tools_giris');
         }
 
         function AltiniCiz() {

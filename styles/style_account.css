@@ -65,29 +65,40 @@ body{
             }
                 #ustbar_orta button{
                     background-color: black;
-                    margin-left: 7.5px;
-                    margin-right: 7.5px;
+                    padding-left: 7.5px;
+                    padding-right: 7.5px;
                     border: none;
+                    border-top-left-radius: 4px;
+                    border-top-right-radius: 4px;
                 }
+                #ustbar_orta button:hover{
+                    background-color: #333;                   
+                }
+                #ustbar_orta button.ta_active{
+                    background-color: #444;                   
+                }
+
                 #ustscroll_sagbuton{
                     border: none;
-                    background-color:darkred;
+                    background-color:#333;
                     height: 20px;
                     width: 25px;
                     position: fixed;
                     right: 10px;
                     border-bottom-right-radius: 4px;
                     border-top-right-radius: 4px;
+                    z-index: 1; 
                 }
                 #ustscroll_solbuton{
                     border: none;
-                    background-color:darkred;
+                    background-color:#333;
                     height: 20px;
                     width: 25px;
                     position: fixed;
                     left: 10px;
                     border-bottom-left-radius: 4px;
                     border-top-left-radius: 4px;
+                    z-index: 1; 
                 }
         #navbar_altbar{
             border-radius: 4px;
@@ -110,23 +121,25 @@ body{
             } */
                 #scroll_sagbuton{
                     border: none;
-                    background-color:darkred;
+                    background-color:#333;
                     height: 40px;
                     width: 25px;
                     position: fixed;
                     right: 10px;
                     border-bottom-right-radius: 4px;
-                    border-top-right-radius: 4px;                   
+                    border-top-right-radius: 4px;  
+                    z-index: 1;                 
                 }
                 #scroll_solbuton{
                     border: none;
-                    background-color:darkred;
+                    background-color:#333;
                     height: 40px;
                     width: 25px;
                     position: fixed;
                     left: 10px;
                     border-bottom-left-radius: 4px;
                     border-top-left-radius: 4px;
+                    z-index: 1; 
                 }
                 .tools{
                     display: flex;
@@ -135,16 +148,34 @@ body{
                 }
                     .toolbox{
                         background-color: darkred;
+                        border: none;
+                        border-bottom: 3px outset rgb(120, 0, 0);
+                        border-right: 1px outset rgb(120, 0, 0);
                         border-radius: 4px;
-                        width: 40px;
-                        margin-left: 2.5px;
-                        margin-right: 2.5px;
+                        /* width: 40px; */
+                        width: 35px;
+                        height: 35px;
+                        margin-top: 2.5px;
+                        margin-left: 3px;
+                        margin-right: 3px;
                         flex-shrink: 0;
                         font-size: large;
                     }
                     .toolbox_v2{
                         width: 85px;                       
                     }
+                    .toolbox:hover{
+                        opacity: 0.6;
+                    }
+                    .toolbox:active{
+                        border-top: 2px outset #444;
+                        border-left: 2px outset #444;
+                    }
+                    .toolbox:disabled{
+                        opacity: 0.3;
+                        border: none;
+                    }
+
                 #tools_hesap{
                     display: none;
                 }
@@ -239,16 +270,36 @@ body{
                             min-width: 30px;
                             margin-right: 5px;
                         }
+                        #icerik_baslik button{
+                            border: none;
+                            border-bottom: 3px outset rgb(120, 0, 0);
+                            border-right: 1px outset rgb(120, 0, 0);
+                            border-radius: 4px;
+                        } 
+                        #icerik_baslik button:hover{
+                            opacity: 0.6;
+                        }
+                        #icerik_baslik button:active{
+                            border-top: 2px outset #444;
+                            border-left: 2px outset #444;
+                        }
+                        #icerik_baslik button:disabled{
+                            opacity: 0.3;
+                            border: none;
+                        }
                     #icerik_icerik{
                         outline: 0;
                         background-color: #222;
                         flex-grow: 1;
                         overflow: auto;
-                        font-size: x-large;
+                        font-size: large;
                         word-wrap: break-word; 
                         hyphens: auto;  
                         border-bottom-right-radius: 4px;  
-                        padding: 5px;      
+                        padding: 5px;                              
+                    }
+                    #icerik_icerik, #icerik_icerik *{
+                        color: #c8c8c8;
                     }
             #footer{
                 border-radius: 4px;
@@ -257,9 +308,9 @@ body{
                 margin-bottom: 5px;
             } 
 
-    #hesap_container * {   /* kalkacak */
+    /* #hesap_container * {   
         color: black;
-    }
+    } */
     #hesap_container{ 
         display: none;        
         width: 100%;
@@ -267,6 +318,7 @@ body{
         position: absolute;
         left: 0;
         top: 0; 
+        z-index: 2;
     }
         #karart_container{
             width: 100%;
@@ -283,22 +335,16 @@ body{
             flex-direction:row;      
             overflow: auto;
         }
-            .menukapat_btn{
-                width: 30px;
-                height: 30px;
-                margin-top: 10px;
-                margin-right: 10px;
-                margin-left: auto;
-            }
             #menu_sifredegis{   
                 display: none;
                 flex-direction:column; 
                 margin: auto; 
                 border-radius: 10px;
-                background-color: #888;  
+                background-color: #333;  
                 width: 250px;             
                 min-width: 250px;
-                min-height: 150px;
+                min-height: 200px;
+                border: 1px solid darkred;
             }
                 #sifredegisForm{   /* guzellestir */
                     flex-grow: 1;  
@@ -312,10 +358,11 @@ body{
                 flex-direction:column; 
                 margin: auto; 
                 border-radius: 10px;
-                background-color: #888;  
+                background-color: #333;  
                 width: 250px;             
                 min-width: 250px;
-                min-height: 150px;
+                min-height: 140px;
+                border: 1px solid darkred;
             }
                 #notolusturForm, #altnotolusturForm{   /* guzellestir */
                     flex-grow: 1;  
@@ -324,6 +371,41 @@ body{
                     flex-direction:column;
                     justify-content: center;  
                 }  
+                    .menu_btns{
+                        width: 100px;
+                        height: 30px;
+                        background-color: rgb(139, 0, 0);
+                        border: none;
+                        border-bottom: 2px outset rgb(120, 0, 0);
+                        border-right: 1px outset rgb(120, 0, 0);
+                        border-radius: 4px;
+                    }
+                    .menu_btns:hover{
+                        opacity: 0.7;
+                    }
+                    .menu_btns:active{
+                        border-top: 2px outset transparent;
+                        border-left: 2px outset transparent;
+                    }
+                    .menu_inputbox{
+                        border: none;
+                        outline: none;
+                        padding-left: 2px;
+                        height: 25px;
+                        margin-top: 5px;
+                        background-color: #555;
+                        border-radius: 4px;
+                    }
+                    .menu_baslik{
+                        text-align: center;
+                        margin-top: 25px;
+                    }
+                    .menu_altbtns{
+                        margin-top: 10px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                    }
 
 ul {
     padding-inline-start: 20px;
@@ -332,6 +414,15 @@ ul {
 li{
     display: flex;
 }
+/* #notlarimyazi{
+    height: 25px;
+    display:flex; 
+    align-items:center; 
+    justify-content: center; 
+    font-weight:bold; 
+    font-size:medium; 
+    padding: 0;
+} */
 #notlar_ul{
     padding: 0;
     width: max-content;
@@ -342,12 +433,8 @@ li{
         position: relative;
         background-color: transparent;
     }
-    .notlar_divs:hover {
+    /* .notlar_divs:hover {
         background-color: #666;        
-    }
-    /* .notlar_divs:hover .not_ustcizgi,
-    .notlar_divs:hover .not_altcizgi {
-        opacity: 1;
     } */
         .notgizle_btns{
             font-weight: bold;
@@ -391,9 +478,14 @@ li{
             opacity: 0;
             z-index: 0;
         }
-        .notcizgi_hover{
+        .dragging_cizgi{
+            opacity: 1;
+            z-index: 1;
+        }
+        .dragging_cizgi:hover{
             background: darkred;
         }
+
         .notbaslik_buttons{ /* buton */
             top: 0;
             left: 0;
@@ -403,15 +495,6 @@ li{
         }
         .dragging{  /* tasinan notbaslik_buttons */
             opacity: 0.3;
-            margin: 0;
-            z-index: 2;
-            cursor: grabbing;
-
-            position: absolute;
-            height: 35px;
-        }
-        .dragging_real{
-            background-color: #666;
         }
 
         .activebaslik{

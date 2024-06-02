@@ -5,11 +5,14 @@ const govde = document.getElementById('govde');
 const not_baslik = document.getElementById('not_baslik');
 const icerik_icerik = document.getElementById('icerik_icerik');
 const baslik_degistir_btn = document.getElementById('baslik_degistir_btn');
+const notu_kaydet_btn = document.getElementById('notu_kaydet_btn');
+const notu_sil_btn = document.getElementById('notu_sil_btn');
 const container_nonav = document.getElementById('container_nonav');
 const container_nonav_overflow = document.getElementById('container_nonav_overflow');
 const allTools = document.getElementsByClassName('tools');
 const navbar_altbar = document.getElementById('navbar_altbar');
 const navbar_ustbar = document.getElementById('navbar_ustbar');
+const ustbar_orta = document.getElementById('ustbar_orta');
 const scroll_sagbuton = document.getElementById('scroll_sagbuton');
 const scroll_solbuton = document.getElementById('scroll_solbuton');
 const ustscroll_sagbuton = document.getElementById('ustscroll_sagbuton');
@@ -22,6 +25,8 @@ const hesap_container = document.getElementById('hesap_container');
 const menu_sifredegis = document.getElementById('menu_sifredegis');
 const menu_notolustur = document.getElementById('menu_notolustur');
 const menu_altnotolustur = document.getElementById('menu_altnotolustur');
+const create_not_ismi = document.getElementById('not_ismi');
+const create_altnot_ismi = document.getElementById('altnot_ismi');
 const sifredegis_hesap_btn = document.getElementById('sifredegis_hesap_btn');
 const menuac_altyeninot = document.getElementById('menuac_altyeninot');
 const menuac_yeninot = document.getElementById('menuac_yeninot');
@@ -33,7 +38,6 @@ const notolusturForm = document.getElementById('notolusturForm');
 const altnotolusturForm = document.getElementById('altnotolusturForm');
 
 let kaydirmawidth = 0;
-let notbaslik = "";
 let timeout;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -46,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         Boyut_Ayarla(minGovdeWidth);
     });
     Notlar_boyut_ayar();
-
+    Active_Not_Kontrol();
    
 
     //___________________ RESIZER ______________________
@@ -88,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if(isResizing){
             isResizing = false;
             notlarWidth = notlar.offsetWidth;
-            Notlarwidth_Kaydet_Post(notlarWidth);               
+            Notlarwidth_Kaydet_Post(notlarWidth);    
         }           
     });
 
@@ -130,24 +134,23 @@ document.addEventListener('DOMContentLoaded', function () {
     //     });
     // }
 
-    sifredegis_hesap_btn.addEventListener('click', function () {
-        hesap_container.style.display = 'block';
-        menu_sifredegis.style.display = 'flex';
-    });
+    // sifredegis_hesap_btn.addEventListener('click', function () {
+    //     hesap_container.style.display = 'block';
+    //     menu_sifredegis.style.display = 'flex';
+    // });
 
-    menuac_yeninot.addEventListener('click', function () {
-        hesap_container.style.display = 'block';
-        menu_notolustur.style.display = 'flex';
-    });
+    // menuac_yeninot.addEventListener('click', function () {
+    //     hesap_container.style.display = 'block';
+    //     menu_notolustur.style.display = 'flex';
+    // });
 
-    menuac_altyeninot.addEventListener('click', function () {
-        hesap_container.style.display = 'block';
-        menu_altnotolustur.style.display = 'flex';
-    });
+    // menuac_altyeninot.addEventListener('click', function () {
+    //     hesap_container.style.display = 'block';
+    //     menu_altnotolustur.style.display = 'flex';
+    // });
 
 
     //_____________________BASLIK DEGISTIRMEK_______________________
-    notbaslik = not_baslik.innerText;
     let notbaslik_degis = false;
 
     baslik_degistir_btn.addEventListener("click", function() {
@@ -226,22 +229,71 @@ function Not_baslik_degis(_notbaslik_degis){
         let selection = window.getSelection();
         selection.removeAllRanges();
         
-        if(notbaslik != not_baslik.textContent){
-            notbaslik = not_baslik.textContent;
-            Baslik_Kaydet_Post(); //BASLIK KAYIT ISLEMI
-        }
+        Baslik_Kaydet_Post(); //BASLIK KAYIT ISLEMI
     }
     return _notbaslik_degis;
 }
 
-function ToolAc(_active_tool) {
+function ToolAc(_element, _active_tool) {
     let active_tool_obj = document.getElementById(_active_tool);
     for (let i = 0; i < allTools.length; i++) {
         allTools[i].style.display = 'none';
     }
     active_tool_obj.style.display = 'flex';
     navbar_altbar.scrollLeft = 0;
+    
+    if(_element){
+        var childElements = ustbar_orta.children;
+        for (var i = 0; i < childElements.length; i++) {       
+            var childElement = childElements[i];
+            if (childElement.id == _element.id) {
+                childElement.classList.add("ta_active");
+            } else {
+                childElement.classList.remove("ta_active");
+            }
+        }
+    }
     Boyut_Ayarla();
+}
+
+function MenuPostYolla(event , _islemadi){
+    if (event.keyCode === 13) { // Enter tuşuna basıldığında formun gönderilmesini önler
+        event.preventDefault();
+
+        switch (_islemadi) {
+            case "notolustur":
+                Not_Olustur_Post();
+                break;
+            case "altnotolustur":
+                Altnot_Olustur_Post();
+                break;
+        
+            default:
+                break;
+        }
+    }
+}
+
+function MenuAc(_menuadi){
+    switch (_menuadi) {
+        case "sifredegis":
+            hesap_container.style.display = 'block';
+            menu_sifredegis.style.display = 'flex';
+            break;
+        case "notolustur":
+            hesap_container.style.display = 'block';
+            menu_notolustur.style.display = 'flex';
+            create_not_ismi.focus();
+            break;
+        case "altnotolustur":
+            hesap_container.style.display = 'block';
+            menu_altnotolustur.style.display = 'flex';
+            create_altnot_ismi.focus();
+            break;
+    
+        default:
+            break;
+    }
 }
 
 function MenuKapat() {
@@ -265,159 +317,115 @@ function Notlar_boyut_ayar(){
 
 // _____________________________  NOT TASIMA __________________________
 
-var alan = notlar_ul;
-var alanDisinda = false;
 var isDragging = false;
-var draggedElement = null;
-var draggedClone = null;
-var draggedDiv_X = 0;
-var draggedDiv_Y = 0;
-var alanLeft = 0;
-var alanRight = 0;
-var alanTop = 0;
-var alanBottom = 0;
-var notUstCizgi = null;
-var notAltCizgi = null;
-var target_uindex = 0;
+var dragElement = null;
+var dropElement = null;
+var targetElement = null;
+var targetUstCizgi = null;
+var targetAltCizgi = null;
 
-function dragStart(event, _not_uindex){
+function dragStart(_dragElement){
     timeout = setTimeout(function() { 
         if(!isDragging){
             isDragging = true;
-            draggedElement = document.getElementById("notlardivs" + _not_uindex);
-    
-            draggedDiv_X = event.clientX - draggedElement.getBoundingClientRect().left;
-            draggedDiv_Y = event.clientY - draggedElement.getBoundingClientRect().top;
-            alanLeft = alan.getBoundingClientRect().left;
-            alanRight = alan.getBoundingClientRect().right;
-            alanTop = alan.getBoundingClientRect().top;
-            alanBottom = alan.getBoundingClientRect().bottom;
-        
-            draggedClone = draggedElement.cloneNode(true);
-            draggedClone.classList.add("dragging");
-            //draggedClone.classList.remove("notbaslik_buttons");
-            draggedClone.style.left = draggedElement.getBoundingClientRect().left + "px";
-            draggedClone.style.top = draggedElement.getBoundingClientRect().top + "px";
-            draggedClone.style.width = notlar.offsetWidth + "px";
-
-            // while (draggedClone.firstChild) {  //clone icini temizle
-            //     draggedClone.removeChild(draggedClone.firstChild);
-            // }
-            alan.appendChild(draggedClone); 
-    
-            draggedElement.classList.add("dragging_real");
-        }       
+            dragElement = _dragElement.parentElement;  //notlardivs
+            dragElement.classList.add("dragging");
+            document.body.style.cursor = "grabbing";
+        }
     }, 150);
 }
 
-document.addEventListener("mousemove", function (e) {
-    if (isDragging) {
-        var droppedElements = document.elementsFromPoint(e.clientX, e.clientY);
-        droppedElements.forEach(function(element) {
-            if (element.classList.contains("notbaslik_buttons")) {
-                // console.log("Dragged element ID:", draggedElement.getAttribute('not_uindex'));
-                // console.log("Dropped element ID:", element.getAttribute('not_uindex'));
-
-                if(target_uindex != element.getAttribute('not_uindex')){
-
-                    if (target_uindex != 0) {
-                        notUstCizgi.style.opacity = 0;
-                        notAltCizgi.style.opacity = 0;
-                        notUstCizgi.style.zIndex = 0;
-                        notAltCizgi.style.zIndex = 0;
-                    }
-
-                    target_uindex = element.getAttribute('not_uindex');
-
-                    for (var i = 0; i < notlardivs.length; i++) {
-                        if (notlardivs[i].getAttribute('not_uindex') == target_uindex) {
-                            notUstCizgi = notlardivs[i].querySelector('.not_ustcizgi');
-                            notAltCizgi = notlardivs[i].querySelector('.not_altcizgi');
-                            
-                            if(target_uindex != draggedElement.getAttribute('not_uindex')){
-                                notUstCizgi.style.opacity = 1;
-                                notAltCizgi.style.opacity = 1;
-                                notUstCizgi.style.zIndex  = 1;
-                                notAltCizgi.style.zIndex  = 1;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        });
-
-        // notUstCizgi.addEventListener("mouseenter", function (e) {
-        //     notUstCizgi.classList.add("notcizgi_hover");
-        //     notAltCizgi.classList.remove("notcizgi_hover");
-        // });
-
-        var x = e.clientX - draggedDiv_X;
-        var y = e.clientY - draggedDiv_Y;
-
-        draggedClone.style.left = x + "px";
-        draggedClone.style.top = y + "px";
-
-        if (e.clientX < alanLeft || e.clientX > alanRight || e.clientY < alanTop || e.clientY > alanBottom) {
-            alanDisinda = true;
-            document.dispatchEvent(new Event('mouseup'));
-        }
-    }
-});
-
-document.addEventListener("mouseup", function (e) {
-    if (isDragging) {
-        isDragging = false;
-        if (draggedClone && draggedClone.parentNode) {
-            draggedClone.parentNode.removeChild(draggedClone);
-        }
-
-        if (target_uindex != 0) {
-            notUstCizgi.style.opacity = 0;
-            notAltCizgi.style.opacity = 0;
-            notUstCizgi.style.zIndex = 0;
-            notAltCizgi.style.zIndex = 0;
-        }
-
-        if(!alanDisinda){
-            var drop_ustcizgi = null;
-            var drop_altcizgi = null;
-            var drop_notbaslikbtn = null;
-
-            var droppedElements = document.elementsFromPoint(e.clientX, e.clientY);
-            droppedElements.forEach(function(element) {
-                if (element.classList.contains("not_ustcizgi")) {
-                    drop_ustcizgi = element;
-                }
-                else if (element.classList.contains("not_altcizgi")) {
-                    drop_altcizgi = element;
-                }
-                else if (element.classList.contains("notbaslik_buttons")) {
-                    drop_notbaslikbtn = element;
-                }
-            });
-
-            if (drop_ustcizgi && drop_ustcizgi.getAttribute('not_uindex') != draggedElement.getAttribute('not_uindex')) {
-                Not_Tasi_Post("Ustune_Tasi", draggedElement, drop_ustcizgi);
-            }
-            else if (drop_altcizgi && drop_altcizgi.getAttribute('not_uindex') != draggedElement.getAttribute('not_uindex')) {
-                Not_Tasi_Post("Yanina_Tasi", draggedElement, drop_altcizgi);
-            }
-            else if (drop_notbaslikbtn && drop_notbaslikbtn.getAttribute('not_uindex') != draggedElement.getAttribute('not_uindex')) {
-                Not_Tasi_Post("Altina_Tasi", draggedElement, drop_notbaslikbtn);
-            }        
+function dragEnter(_targetElement){
+    if(isDragging){
+        targetElement = _targetElement;
+        console.log("dragEnter Dragged element ID:", dragElement.id);
+        console.log("dragEnter Dropped element ID:", _targetElement.id);
+        if(dragElement.getAttribute('not_uindex') != targetElement.getAttribute('not_uindex')){
+            targetUstCizgi = targetElement.querySelector('.not_ustcizgi');
+            targetAltCizgi = targetElement.querySelector('.not_altcizgi');
+            targetUstCizgi.classList.add("dragging_cizgi");
+            targetAltCizgi.classList.add("dragging_cizgi");
         }
         else{
-            alanDisinda = false;
+            targetElement = null;
         }
-        draggedElement.classList.remove("dragging_real");
+
+    }
+}
+
+function dragLeave(_targetElement){
+    if(isDragging){
+        if(targetUstCizgi && targetAltCizgi){
+            targetUstCizgi.classList.remove("dragging_cizgi");
+            targetAltCizgi.classList.remove("dragging_cizgi");
+        }
+        targetElement = null;
+        targetUstCizgi = null;
+        targetAltCizgi = null;
+
+        console.log("dragLeave" + _targetElement.id);                
+    }
+}
+
+function dropEnter(_dropElement){
+    dropElement = _dropElement;
+}
+
+function dropLeave(_dropElement){
+    dropElement = null;
+}
+
+function dragStop(_iptalmi){
+    if(isDragging){
+        isDragging = false;
+        if(dropElement && targetElement && !_iptalmi){
+            console.log("dragStop drop:", dropElement.id);
+            console.log("dragStop target:", dragElement.id);
+
+            if(dropElement.classList.contains("not_ustcizgi")){
+                Not_Tasi_Post("Ustune_Tasi", dragElement, dropElement);
+            }
+            else if(dropElement.classList.contains("not_altcizgi")){
+                Not_Tasi_Post("Yanina_Tasi", dragElement, dropElement);
+            }
+            else if(dropElement.classList.contains("notbaslik_buttons")){
+                Not_Tasi_Post("Altina_Tasi", dragElement, dropElement);
+            }
+        }
+        else if (_iptalmi){
+            console.log("sinir disi");
+        }
+        if(targetUstCizgi && targetAltCizgi){
+            targetUstCizgi.classList.remove("dragging_cizgi");
+            targetAltCizgi.classList.remove("dragging_cizgi");
+        }
+        dragElement.classList.remove("dragging");
+        document.body.style.cursor = "auto";       
+        dragElement = null;
+        dropElement = null;
+        targetElement = null;
+        targetUstCizgi = null;
+        targetAltCizgi = null;
+    }
+}
+
+document.addEventListener("mouseup", function (e) {
+    if(isDragging){
+        console.log("mouseup")
+        dragStop(false);
     }
 });
 
-function notbaslikSagtik(e, _not_uindex){  //hem secer hem tasir
-    e.preventDefault();
-    Activenot_Sec_Post(_not_uindex);
-}
+
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 's') { // Ctrl + S tuş kombinasyonu kontrolü
+        event.preventDefault();
+        if(not_baslik.getAttribute("not_uindex") > 0 && icerik_icerik.getAttribute("icerikdegisti") == "true"){
+            Notu_Kaydet_Post();
+        }
+    }
+});
+
 
 
 

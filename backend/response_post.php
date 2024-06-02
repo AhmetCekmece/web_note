@@ -22,10 +22,10 @@ if (isset($_POST['login'])) {
                                 WHERE accounts.numara = (?)", array($number));
 
         if($sorgu_1 && $sorgu_1->username === $_POST["username"] && $sorgu_1->password === $_POST["password"]){
-            $sorgu_2 = $db->getRows("SELECT not_uindex, baslik, ustnot_index, altnot_adet, altnotlari_gizle, yan_ust, yan_alt    
+            $sorgu_2 = $db->getRows("SELECT not_uindex, baslik, ustnot_index, altnotlari_gizle, yan_ust, yan_alt    
             FROM notlar WHERE userid = (?)", array($sorgu_1->userid));
 
-            $activenot = "";
+            $activenot = null;
             if($sorgu_2 && $sorgu_1->active_notuindex != 0){  //not varmi?
                 $activenot = $db->getRow("SELECT * FROM notlar WHERE userid = (?) AND not_uindex = (?)", array($sorgu_1->userid, $sorgu_1->active_notuindex));                     
             }

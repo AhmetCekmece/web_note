@@ -18,13 +18,10 @@ function Response_Islem(_operation, _responseData) {
             Notlar_boyut_ayar();
             break;
 
-        case 'baslik_kaydet':            //___________ DUZELT ____________
-            
+        case 'baslik_kaydet':            
             for (var i = 0; i < notlardivs.length; i++) { 
-                var baslikBtn = notlardivs[i].getElementsByClassName('notbaslik_btns')[0];               
-                if (baslikBtn.getAttribute("not_uindex") == not_baslik.getAttribute("not_uindex")) {
-                    baslikBtn.textContent = _responseData.baslik;
-                    break; 
+                if(notlardivs[i].getAttribute("not_uindex") == not_baslik.getAttribute("not_uindex")){
+                    notlardivs[i].getElementsByClassName('notbaslik_btns')[0].textContent = _responseData.baslik;
                 }
             }
             Notlar_boyut_ayar();
@@ -79,5 +76,38 @@ function Active_Not_Goster(_not_uindex = "", _baslik = "", _icerik = ""){
     not_baslik.innerText = _baslik;
     icerik_icerik.innerHTML = _icerik;
 
-    //secili notun rengini kirmizi felan yaparsin
+    Active_Not_Kontrol();
 }
+
+function Active_Not_Kontrol(){
+    if(not_baslik.getAttribute("not_uindex") > 0){
+        menuac_altyeninot.disabled = false;
+        baslik_degistir_btn.disabled = false;
+        notu_sil_btn.disabled = false;
+        icerik_icerik.contentEditable = true;
+    }
+    else {
+        menuac_altyeninot.disabled = true;
+        baslik_degistir_btn.disabled = true;
+        notu_kaydet_btn.disabled = true;
+        notu_sil_btn.disabled = true;
+        icerik_icerik.contentEditable = false;
+    }
+}
+
+icerik_icerik.addEventListener('input', Icerik_degistimi);
+function Icerik_degistimi(){
+    if (icerik_icerik.getAttribute("icerikdegisti") == "false") {
+        console.log('İlk yazışma gerçekleşti!');
+        icerik_icerik.setAttribute("icerikdegisti", true);
+        icerik_icerik.removeEventListener('input', Icerik_degistimi);
+        window.addEventListener("beforeunload", CikisEngelle);
+
+        notu_kaydet_btn.disabled = false;  
+    }
+}
+
+const CikisEngelle = (event) => {
+    event.preventDefault();
+    event.returnValue = true;  // Included for legacy support, e.g. Chrome/Edge < 119
+};
