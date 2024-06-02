@@ -1,41 +1,71 @@
 <?php
-    if (isset($_POST['Hesap_olustur'])) {
-        $dosya = 'notlar.json';
-        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
+session_start();
+$loginError = false;
 
-        $yeni_not = array(
-            'hesapadi' => $_POST['hesapadi'],
-            'unique_index' => 0
-        );
-        $notlar[] = $yeni_not;
-        file_put_contents($dosya, json_encode(array_values($notlar)));
-    }
+if (isset($_SESSION["username"])) {
+    header("Location: account.php");
+    exit();
+}
 
-    if (isset($_POST['Not_Olustur'])) {
-        $dosya = 'notlar.json';
-        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
+if (isset($_POST['Giris_Yap']) && !isset($_SESSION["username"])) {
+    $dosya = 'notlar.json';
+    $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
 
-        $hesap = $_POST['hesap'];
-        $hesap_adlari = array_column($notlar, 'hesapadi');
-        if (in_array($hesap, $hesap_adlari)) {
-            foreach ($notlar as &$not) {
-                if ($not['hesapadi'] === $hesap) {
-                    $not['unique_index'] = $not['unique_index'] + 1;
-                    $yeni_not = array(
-                        'not_uindex' => $not['unique_index'],
-                        'baslik' => $_POST['baslik'],
-                        'icerik' => $_POST['icerik']
-                    );
-                    $not['notlar'][] = $yeni_not;                   
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $active_notuindex = 0;
+    $active_baslik = '';
+    $active_icerik = '';
+
+    foreach ($notlar as $hesap) {
+        if ($hesap['username'] === $username && $hesap['password'] === $password) {
+            if (!empty($hesap['notlar'])){
+                foreach ($hesap['notlar'] as &$not) {
+                    if ($not['not_uindex'] === intval($hesap['active_notuindex'])) {
+                        $active_notuindex = $hesap['active_notuindex'];
+                        $active_baslik = $not['baslik'];
+                        $active_icerik = $not['icerik'];
+                        break;
+                    }
                 }
             }
-            file_put_contents($dosya, json_encode($notlar));
+            $_SESSION["username"] = $username;
+            $_SESSION["active_notuindex"] = intval($active_notuindex);
+            $_SESSION["active_baslik"] = $active_baslik;
+            $_SESSION["active_icerik"] = $active_icerik;
+            header("Location: account.php");
+            exit;
         }
-        else {
-            echo "gecersiz hesapadi";
+    }  
+    echo "Kullanıcı adı veya parola yanlış. Lütfen tekrar deneyin.";
+}
+
+if (isset($_POST['Hesap_Olustur'])) {
+    $dosya = 'notlar.json';
+    $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
+
+    $hesap_varmi = false;
+    $username = $_POST['username'];
+    foreach ($notlar as $hesap) {
+        if ($hesap['username'] === $username) {
+            $hesap_varmi = true;
         }
     }
-
+    if($hesap_varmi === false){
+        $yeni_hesap = array(
+            'username' => $_POST['username'],
+            'password' => $_POST['password'], 
+            'unique_index' => 0,
+            'active_notuindex' => 0
+        );
+        $notlar[] = $yeni_hesap;
+        file_put_contents($dosya, json_encode(array_values($notlar)));
+        echo "hesap olusturuldu";
+    }
+    else{
+        echo "bu hesap zaten mevcut";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -47,54 +77,20 @@
 </head>
 <body>
     <hr>
-    <h2>Hesap Olustur</h2>
+    <h2>Hesap Oluştur</h2>
     <form method="post"> 
-        <input type="hidden" name="Hesap_olustur">     
-        <input type="text" id="hesapadi" name="hesapadi"><br>
-        <input type="submit" value="Kaydet">
+        <input type="hidden" name="Hesap_Olustur">     
+        <input type="text" id="cusername" name="username" placeholder="username"><br>
+        <input type="text" id="cpassword" name="password" placeholder="password"><br>
+        <input type="submit" value="Hesap Oluştur">
     </form><hr>
 
-    <h2>Not Ekle</h2>
+    <h2>Giriş Yap</h2>
     <form method="post">
-        <input type="hidden" name="Not_Olustur">
-        <label for="hesap">Hesap Adı:</label><br>
-        <input type="text" id="hesap" name="hesap"><br>
-        <label for="baslik">Başlık:</label><br>
-        <input type="text" id="baslik" name="baslik"><br>
-        <label for="icerik">İçerik:</label><br>
-        <textarea id="icerik" name="icerik"></textarea><br>
-        <input type="submit" value="Kaydet">
+        <input type="hidden" name="Giris_Yap">
+        <input type="text" id="lusername" name="username" placeholder="username"><br>
+        <input type="text" id="lpassword" name="password" placeholder="password"><br>
+        <input type="submit" value="Giriş Yap">
     </form><hr>
-
-    <h2>Not Listele</h2>
-    <form method="post">
-        <input type="hidden" name="Not_Listele">
-        <label for="lhesap">Hesap Adı:</label><br>
-        <input type="text" id="lhesap" name="lhesap"><br>       
-        <input type="submit" value="Listele">
-    </form>
-    <?php
-    if (isset($_POST['Not_Listele'])) {
-        $dosya = 'notlar.json';
-        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
-
-        $lhesap = $_POST['lhesap'];
-
-        // Belirtilen hesap adına göre notları filtrele
-        $filtrelenmis_notlar = array_filter($notlar, function ($not) use ($lhesap) {
-            return $not['hesapadi'] === $lhesap;
-        });
-
-        // Filtrelenmiş notların başlıklarını yazdır
-        echo "<h2>$lhesap Hesabına Ait Notlar</h2>";
-        echo "<ul>";
-        foreach ($filtrelenmis_notlar as $not) {
-            foreach ($not['notlar'] as $n) {
-                echo "<li>{$n['baslik']}</li>";
-            }
-        }
-        echo "</ul>";
-    }
-    ?><hr>
 </body>
 </html>

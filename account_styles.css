@@ -1,0 +1,8 @@
+.button_disabled {
+    opacity: 0.5; 
+    pointer-events: none;
+}
+
+.display_none {
+    display: none;
+}
