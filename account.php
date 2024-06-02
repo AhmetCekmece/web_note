@@ -1,136 +1,4 @@
-<?php
-    session_start();
-    $username = $_SESSION["username"];
-
-    if (isset($_POST["Logout"])) {
-        unset($_SESSION["username"]);
-        unset($_SESSION["active_notuindex"]);
-        unset($_SESSION["active_baslik"]);
-        unset($_SESSION["active_icerik"]);
-        session_destroy();
-    }
-
-    if (!isset($_SESSION["username"])) {
-        header("Location: index.php");
-        exit();
-    } 
-
-    $yeninot_popup = 'display_none';
-    if (isset($_POST['Yeni_Not'])) {
-        $yeninot_popup = '';
-    }
-
-    if (isset($_POST['Not_Olustur_Iptal'])) {
-        $yeninot_popup = 'display_none';
-    }
-
-    if (isset($_POST['Not_Olustur'])) {
-        $dosya = 'notlar.json';
-        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
-    
-        foreach ($notlar as &$hesap) {
-            if ($hesap['username'] === $username) {
-                $hesap['unique_index'] = $hesap['unique_index'] + 1;
-                $yeni_not = array(
-                    'not_uindex' => $hesap['unique_index'],
-                    'baslik' => $_POST['baslik'],
-                    'icerik' => ""
-                );
-                $hesap['notlar'][] = $yeni_not;
-                file_put_contents($dosya, json_encode($notlar));
-                Active_Not($hesap['unique_index']);
-                break;
-            }
-        }     
-    }
-
-    if (isset($_POST['Not_Guncelle'])) {
-        $dosya = 'notlar.json';
-        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
-    
-        foreach ($notlar as &$hesap) {
-            if ($hesap['username'] === $username) {
-                foreach ($hesap['notlar'] as &$not) {
-                    if ($not['not_uindex'] === intval($_POST['notuindex'])) {
-                        $not['baslik'] = $_POST['baslik'];
-                        $not['icerik'] = $_POST['icerik'];
-                        $_SESSION["active_baslik"] = $_POST['baslik'];
-                        $_SESSION["active_icerik"] = $_POST['icerik'];
-                        file_put_contents($dosya, json_encode($notlar));
-                        break 2; // iç içe iki döngüden de çık
-                    }
-                }
-            }
-        }    
-    }
-
-    if (isset($_POST['Not_Sil'])) {
-        $dosya = 'notlar.json';
-        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
-    
-        foreach ($notlar as &$hesap) {
-            if ($hesap['username'] === $username) {
-                foreach ($hesap['notlar'] as $sirasi => &$not) {
-                    if ($not['not_uindex'] === intval($_POST['notuindex'])) {
-                        unset($hesap['notlar'][$sirasi]);
-                        //$hesap['notlar'] = array_values($hesap['notlar']); // Indisleri yeniden sırala  -performans
-                        file_put_contents($dosya, json_encode($notlar));
-                        Active_Not(0);
-                        break 2; 
-                    }
-                }
-            }
-        }
-    }
-
-    if(isset($_POST['Not_Goster'])) {    
-        $duzenle_notuindex = $_POST['Not_Goster'];
-        Active_Not($duzenle_notuindex);
-    }
-  
-    $not_duzenle_enable = '';
-    if($_SESSION["active_notuindex"] === 0){
-        $not_duzenle_enable = 'button_disabled';
-    }
-    else {
-        $not_duzenle_enable = '';
-    }
-
-    function Active_Not($_uindex) {
-        $dosya = 'notlar.json';
-        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
-
-        if (intval($_uindex) === 0){
-            foreach ($notlar as &$hesap) {
-                if ($hesap['username'] === $_SESSION["username"]) {
-                    $hesap['active_notuindex'] = 0;
-                    $_SESSION["active_notuindex"] = 0;
-                    $_SESSION["active_baslik"] = '';
-                    $_SESSION["active_icerik"] = '';
-                    file_put_contents($dosya, json_encode($notlar));
-                    break;
-                }
-            }
-        }
-        else {
-            foreach ($notlar as &$hesap) {
-                if ($hesap['username'] === $_SESSION["username"]) {
-                    foreach ($hesap['notlar'] as &$not) {
-                        if ($not['not_uindex'] === intval($_uindex)) {
-                            $hesap['active_notuindex'] = intval($_uindex);
-                            $_SESSION["active_notuindex"] = intval($_uindex);
-                            $_SESSION["active_baslik"] = $not['baslik'];
-                            $_SESSION["active_icerik"] = $not['icerik'];
-                            file_put_contents($dosya, json_encode($notlar));
-                            break 2; 
-                        }
-                    }
-                }
-            }
-        }
-    }
-       
-?>
+<?php require 'account_php.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -138,12 +6,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Not Defteri</title>
-    <link rel="stylesheet" href="./account_styles.css">
+    <!-- <link rel="stylesheet" href="./account_styles.css"> -->
+    <style> 
+        ul{
+            list-style-type: none;
+            padding-inline-start: 30px;
+        }
+
+        li{
+            display: block;
+        }
+
+        .button_disabled {
+            opacity: 0.5; 
+            pointer-events: none;
+        }
+
+        .button_disabled_v2 {
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .display_none {
+            display: none;
+        }
+
+        .notGizliButon{
+            transition: height 0.2s; 
+            margin-left: 30px;
+            height: 8px;
+            width: 100px;
+            display: block; 
+            opacity: 0.2;
+        }
+
+    </style>
 </head>
 <body>
     <form method="post">
+        <input type="submit" name="Test" value="Test"><br><br>
         <input type="submit" name="Logout" value="cikis">
-        <?php echo $username;?>
+        <?php echo $username;?>    
     </form><hr>
 
     <h2>Menu</h2>
@@ -153,33 +56,67 @@
         <input type="submit" id="Not_Olustur" name="Not_Olustur" value="Olustur" class="<?php echo $yeninot_popup; ?>" >
         <input type="submit" id="Not_Olustur_Iptal" name="Not_Olustur_Iptal" value="Iptal et" class="<?php echo $yeninot_popup; ?>" >
         <br>
-        <input type="submit" id="AltNot_Olustur" name="AltNot_Olustur" value="Alt Not Olustur">
+        <input type="submit" id="AltYeni_Not" name="AltYeni_Not" value="Alt Not Olustur" class="<?php echo $not_duzenle_enable; ?>" >
+        <input type="text" id="anbaslik" name="anbaslik" placeholder="baslik" class="<?php echo $altyeninot_popup; ?>" >
+        <input type="submit" id="AltNot_Olustur" name="AltNot_Olustur" value="Olustur" class="<?php echo $altyeninot_popup; ?>" >
+        <input type="submit" id="AltNot_Olustur_Iptal" name="AltNot_Olustur_Iptal" value="Iptal et" class="<?php echo $altyeninot_popup; ?>" >
     </form><hr>
 
+    <span id="notlarim">
     <h2>Notlarim</h2>
     <?php
-        $dosya = 'notlar.json';
-        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
+    $dosya = 'notlar.json';
+    $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
 
-        foreach ($notlar as &$hesap) {
-            if ($hesap['username'] === $username) {
-                if (!empty($hesap['notlar'])) {
-                    echo "<form method='post'>";
-                    echo "<ul>";
-                    foreach ($hesap['notlar'] as &$not) {
-                        echo "<li><button type='submit' name='Not_Goster' value='{$not['not_uindex']}'>{$not['baslik']}</button></li>";
-                    }
-                    echo "</ul>";
-                    echo "</form>";
-                }
-                else{
-                    echo "Henüz hiç not yok.";
-                }               
-                break;
+    function list_notes($notes) {
+        echo "<ul>";
+        foreach ($notes as $note) {
+            echo "<li>";
+
+            echo "<button type='submit' name='AltNotlari_Gizle' value='{$note['not_uindex']}'";     // ► ◄ ▲ ▼
+            if ($note['altnot_adet'] === 0) {
+                echo " class='button_disabled_v2'";
             }
-        } 
-    ?><hr>
+            
+            if($note['altnotlari_gizle'] === false){
+                echo ">▼</button>";
+                //echo "<button type='submit' name='Not_Goster' value='{$note['not_uindex']}'>{$note['baslik']}</button>";
+                echo "<button id='notButon{$note['not_uindex']}' class='notButon' type='submit' name='Not_Goster' value='{$note['not_uindex']}' draggable='true' ondragstart='dragStart(event)' ondragend='dragEnd(event)' ondrop='drop(event)' ondragover='dragOver(event)'>{$note['baslik']}</button>";
+                echo "<br><button id='notGizliButon{$note['not_uindex']}' class='notGizliButon' type='submit' value='{$note['not_uindex']}' ondragover='dragOverGizli(event)' ondragleave='dragLeaveGizli(event)' ondrop='drop(event)'></button>";
+                // Eğer bu notun alt notları varsa, alt notları da listele
+                if ($note['altnot_adet'] !== 0) {     
+                    list_notes($note['notlar']);
+                }
+            }
+            else{
+                echo ">►</button>";
+                //echo "<button type='submit' name='Not_Goster' value='{$note['not_uindex']}'>{$note['baslik']}</button>";
+                echo "<button id='notButon{$note['not_uindex']}' class='notButon' type='submit' name='Not_Goster' value='{$note['not_uindex']}' draggable='true' ondragstart='dragStart(event)' ondragend='dragEnd(event)' ondrop='drop(event)' ondragover='dragOver(event)'>{$note['baslik']}</button>";
+                echo "<br><button id='notGizliButon{$note['not_uindex']}' class='notGizliButon' type='submit' value='{$note['not_uindex']}' ondragover='dragOverGizli(event)' ondragleave='dragLeaveGizli(event)' ondrop='drop(event)'></button>";
+            }
+            
+            echo "</li>";
+        }
+        echo "</ul>";
+    }
 
+    echo "<form method='post'>";        
+    foreach ($notlar as $hesap) {
+        if ($hesap['username'] === $username) {
+            if(count($hesap['notlar']) > 0){
+                list_notes($hesap['notlar']);                
+            }
+            else{
+                echo "Henüz hiç not yok.";              
+            }
+            break;
+        }
+    }
+    echo "</form>";
+    ?><hr>
+    </span>
+
+    <span id="not_duzenle">
     <h2>Not Düzenle</h2>
     <form method="post">
         <input type="hidden" id="duzenle_notuindex" name="notuindex" value="<?php echo isset($_SESSION["active_notuindex"]) ? $_SESSION["active_notuindex"] : 0; ?>">
@@ -188,7 +125,86 @@
         <input type="submit" name="Not_Guncelle" value="Guncelle" class="<?php echo $not_duzenle_enable; ?>" >
         <input type="submit" name="Not_Sil" value="Sil" class="<?php echo $not_duzenle_enable; ?>" >
     </form><hr>
+    </span>
 
+
+
+    <script>
+        function dragStart(event) {   //tasima basladiginda butonun id sini text olarak tasir.
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function dragEnd(event) {     //tasima durdugunda islemi durdurur.
+            event.preventDefault();
+        }
+
+        function dragOver(event) {    //uzerine geldiginde ne yapsin
+            event.preventDefault();
+        }
+
+        function dragOverGizli(event) {    //uzerine geldiginde ne yapsin
+            event.preventDefault();
+            var targetButton = event.target;
+            targetButton.style.height = '30px';
+        }
+
+        function dragLeaveGizli(event) {         //uzerinden ayrildiginda ne yapsin
+            event.preventDefault();
+            var targetButton = event.target;
+            targetButton.style.height = '8px';
+        }
+
+        function drop(event) {
+            event.preventDefault();  //tasidigim butonun pozisyon degistirmesini engeller
+            var data = event.dataTransfer.getData("text");
+            var draggedButton = document.getElementById(data);   //tasidigim buton  
+            var dropTarget = event.target;                       //alici buton
+            if (dropTarget.classList.contains('notGizliButon') && dropTarget.id !== draggedButton.id && dropTarget.value !== draggedButton.value) {
+                dropTarget.style.height = '5px';
+                Not_Tasi_Post("Yanina_Tasi", draggedButton, dropTarget);
+            }
+            else if(dropTarget.classList.contains('notButon') && dropTarget.id !== draggedButton.id && dropTarget.value !== draggedButton.value){
+                dropTarget.style.height = '5px';
+                Not_Tasi_Post("Altina_Tasi", draggedButton, dropTarget);
+            }
+            else if(dropTarget.classList.contains('notGizliButon')){
+                dropTarget.style.height = '5px';
+            }
+        }
+
+        function Not_Tasi_Post(_tasimaTuru, _draggedButton, _dropTarget){   //tasimaTuru = altnota - yanina
+            // Gizli bir form oluşturma
+            var form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', 'account.php'); 
+
+            // Gizli input alanları oluşturma ve form içine yerleştirme
+            var input1 = document.createElement('input');
+            input1.setAttribute('type', 'hidden');
+            input1.setAttribute('name', _tasimaTuru);
+            input1.setAttribute('value', 'true');
+            form.appendChild(input1);
+
+            var input2 = document.createElement('input');
+            input2.setAttribute('type', 'hidden');
+            input2.setAttribute('name', 'tasidigim_not');
+            input2.setAttribute('value', _draggedButton.value);
+            form.appendChild(input2);
+
+            var input3 = document.createElement('input');
+            input3.setAttribute('type', 'hidden');
+            input3.setAttribute('name', 'alici_not');
+            input3.setAttribute('value', _dropTarget.value);
+            form.appendChild(input3);
+
+            // Formu sayfaya ekleyip otomatik olarak gönderme
+            document.body.appendChild(form);
+            setTimeout(function() {
+                form.submit();
+            }, 50);
+        }
+
+    </script>
 </body>
 </html>
 
