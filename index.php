@@ -1,47 +1,41 @@
 <?php
-// Eğer form gönderildiyse
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // JSON dosyasına kaydedilecek veriyi hazırla
-    $yeni_not = array(
-        'baslik' => $_POST['baslik'],
-        'icerik' => $_POST['icerik']
-    );
+    if (isset($_POST['Hesap_olustur'])) {
+        $dosya = 'notlar.json';
+        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
 
-    // JSON dosyasını oku veya oluştur
-    $dosya = 'notlar.json';
-    $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
-
-    // Yeni notu notlar dizisine ekle
-    $notlar[] = $yeni_not;
-
-    // Notları JSON dosyasına kaydet
-    file_put_contents($dosya, json_encode(array_values($notlar)));
-
-    // Başarılı bir şekilde kaydedildiğini kullanıcıya bildir
-    echo "<p>Notunuz başarıyla kaydedildi!</p>";
-}
-
-// Notları JSON dosyasından oku
-$dosya = 'notlar.json';
-$notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
-
-// Eğer silme işlemi isteği varsa
-if (isset($_POST['sil_id'])) {
-    $sil_id = $_POST['sil_id'];
-    // Eğer sil_id geçerli bir anahtar ise ve o anahtar notlar dizisinde varsa
-    if (array_key_exists($sil_id, $notlar)) {
-        // Notu sil
-        unset($notlar[$sil_id]);
-        // JSON dosyasındaki boş olan notları kaldır
-        $notlar = array_filter($notlar);
-        // Notları JSON dosyasına kaydet
+        $yeni_not = array(
+            'hesapadi' => $_POST['hesapadi'],
+            'unique_index' => 0
+        );
+        $notlar[] = $yeni_not;
         file_put_contents($dosya, json_encode(array_values($notlar)));
-        // Silindiğini kullanıcıya bildir
-        echo "<p>Not başarıyla silindi!</p>";
-    } else {
-        echo "<p>Geçersiz not ID</p>";
     }
-}
+
+    if (isset($_POST['Not_Olustur'])) {
+        $dosya = 'notlar.json';
+        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
+
+        $hesap = $_POST['hesap'];
+        $hesap_adlari = array_column($notlar, 'hesapadi');
+        if (in_array($hesap, $hesap_adlari)) {
+            foreach ($notlar as &$not) {
+                if ($not['hesapadi'] === $hesap) {
+                    $not['unique_index'] = $not['unique_index'] + 1;
+                    $yeni_not = array(
+                        'not_uindex' => $not['unique_index'],
+                        'baslik' => $_POST['baslik'],
+                        'icerik' => $_POST['icerik']
+                    );
+                    $not['notlar'][] = $yeni_not;                   
+                }
+            }
+            file_put_contents($dosya, json_encode($notlar));
+        }
+        else {
+            echo "gecersiz hesapadi";
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -52,69 +46,55 @@ if (isset($_POST['sil_id'])) {
     <title>Not Defteri</title>
 </head>
 <body>
+    <hr>
+    <h2>Hesap Olustur</h2>
+    <form method="post"> 
+        <input type="hidden" name="Hesap_olustur">     
+        <input type="text" id="hesapadi" name="hesapadi"><br>
+        <input type="submit" value="Kaydet">
+    </form><hr>
+
     <h2>Not Ekle</h2>
-    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <form method="post">
+        <input type="hidden" name="Not_Olustur">
+        <label for="hesap">Hesap Adı:</label><br>
+        <input type="text" id="hesap" name="hesap"><br>
         <label for="baslik">Başlık:</label><br>
         <input type="text" id="baslik" name="baslik"><br>
         <label for="icerik">İçerik:</label><br>
-        <textarea id="icerik" name="icerik"></textarea><br><br>
+        <textarea id="icerik" name="icerik"></textarea><br>
         <input type="submit" value="Kaydet">
+    </form><hr>
+
+    <h2>Not Listele</h2>
+    <form method="post">
+        <input type="hidden" name="Not_Listele">
+        <label for="lhesap">Hesap Adı:</label><br>
+        <input type="text" id="lhesap" name="lhesap"><br>       
+        <input type="submit" value="Listele">
     </form>
-
-    <h2>Kayıtlı Notlar</h2>
-    <ul>
-        <?php foreach ($notlar as $key => $not): ?>
-            <li>
-                <a href="?not_id=<?php echo $key; ?>"><?php echo $not['baslik']; ?></a>
-                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" style="display:inline;">
-                    <input type="hidden" name="sil_id" value="<?php echo $key; ?>">
-                    <button type="submit">Sil</button>
-                </form>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-
     <?php
-    // Eğer bir not bağlantısına tıklanmışsa ve not_id parametresi varsa
-    if (isset($_GET['not_id'])) {
-        $not_id = $_GET['not_id'];
-        // Eğer not_id geçerli bir anahtar ise ve o anahtar notlar dizisinde varsa
-        if (array_key_exists($not_id, $notlar)) {
-            // Notun başlığını ve içeriğini göster
-            $secili_not = $notlar[$not_id];
-            echo "<h2>{$secili_not['baslik']}</h2>";
-            echo "<p>{$secili_not['icerik']}</p>";
+    if (isset($_POST['Not_Listele'])) {
+        $dosya = 'notlar.json';
+        $notlar = file_exists($dosya) ? json_decode(file_get_contents($dosya), true) : array();
 
-            // Düzenleme formu
-            echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
-            echo '<input type="hidden" name="duzenle_id" value="' . $not_id . '">';
-            echo '<label for="duzenle_baslik">Yeni Başlık:</label><br>';
-            echo '<input type="text" id="duzenle_baslik" name="duzenle_baslik" value="' . $secili_not['baslik'] . '"><br>';
-            echo '<label for="duzenle_icerik">Yeni İçerik:</label><br>';
-            echo '<textarea id="duzenle_icerik" name="duzenle_icerik">' . $secili_not['icerik'] . '</textarea><br><br>';
-            echo '<button type="submit">Kaydet</button>';
-            echo '</form>';
-        } else {
-            echo "<p>Geçersiz not ID</p>";
-        }
-    }
+        $lhesap = $_POST['lhesap'];
 
-    // Eğer düzenleme işlemi isteği varsa
-    if (isset($_POST['duzenle_id'])) {
-        $duzenle_id = $_POST['duzenle_id'];
-        // Eğer duzenle_id geçerli bir anahtar ise ve o anahtar notlar dizisinde varsa
-        if (array_key_exists($duzenle_id, $notlar)) {
-            // Yeni başlık ve içerikle notu güncelle
-            $notlar[$duzenle_id]['baslik'] = $_POST['duzenle_baslik'];
-            $notlar[$duzenle_id]['icerik'] = $_POST['duzenle_icerik'];
-            // Notları JSON dosyasına kaydet
-            file_put_contents($dosya, json_encode(array_values($notlar)));
-            // Güncellendiğini kullanıcıya bildir
-            echo "<p>Not başarıyla güncellendi!</p>";
-        } else {
-            echo "<p>Geçersiz not ID</p>";
+        // Belirtilen hesap adına göre notları filtrele
+        $filtrelenmis_notlar = array_filter($notlar, function ($not) use ($lhesap) {
+            return $not['hesapadi'] === $lhesap;
+        });
+
+        // Filtrelenmiş notların başlıklarını yazdır
+        echo "<h2>$lhesap Hesabına Ait Notlar</h2>";
+        echo "<ul>";
+        foreach ($filtrelenmis_notlar as $not) {
+            foreach ($not['notlar'] as $n) {
+                echo "<li>{$n['baslik']}</li>";
+            }
         }
+        echo "</ul>";
     }
-    ?>
+    ?><hr>
 </body>
 </html>
