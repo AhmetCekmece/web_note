@@ -15,7 +15,6 @@
         #container{
             display: flex;
             flex-direction: column; 
-            min-width: 600px;
         }
             #navbar{               
                 display: flex;
@@ -25,132 +24,238 @@
                 #navbar-ustbar{
                     background-color:blueviolet;
                     height: 20px;
+                    display: flex;
+                    flex-direction: row;
+                    overflow: hidden;
                 }
+                    #ustbar-bas {
+                        width: 25px;
+                        flex-shrink: 0;
+                        background-color: black;
+                    }
+                    #ustbar-son{
+                        width: 25px;
+                        flex-shrink: 0;
+                        background-color: black;
+                    }
+                    #ustbar-orta{
+                        display: flex;
+                        flex-direction: row;
+                    }
+                        #ustbar-orta button{
+                            background-color: red;
+                            margin-left: 5px;
+                            
+                        }
+                            #ustscroll-sagbuton{
+                                background-color:deepskyblue;
+                                height: 20px;
+                                width: 25px;
+                                position: fixed;
+                                right: 0;
+                            }
+                            #ustscroll-solbuton{
+                                background-color:deepskyblue;
+                                height: 20px;
+                                width: 25px;
+                                position: fixed;
+                                left: 0;
+                            }
                 #navbar-altbar{
                     background-color:burlywood;
                     height: 40px;
                     display: flex;
                     flex-direction: row;
+                    overflow: hidden;
+
                 }
                     #altbar-bas{
-                        width: 20px;
+                        width: 25px;
                         flex-shrink: 0;
+                        background-color: black;
                     }
                     #altbar-son{
-                        width: 20px;
+                        width: 25px;
                         flex-shrink: 0;
-                        
+                        background-color: black;
                     }   
-                        .okcubuk{
+                        #scroll-sagbuton{
                             background-color:deepskyblue;
                             height: 40px;
-                            
+                            width: 25px;
+                            position: fixed;
+                            right: 0;
                         }
-                    #altbar-orta{
-                        display: flex;
-                        flex-direction: row;
-                        flex-grow: 1;
-                    }
-                        .toolbox{
-                            background-color: lightgreen;
-                            width: 40px;
-                            margin-left: 5px;
-                            flex-shrink: 0;
+                        #scroll-solbuton{
+                            background-color:deepskyblue;
+                            height: 40px;
+                            width: 25px;
+                            position: fixed;
+                            left: 0;
                         }
-                        .ayirac{
-                            background-color: black;
-                            width: 1px;
-                            margin-left: 5px;
-                            flex-shrink: 0;
+                    /* #altbar-orta{
+                        
+                    } */
+                        .tools{
+                            display: flex;
+                            flex-direction: row;
+                            min-height: 100%;
                         }
-            #govde{
-                display: flex;
-                flex-direction:row;
+                            .toolbox{
+                                background-color: lightgreen;
+                                width: 40px;
+                                margin-left: 5px;
+                                flex-shrink: 0;
+                            }
+                        #tools_giris{
+                            display: flex;
+                        }
+                        #tools_cizim{
+                            display: none;
+                        }
+                        #tools_ekle{
+                            display: none;
+                        }
+            #test{
+                overflow-y: hidden;   
+                overflow-x: auto;
+                height: 100%;
             }
-                #notlar{
-                    background-color: green;
-                    width: 200px;
-                    flex-shrink: 0;
-                    overflow: auto;
-                    font-size: 50px;
-                }
-                #resizer{
-                    min-width: 5px;
-                    background-color: deeppink;
-                    cursor: ew-resize;
-                }
-                #icerik{
+            #container_nonav{
+                display: flex;
+                flex-direction: column; 
+                min-width: 600px;
+                height: 100%;
+            }
+                #govde{
                     display: flex;
-                    flex-direction: column;               
+                    flex-direction:row;
                 }
-                    #icerik-baslik{
-                        background-color: lightslategrey;
-                        min-height: 25px;
-                    }
-                    #icerik-icerik{
-                        background-color: pink;
-                        flex-grow: 1;
+                    #notlar{
+                        background-color: green;
+                        width: 200px;
+                        flex-shrink: 0;
                         overflow: auto;
                         font-size: 50px;
-                        word-wrap: break-word; /* satir sonundaki kelimeyi boler */
-                        hyphens: auto;         /* sona - ekler */
                     }
-            #footer{
-                background-color: blue;
-                min-height: 25px;    
-            }  
+                    #resizer{
+                        min-width: 5px;
+                        background-color: deeppink;
+                        cursor: ew-resize;
+                        user-select: none; /* Bu özellik, kullanıcının metni seçmesini engeller */
+                    }
+                    #icerik{
+                        display: flex;
+                        flex-direction: column;               
+                    }
+                        #icerik-baslik{
+                            background-color: lightslategrey;
+                            min-height: 25px;
+                        }
+                        #icerik-icerik{
+                            background-color: pink;
+                            flex-grow: 1;
+                            overflow: auto;
+                            font-size: 50px;
+                            word-wrap: break-word; /* satir sonundaki kelimeyi boler */
+                            hyphens: auto;         /* sona - ekler */
+                        }
+                #footer{
+                    background-color: blue;
+                    min-height: 25px;     
+                }  
     </style>
 </head>
 <body>
     <div id="container">
         <div id="navbar">
-            <div id="navbar-ustbar"></div>
+            <div id="navbar-ustbar">
+                <div id="ustbar-bas">
+                    <button id="ustscroll-solbuton"><</button>              
+                </div>
+                <div id="ustbar-orta">
+                    <button id="hesap_btn">Hesap</button>
+                    <button id="giris_btn">Giris</button>
+                    <button id="cizim_btn">Cizim</button>
+                    <button id="ekle_btn">Ekle</button>
+                    <button id="ekle_btn">Bos1</button>
+                    <button id="ekle_btn">Bos2</button>
+                    <button id="ekle_btn">Bos3</button>
+                    <button id="ekle_btn">Bos4</button>
+                    <button id="ekle_btn">Bos5</button>
+                </div>
+                <div id="ustbar-son">
+                    <button id="ustscroll-sagbuton">></button>
+                </div>
+            </div>
             <div id="navbar-altbar">
                 <div id="altbar-bas">
-                    <div class="okcubuk"><</div>
+                    <button id="scroll-solbuton"><</button>              
                 </div>
                 <div id="altbar-orta">
-                    <div class="toolbox">1</div>
-                    <div class="toolbox">2</div>
-                    <div class="ayirac"></div>
-                    <div class="toolbox">3</div>
-                    <div class="toolbox">4</div>
-                    <div class="toolbox">5</div>
-                    <div class="toolbox">6</div>
-                    <div class="toolbox">7</div>
-                    <div class="ayirac"></div>
-                    <div class="toolbox">8</div>
-                    <div class="toolbox">9</div>
-                    <div class="toolbox">10</div>
-                    <div class="toolbox">11</div>
-                    <div class="toolbox">12</div>
-                    <div class="toolbox">13</div>
-                    <div class="toolbox">14</div>
-                    <div class="ayirac"></div>
-                    <div class="toolbox">15</div>
-                    <div class="toolbox">16</div>
-                    <div class="toolbox">17</div>
-                    <div class="toolbox">18</div>
+                    <div id="tools_giris" class="tools">
+                        <div class="toolbox">g1</div>
+                        <div class="toolbox">g2</div>
+                        <div class="toolbox">g3</div>
+                        <div class="toolbox">g4</div>
+                        <div class="toolbox">g5</div>
+                        <div class="toolbox">g6</div>
+                        <div class="toolbox">g7</div>
+                        <div class="toolbox">g8</div>
+                        <div class="toolbox">g9</div>
+                        <div class="toolbox">g10</div>
+                        <div class="toolbox">g11</div>
+                        <div class="toolbox">g12</div>
+                        <div class="toolbox">g13</div>
+                        <div class="toolbox">g14</div>
+                        <div class="toolbox">g15</div>
+                        <div class="toolbox">g16</div>
+                        <div class="toolbox">g17</div>
+                        <div class="toolbox">g18</div>
+                    </div>
+                    <div id="tools_cizim" class="tools">
+                        <div class="toolbox">c1</div>
+                        <div class="toolbox">c2</div>
+                        <div class="toolbox">c3</div>
+                        <div class="toolbox">c4</div>
+                        <div class="toolbox">c5</div>
+                        <div class="toolbox">c6</div>
+                        <div class="toolbox">c7</div>
+                        <div class="toolbox">c8</div>
+                        <div class="toolbox">c9</div>
+                    </div>
+                    <div id="tools_ekle" class="tools">
+                        <div class="toolbox">e1</div>
+                        <div class="toolbox">e2</div>
+                        <div class="toolbox">e3</div>
+                        <div class="toolbox">e4</div>
+                        <div class="toolbox">e5</div>
+                    </div>
                 </div>
                 <div id="altbar-son">
-                    <div class="okcubuk">></div>
+                    <button id="scroll-sagbuton">></button>
                 </div>
             </div>
         </div>
-        <div id="govde">
-            <div id="notlar">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit earum voluptate animi labore qui nesciunt excepturi quas necessitatibus quia incidunt facere, ipsum commodi aut aperiam reprehenderit laudantium natus et ipsa aliquid nisi quos fuga perspiciatis. Voluptates eligendi, sapiente consequatur earum numquam quae culpa, assumenda quibusdam maxime quia pariatur corporis. Aspernatur debitis quasi quisquam beatae, maxime eveniet asperiores vitae corporis amet facere ullam cupiditate eum officia deleniti iusto, adipisci odio, quos minima est magni delectus. Consequuntur repudiandae iusto possimus corporis architecto voluptatibus inventore pariatur a facere illum quibusdam amet dolores ex ut fugiat, ad repellat nobis hic. Totam aperiam illum fugit.
-            </div>
-            <div id="resizer"></div>
-            <div id="icerik"> 
-                <div id="icerik-baslik"></div>
-                <div id="icerik-icerik">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam natus deserunt, numquam quod explicabo tempore, praesentium porro illum vel iusto sed tempora, id illo neque veritatis quis distinctio culpa aut pariatur expedita rerum cupiditate soluta. Quia exercitationem voluptates dolorum quae neque ea sint. Maiores placeat corporis, voluptatem facere vero, ipsa aliquid voluptatibus aliquam molestiae quis, tempora illo quam amet ullam nihil quisquam reprehenderit dolore autem illum blanditiis consequatur neque aut minus perferendis. Consequatur nemo aspernatur, dolores in, possimus eius nihil blanditiis consectetur fugit, dolorem explicabo at ad. Provident neque, ex laboriosam dolor consectetur esse doloremque, omnis sunt quos ipsam adipisci?
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat alias quae nisi. Quo, excepturi? Dolores non distinctio sint quisquam, facere ea earum possimus exercitationem unde deleniti voluptates quasi velit labore similique explicabo aliquid perspiciatis porro, molestiae tempora debitis nostrum, tenetur praesentium quam ut. Dolorem nulla aliquam sit illo molestiae? Magnam non minima obcaecati adipisci corporis quam aspernatur ad, assumenda consectetur! Voluptatibus iste, illo quas voluptatem expedita maxime cupiditate consectetur dicta. Dicta alias quisquam illo inventore quas. Necessitatibus eaque similique provident eligendi beatae ratione hic non odit placeat, voluptatem est nam consequuntur tempora et culpa error totam quis, nihil quibusdam aliquid.      
+        <div id="test">
+            <div id="container_nonav">
+                <div id="govde">
+                    <div id="notlar">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit earum voluptate animi labore qui nesciunt excepturi quas necessitatibus quia incidunt facere, ipsum commodi aut aperiam reprehenderit laudantium natus et ipsa aliquid nisi quos fuga perspiciatis. Voluptates eligendi, sapiente consequatur earum numquam quae culpa, assumenda quibusdam maxime quia pariatur corporis. Aspernatur debitis quasi quisquam beatae, maxime eveniet asperiores vitae corporis amet facere ullam cupiditate eum officia deleniti iusto, adipisci odio, quos minima est magni delectus. Consequuntur repudiandae iusto possimus corporis architecto voluptatibus inventore pariatur a facere illum quibusdam amet dolores ex ut fugiat, ad repellat nobis hic. Totam aperiam illum fugit.
+                    </div>
+                    <div id="resizer"></div>
+                    <div id="icerik"> 
+                        <div id="icerik-baslik"></div>
+                        <div id="icerik-icerik">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam natus deserunt, numquam quod explicabo tempore, praesentium porro illum vel iusto sed tempora, id illo neque veritatis quis distinctio culpa aut pariatur expedita rerum cupiditate soluta. Quia exercitationem voluptates dolorum quae neque ea sint. Maiores placeat corporis, voluptatem facere vero, ipsa aliquid voluptatibus aliquam molestiae quis, tempora illo quam amet ullam nihil quisquam reprehenderit dolore autem illum blanditiis consequatur neque aut minus perferendis. Consequatur nemo aspernatur, dolores in, possimus eius nihil blanditiis consectetur fugit, dolorem explicabo at ad. Provident neque, ex laboriosam dolor consectetur esse doloremque, omnis sunt quos ipsam adipisci?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat alias quae nisi. Quo, excepturi? Dolores non distinctio sint quisquam, facere ea earum possimus exercitationem unde deleniti voluptates quasi velit labore similique explicabo aliquid perspiciatis porro, molestiae tempora debitis nostrum, tenetur praesentium quam ut. Dolorem nulla aliquam sit illo molestiae? Magnam non minima obcaecati adipisci corporis quam aspernatur ad, assumenda consectetur! Voluptatibus iste, illo quas voluptatem expedita maxime cupiditate consectetur dicta. Dicta alias quisquam illo inventore quas. Necessitatibus eaque similique provident eligendi beatae ratione hic non odit placeat, voluptatem est nam consequuntur tempora et culpa error totam quis, nihil quibusdam aliquid.      
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div id="footer"> </div>
+            </div>      
         </div>
-        <div id="footer"></div>
+        
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -158,27 +263,61 @@
             let tarayiciWidth = 0;
             const container = document.getElementById('container');
             const navbar = document.getElementById('navbar');
+            const container_nonav = document.getElementById('container_nonav');
             const govde = document.getElementById('govde');
             const footer = document.getElementById('footer');            
             const notlar = document.getElementById('notlar');
             const resizer = document.getElementById('resizer');
             const icerik = document.getElementById('icerik');
+            const scroll_sagbuton = document.getElementById('scroll-sagbuton');
+            const scroll_solbuton = document.getElementById('scroll-solbuton');
+            const navbar_altbar = document.getElementById('navbar-altbar'); 
+            const altbar_bas = document.getElementById('altbar-bas');  
+            const altbar_son = document.getElementById('altbar-son'); 
+            let kaydirmawidth = 0;
+            const ustscroll_sagbuton = document.getElementById('ustscroll-sagbuton');
+            const ustscroll_solbuton = document.getElementById('ustscroll-solbuton');
+            const navbar_ustbar = document.getElementById('navbar-ustbar'); 
+            const ustbar_bas = document.getElementById('ustbar-bas');  
+            const ustbar_son = document.getElementById('ustbar-son'); 
+            const hesap_btn = document.getElementById('hesap_btn'); 
+            const giris_btn = document.getElementById('giris_btn'); 
+            const cizim_btn = document.getElementById('cizim_btn'); 
+            const ekle_btn = document.getElementById('ekle_btn'); 
+            const allTools = document.getElementsByClassName('tools');
+            const tools_giris = document.getElementById('tools_giris'); 
+            const tools_cizim = document.getElementById('tools_cizim'); 
+            const tools_ekle = document.getElementById('tools_ekle'); 
 
-            // Tarayıcının boyutu değiştiğinde veya sayfa yenilendiğinde maksimum yükseklikleri eşitle
+            // Tarayıcının boyutu değiştiğinde veya sayfa yenilendiğinde
             equalizeMaxHeights();
             window.addEventListener('resize', equalizeMaxHeights);
             function equalizeMaxHeights() {
-
-                if (govde.offsetWidth <= 600) {
-                    document.body.style.overflowX = 'auto';
-                } else {
-                    document.body.style.overflowX = 'hidden';
-                }
-
                 tarayiciHeight = document.documentElement.clientHeight;
                 container.style.height = tarayiciHeight + 'px';    
-                govde.style.height = (container.offsetHeight - navbar.offsetHeight - footer.offsetHeight) + 'px';
+                //govde.style.height = (container.offsetHeight - navbar.offsetHeight - footer.offsetHeight) + 'px';
+                govde.style.height = (container_nonav.offsetHeight - footer.offsetHeight) + 'px';
                 icerik.style.width = (govde.offsetWidth - notlar.offsetWidth - resizer.offsetWidth) + 'px';
+
+                if(navbar_altbar.scrollWidth != navbar_altbar.clientWidth){
+                    altbar_bas.style.display = 'block';
+                    altbar_son.style.display = 'block';
+                    kaydirmawidth = navbar_altbar.clientWidth - 60;
+                }
+                else {
+                    altbar_bas.style.display = 'none';
+                    altbar_son.style.display = 'none';
+                }
+
+                if(navbar_ustbar.scrollWidth != navbar_ustbar.clientWidth){
+                    ustbar_bas.style.display = 'block';
+                    ustbar_son.style.display = 'block';
+                }
+                else {
+                    ustbar_bas.style.display = 'none';
+                    ustbar_son.style.display = 'none';
+                }
+
             }
 
             // console.log(notlar.offsetWidth);                         //scrollu sayar  100
@@ -223,7 +362,76 @@
                 // Yeniden boyutlandırıldıktan sonra notlar ve icerik genişliklerini güncelle
                 notlarWidth = notlar.offsetWidth;
             });
+
+
+            //____________________________ NAVBAR SCROLL _______________________           
+
+            scroll_sagbuton.addEventListener('click', function(){
+                navbar_altbar.scrollBy({
+                    left: kaydirmawidth,
+                    behavior: "smooth"
+                });
+            });
+            scroll_solbuton.addEventListener('click', function(){
+                navbar_altbar.scrollBy({
+                    left: -kaydirmawidth, 
+                    behavior: "smooth"
+                });
+            });
+
+            ustscroll_sagbuton.addEventListener('click', function(){
+                navbar_ustbar.scrollBy({
+                    left: kaydirmawidth,
+                    behavior: "smooth"
+                });
+            });
+            ustscroll_solbuton.addEventListener('click', function(){
+                navbar_ustbar.scrollBy({
+                    left: -kaydirmawidth, 
+                    behavior: "smooth"
+                });
+            });
+
+            // console.log(navbar_altbar.scrollWidth);   //Bir elementin içeriğinin tam boyutunu (genişlik) döndürür.
+            // console.log(navbar_altbar.clientWidth);   //Bir elementin içeriğinin görülebilir genişliğini döndürür.
+
+
+            //____________________________ UST BUTTONS CLICK _______________________  
+            
+
+            hesap_btn.addEventListener('click', function(){
+
+            });
+
+            giris_btn.addEventListener('click', function(){
+                ToolAc(tools_giris);
+            });
+
+            cizim_btn.addEventListener('click', function(){
+                ToolAc(tools_cizim);
+            });
+
+            ekle_btn.addEventListener('click', function(){
+                ToolAc(tools_ekle);
+            });
+
+            function ToolAc(_active_tool) {
+                for (let i = 0; i < allTools.length; i++) {
+                    allTools[i].style.display = 'none';
+                }
+                _active_tool.style.display = 'flex';
+                navbar_altbar.scrollLeft = 0;
+                equalizeMaxHeights();
+            }
+
         });
     </script>
 </body>
 </html>
+
+<!-- yapılacaklar
+
+    hesap islemleri css
+    kaydet sil isim degistir butonları
+    cizim yapabilmek (opsiyonel ceren)
+-->
