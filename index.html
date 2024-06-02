@@ -1,96 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-    }
-    body{
-        overflow: hidden;
-    }
-    #container{
-        display: flex;
-        flex-direction: column; 
-    }
-        #hesap_container{   
-            width: 100%;
-            height: 100%;      
-            position: absolute;       
-        }
-            #karart_container{
-                width: 100%;
-                height: 100%;  
-                position: absolute;      
-                background-color: black;
-                opacity: 0.7;
-            }
-            #hesap_menu_overflow{
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                display: flex;
-                flex-direction:row;      
-                
-            }
-                #hesap_menu_gizli{    
-                    margin: auto;  
-                    width: 250px;             
-                    height: 150px;
-                    overflow: auto;
-                }
-                
-                /* js le istedigin yuksekligi kontrol ederek ayarlayabilirsin. */
-                @media (max-height: 150px) {
-                    #hesap_menu_gizli {
-                        height: 100vh; 
-                    }
-                }
-                    #hesap_menu{    
-                        border-radius: 10px;
-                        background-color: #888;  
-                        min-width: 250px;
-                        min-height: 150px;
-                        display: flex;
-                        flex-direction:column;
-                    }
-                        .menukapat_btn{
-                            width: 30px;
-                            height: 30px;
-                            margin-top: 10px;
-                            margin-right: 10px;
-                            margin-left: auto;
-                        }
-                        #sifredegis_form{   
-                            flex-grow: 1;  
-                            margin: 10px;
-                            display: flex;
-                            flex-direction:column;
-                            justify-content: center;               
-                        }
-    </style>
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="./style-login.css">
+
 </head>
+
 <body>
-    <div id="container">
-        <div id="hesap_container">
-            <div id="karart_container"></div>
-            <div id="hesap_menu_overflow">
-                <div id="hesap_menu_gizli">
-                    <div id="hesap_menu">
-                        <form id="sifredegis_form">
-                            <input type="text" placeholder="number">
-                            <input type="text" placeholder="username">
-                            <input type="password" placeholder="password">
-                            <input type="button" value="LOGIN">
-                        </form>
-                    </div>
+    <div class="signin">      
+        <div class="content">
+            <form class="form" method="post">
+                <div class="inputBox">
+                    <input id="numara" name="numara" type="text" placeholder="numara" required> 
                 </div>
-                    
-            </div>
+                <div class="inputBox">
+                    <input id="username" name="username" type="text" placeholder="username" required> 
+                </div>
+                <div class="inputBox">
+                    <input id="password" name="password" type="password" placeholder="password" required> 
+                </div>
+                <div class="inputBox">
+                    <input id="loginButton" type="submit" value="LOGIN">
+                </div>
+            </form>
         </div>
     </div>
 </body>
+
 </html>
