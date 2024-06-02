@@ -98,6 +98,9 @@ function Altnot_Olustur_Post(){
 }
 
 function Activenot_Sec_Post(_not_uindex){
+    clearTimeout(timeout); // Activenot_Sec_Post tetiklendiğinde zamanlayıcıyı iptal et
+    //Notu_Kaydet_Post();
+
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('id', 'activenotsecForm');
@@ -135,7 +138,7 @@ function Altnot_Gizle_Post(_not_uindex, _istek_tipi){
     form.remove();
 }
 
-function Not_Tasi_Post(_tasimaTuru, _draggedButton, _dropTarget){   //tasimaTuru = Altina_Tasi - Yanina_Tasi
+function Not_Tasi_Post(_tasimaTuru, _draggedButton, _dropTarget){   //tasimaTuru = Altina_Tasi - Yanina_Tasi - Ustune_Tasi
         
     var form = document.createElement('form');
     form.setAttribute('method', 'post');
@@ -164,6 +167,22 @@ function Not_Tasi_Post(_tasimaTuru, _draggedButton, _dropTarget){   //tasimaTuru
     //     SendForm(form.id,'not_tasi');
     // }, 50);
     SendForm(form.id,'not_tasi');
+    form.remove();
+}
+
+function Notlarwidth_Kaydet_Post(_notlarwidth){
+    var form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('id', 'notlarwidthForm');
+
+    var input1 = document.createElement('input');
+    input1.setAttribute('type', 'hidden');
+    input1.setAttribute('name', 'notlarwidth');
+    input1.setAttribute('value', _notlarwidth);
+    form.appendChild(input1);
+
+    document.body.appendChild(form);
+    SendForm(form.id,'notlar_width');
     form.remove();
 }
 

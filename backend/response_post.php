@@ -17,7 +17,7 @@ if (isset($_POST['login'])) {
             return;
         }
 
-        $sorgu_1 = $db->getRow("SELECT accounts.userid, accounts.username, accounts.password, config.unique_index, config.active_notuindex
+        $sorgu_1 = $db->getRow("SELECT accounts.userid, accounts.username, accounts.password, config.unique_index, config.active_notuindex, config.notlar_width
                                 FROM accounts LEFT JOIN config ON accounts.userid = config.userid 
                                 WHERE accounts.numara = (?)", array($number));
 

@@ -34,6 +34,7 @@ const altnotolusturForm = document.getElementById('altnotolusturForm');
 
 let kaydirmawidth = 0;
 let notbaslik = "";
+let timeout;
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -86,7 +87,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('mouseup', function () { 
         if(isResizing){
             isResizing = false;
-            notlarWidth = notlar.offsetWidth;               
+            notlarWidth = notlar.offsetWidth;
+            Notlarwidth_Kaydet_Post(notlarWidth);               
         }           
     });
 
@@ -175,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
             notbaslik_degis = Not_baslik_degis(false);
         }
     });
+
 });
 
 function Boyut_Ayarla(_minGovdeWidth){
@@ -256,54 +259,165 @@ function Notlar_boyut_ayar(){
     if(notlar_ul.offsetWidth < notlar.offsetWidth - 10){
         notlar_ul.style.width = notlar.offsetWidth - 10 + 'px';
     }
-}
 
+    notlardivs = notlar_ul.children;
+}
 
 // _____________________________  NOT TASIMA __________________________
 
-function dragStart(event) {   //tasima basladiginda butonun id sini text olarak tasir.
-    event.dataTransfer.setData("text", event.target.id);
+var alan = notlar_ul;
+var alanDisinda = false;
+var isDragging = false;
+var draggedElement = null;
+var draggedClone = null;
+var draggedDiv_X = 0;
+var draggedDiv_Y = 0;
+var alanLeft = 0;
+var alanRight = 0;
+var alanTop = 0;
+var alanBottom = 0;
+var notUstCizgi = null;
+var notAltCizgi = null;
+var target_uindex = 0;
+
+function dragStart(event, _not_uindex){
+    timeout = setTimeout(function() { 
+        if(!isDragging){
+            isDragging = true;
+            draggedElement = document.getElementById("notlardivs" + _not_uindex);
+    
+            draggedDiv_X = event.clientX - draggedElement.getBoundingClientRect().left;
+            draggedDiv_Y = event.clientY - draggedElement.getBoundingClientRect().top;
+            alanLeft = alan.getBoundingClientRect().left;
+            alanRight = alan.getBoundingClientRect().right;
+            alanTop = alan.getBoundingClientRect().top;
+            alanBottom = alan.getBoundingClientRect().bottom;
+        
+            draggedClone = draggedElement.cloneNode(true);
+            draggedClone.classList.add("dragging");
+            //draggedClone.classList.remove("notbaslik_buttons");
+            draggedClone.style.left = draggedElement.getBoundingClientRect().left + "px";
+            draggedClone.style.top = draggedElement.getBoundingClientRect().top + "px";
+            draggedClone.style.width = notlar.offsetWidth + "px";
+
+            // while (draggedClone.firstChild) {  //clone icini temizle
+            //     draggedClone.removeChild(draggedClone.firstChild);
+            // }
+            alan.appendChild(draggedClone); 
+    
+            draggedElement.classList.add("dragging_real");
+        }       
+    }, 150);
 }
 
-function dragEnd(event) {     //tasima durdugunda islemi durdurur.
-    event.preventDefault();
-}
+document.addEventListener("mousemove", function (e) {
+    if (isDragging) {
+        var droppedElements = document.elementsFromPoint(e.clientX, e.clientY);
+        droppedElements.forEach(function(element) {
+            if (element.classList.contains("notbaslik_buttons")) {
+                // console.log("Dragged element ID:", draggedElement.getAttribute('not_uindex'));
+                // console.log("Dropped element ID:", element.getAttribute('not_uindex'));
 
-function dragOver(event) {    //uzerine geldiginde ne yapsin
-    event.preventDefault();
-}
+                if(target_uindex != element.getAttribute('not_uindex')){
 
-function dragOverGizli(event) {    //uzerine geldiginde ne yapsin
-    event.preventDefault();
-    var targetButton = event.target;
-    targetButton.style.height = '25px';
-}
+                    if (target_uindex != 0) {
+                        notUstCizgi.style.opacity = 0;
+                        notAltCizgi.style.opacity = 0;
+                        notUstCizgi.style.zIndex = 0;
+                        notAltCizgi.style.zIndex = 0;
+                    }
 
-function dragLeaveGizli(event) {         //uzerinden ayrildiginda ne yapsin
-    event.preventDefault();
-    var targetButton = event.target;
-    targetButton.style.height = '5px';
-}
+                    target_uindex = element.getAttribute('not_uindex');
 
-function drop(event) {
-    event.preventDefault();  //tasidigim butonun pozisyon degistirmesini engeller
-    var data = event.dataTransfer.getData("text");
-    var draggedButton = document.getElementById(data);   //tasidigim buton  
-    var dropTarget = event.target;                       //alici buton
+                    for (var i = 0; i < notlardivs.length; i++) {
+                        if (notlardivs[i].getAttribute('not_uindex') == target_uindex) {
+                            notUstCizgi = notlardivs[i].querySelector('.not_ustcizgi');
+                            notAltCizgi = notlardivs[i].querySelector('.not_altcizgi');
+                            
+                            if(target_uindex != draggedElement.getAttribute('not_uindex')){
+                                notUstCizgi.style.opacity = 1;
+                                notAltCizgi.style.opacity = 1;
+                                notUstCizgi.style.zIndex  = 1;
+                                notAltCizgi.style.zIndex  = 1;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        });
 
-    if (dropTarget.classList.contains('not_altcizgi') && dropTarget.id !== draggedButton.id && dropTarget.getAttribute('not_uindex') !== draggedButton.getAttribute('not_uindex') ) {
-        dropTarget.style.height = '5px';
-        Not_Tasi_Post("Yanina_Tasi", draggedButton, dropTarget);
+        // notUstCizgi.addEventListener("mouseenter", function (e) {
+        //     notUstCizgi.classList.add("notcizgi_hover");
+        //     notAltCizgi.classList.remove("notcizgi_hover");
+        // });
+
+        var x = e.clientX - draggedDiv_X;
+        var y = e.clientY - draggedDiv_Y;
+
+        draggedClone.style.left = x + "px";
+        draggedClone.style.top = y + "px";
+
+        if (e.clientX < alanLeft || e.clientX > alanRight || e.clientY < alanTop || e.clientY > alanBottom) {
+            alanDisinda = true;
+            document.dispatchEvent(new Event('mouseup'));
+        }
     }
-    else if(dropTarget.classList.contains('notbaslik_btns') && dropTarget.id !== draggedButton.id && dropTarget.getAttribute('not_uindex') !== draggedButton.getAttribute('not_uindex') ){
-        //dropTarget.style.height = '5px';
-        Not_Tasi_Post("Altina_Tasi", draggedButton, dropTarget);
-    }
-    else if(dropTarget.classList.contains('not_altcizgi')){
-        dropTarget.style.height = '5px';
-    }
-}
+});
 
+document.addEventListener("mouseup", function (e) {
+    if (isDragging) {
+        isDragging = false;
+        if (draggedClone && draggedClone.parentNode) {
+            draggedClone.parentNode.removeChild(draggedClone);
+        }
+
+        if (target_uindex != 0) {
+            notUstCizgi.style.opacity = 0;
+            notAltCizgi.style.opacity = 0;
+            notUstCizgi.style.zIndex = 0;
+            notAltCizgi.style.zIndex = 0;
+        }
+
+        if(!alanDisinda){
+            var drop_ustcizgi = null;
+            var drop_altcizgi = null;
+            var drop_notbaslikbtn = null;
+
+            var droppedElements = document.elementsFromPoint(e.clientX, e.clientY);
+            droppedElements.forEach(function(element) {
+                if (element.classList.contains("not_ustcizgi")) {
+                    drop_ustcizgi = element;
+                }
+                else if (element.classList.contains("not_altcizgi")) {
+                    drop_altcizgi = element;
+                }
+                else if (element.classList.contains("notbaslik_buttons")) {
+                    drop_notbaslikbtn = element;
+                }
+            });
+
+            if (drop_ustcizgi && drop_ustcizgi.getAttribute('not_uindex') != draggedElement.getAttribute('not_uindex')) {
+                Not_Tasi_Post("Ustune_Tasi", draggedElement, drop_ustcizgi);
+            }
+            else if (drop_altcizgi && drop_altcizgi.getAttribute('not_uindex') != draggedElement.getAttribute('not_uindex')) {
+                Not_Tasi_Post("Yanina_Tasi", draggedElement, drop_altcizgi);
+            }
+            else if (drop_notbaslikbtn && drop_notbaslikbtn.getAttribute('not_uindex') != draggedElement.getAttribute('not_uindex')) {
+                Not_Tasi_Post("Altina_Tasi", draggedElement, drop_notbaslikbtn);
+            }        
+        }
+        else{
+            alanDisinda = false;
+        }
+        draggedElement.classList.remove("dragging_real");
+    }
+});
+
+function notbaslikSagtik(e, _not_uindex){  //hem secer hem tasir
+    e.preventDefault();
+    Activenot_Sec_Post(_not_uindex);
+}
 
 
 
@@ -313,5 +427,6 @@ function drop(event) {
 // console.log(navbar_altbar.scrollWidth);   //Bir elementin içeriğinin tam boyutunu (genişlik) döndürür.
 // console.log(navbar_altbar.clientWidth);   //Bir elementin içeriğinin görülebilir genişliğini döndürür.
 
-
+//onmouseleave = iç içe geçmiş öğelerde fare imleci bir öğeden diğerine geçtiğinde bu olay tetiklenmez.
+//onmouseout   = iç içe geçmiş öğelerde fare imleci bir öğeden diğerine geçtiğinde bu olay tetiklenir.
 

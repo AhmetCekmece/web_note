@@ -37,6 +37,10 @@ switch($operation){
     case 'not_tasi':
         $responseData = Not_Tasi();
         break;
+
+    case 'notlar_width':
+        $responseData = Notlar_Width_Kaydet();
+        break;
     
     case 'test':
         $responseData = Test();
@@ -123,7 +127,7 @@ function Not_Kaydet(){
 
 function Baslik_Kaydet(){
     global $userid, $db, $activenot;
-    if($activenot){
+    if($activenot != null){
         $srg = $db->Update("UPDATE notlar SET baslik = (?) WHERE userid = (?) AND not_uindex = (?)", array($_POST["baslik"], $userid, $activenot->not_uindex));
         Sorgu2_Guncelle($activenot->not_uindex, "baslik", $_POST["baslik"]);
         $activenot->baslik = $_POST["baslik"];
@@ -203,6 +207,7 @@ function Active_Not_Sec($_secilinot = null){
     $responseData["baslik"] = $srg->baslik;
     $responseData["icerik"] = $srg->icerik;
     $responseData["not_uindex"] = $srg->not_uindex;
+    $responseData["notlar"] = Not_Listele();
     return $responseData;
 }
 
@@ -232,7 +237,7 @@ function Altnot_Gizle(){
 }
 
 function Not_Tasi(){
-    global $userid, $db, $sorgu_2;
+    global $userid, $db;
 
     $bagli_notlar = Altnotlari_Bul(null, $_POST['tasidigim_not']);
     if (in_array($_POST['alici_not'], $bagli_notlar)) {
@@ -245,114 +250,102 @@ function Not_Tasi(){
     $tasidigim_yanust_not = $tasidigim_not->yan_ust == 0 ? null : Not_Bul($tasidigim_not->yan_ust);
     $alici_not = Not_Bul($_POST['alici_not']);
     $alici_yanalt_not = $alici_not->yan_alt == 0 ? null : Not_Bul($alici_not->yan_alt);
+    $alici_yanust_not = $alici_not->yan_ust == 0 ? null : Not_Bul($alici_not->yan_ust);
 
-    
-    $sorgu = $db->getRows("SELECT not_uindex, baslik, ustnot_index, altnot_adet, altnotlari_gizle, yan_ust, yan_alt    
-    FROM notlar WHERE userid = (?)", array($userid));
-    $test = "";
-    foreach ($sorgu as $satir) {
-        if($satir->not_uindex == 399){
-            $test .= "not_uindex: " . $satir->not_uindex . "<br>";
-            $test .= "baslik: " . $satir->baslik . "<br>";
-            $test .= "ustnot_index: " . $satir->ustnot_index . "<br>";
-            $test .= "altnot_adet: " . $satir->altnot_adet . "<br>";
-            $test .= "altnotlari_gizle: " . $satir->altnotlari_gizle . "<br>";
-            $test .= "yan_ust: " . $satir->yan_ust . "<br>";
-            $test .= "yan_alt: " . $satir->yan_alt . "<br><br>";
-
-            $satir->yan_ust = 555;
-    
-                $responseData["success"] = "Not tasima basarili";
-                $responseData["notlar"] = Not_Listele();
-                $responseData["test1"] = $satir->yan_ust;
-                $responseData["test2"] = $satir->not_uindex;
-                return $responseData;
-        }
-
+    if($tasidigim_not->not_uindex == $alici_not->not_uindex){
+        $responseData["error"] = "Tasimaya gerek yok";
+        return $responseData;
     }
 
-    // $test = "";
-    // foreach ($sorgu_2 as &$row) {
-    //     if($row->not_uindex == 399){
-    //         $test .= "not_uindex: " . $row->not_uindex . "<br>";
-    //         $test .= "baslik: " . $row->baslik . "<br>";
-    //         $test .= "ustnot_index: " . $row->ustnot_index . "<br>";
-    //         $test .= "altnot_adet: " . $row->altnot_adet . "<br>";
-    //         $test .= "altnotlari_gizle: " . $row->altnotlari_gizle . "<br>";
-    //         $test .= "yan_ust: " . $row->yan_ust . "<br>";
-    //         $test .= "yan_alt: " . $row->yan_alt . "<br><br>";
 
-    //         // $jsom = json_encode($row);
-    //         // $dizi = json_decode($jsom, true);
-    //         $row->yan_ust = "555";
+    if(isset($_POST['Yanina_Tasi'])) {  //alt yan
+        if($tasidigim_not->yan_ust == $alici_not->not_uindex){
+            $responseData["error"] = "Tasimaya gerek yok";
+            return $responseData;
+        }
 
-            
-
-    //         $responseData["success"] = "Not tasima basarili";
-    //         $responseData["notlar"] = Not_Listele();
-    //         $responseData["test1"] = $row->yan_ust;
-    //         $responseData["test2"] = $row->not_uindex;
-    //         return $responseData;
-    //     }
-    // }
-
-            // $responseData["success"] = "Not tasima basarili";
-            // $responseData["notlar"] = Not_Listele();
-            // $responseData["test1"] = $tasidigim_not->not_uindex; 
-            // $responseData["test2"] = strval($tasidigim_not->yan_ust);
-            // return $responseData;
-
-
-    // if(isset($_POST['Yanina_Tasi'])) {
-    //     // $srg = $db->getRow("UPDATE notlar SET ustnot_index = (?), yan_ust = (?), yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
-    //     //                     array($alici_not->ustnot_index, $alici_not->not_uindex, $alici_not->yan_alt, $userid, $tasidigim_not->not_uindex));
-    //     // Sorgu2_Guncelle($tasidigim_not->not_uindex, "ustnot_index", $alici_not->ustnot_index);
-    //     Sorgu2_Guncelle($tasidigim_not->not_uindex, "yan_ust", $alici_not->not_uindex);
-    //     // Sorgu2_Guncelle($tasidigim_not->not_uindex, "yan_alt", $alici_not->yan_alt);
-
-
+        $srg = $db->getRow("UPDATE notlar SET ustnot_index = (?), yan_ust = (?), yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                            array($alici_not->ustnot_index, $alici_not->not_uindex, $alici_not->yan_alt, $userid, $tasidigim_not->not_uindex));
        
-    //     if($alici_yanalt_not){
-    //         $srg2 = $db->getRow("UPDATE notlar SET yan_ust = (?) WHERE userid = (?) AND not_uindex = (?)", 
-    //                             array($tasidigim_not->not_uindex, $userid, $alici_yanalt_not->not_uindex));
-    //         Sorgu2_Guncelle($alici_yanalt_not->not_uindex, "yan_ust", $tasidigim_not->not_uindex);
-    //     }
+        if($alici_yanalt_not){
+            $srg2 = $db->getRow("UPDATE notlar SET yan_ust = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                                array($tasidigim_not->not_uindex, $userid, $alici_yanalt_not->not_uindex));
+        }
 
-    //     $srg3 = $db->getRow("UPDATE notlar SET yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
-    //                         array($tasidigim_not->not_uindex, $userid, $alici_not->not_uindex));
-    //     Sorgu2_Guncelle($alici_not->not_uindex, "yan_alt", $tasidigim_not->not_uindex);
+        $srg3 = $db->getRow("UPDATE notlar SET yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                            array($tasidigim_not->not_uindex, $userid, $alici_not->not_uindex));
+    }
+    else if(isset($_POST['Altina_Tasi'])) {    //icine
+        if($tasidigim_not->ustnot_index == $alici_not->not_uindex){
+            $responseData["error"] = "Tasimaya gerek yok";
+            return $responseData;
+        }
+
+        $resp = Altnot_Bul_IlkSon(false, $alici_not->not_uindex);
+        $alt_sonot = isset($resp) ? $resp->not_uindex : 0;
+
+        $srg8 = $db->getRow("UPDATE notlar SET ustnot_index = (?), yan_ust = (?), yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                            array($alici_not->not_uindex, $alt_sonot, 0, $userid, $tasidigim_not->not_uindex));
+
+        if($alt_sonot != 0){
+            $srg9 = $db->getRow("UPDATE notlar SET yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                                array($tasidigim_not->not_uindex, $userid, $alt_sonot));
+        }       
+    }
+    else if(isset($_POST['Ustune_Tasi'])) {  //ust yan
+        if($tasidigim_not->yan_alt == $alici_not->not_uindex){
+            $responseData["error"] = "Tasimaya gerek yok";
+            return $responseData;
+        }
+
+        $srg = $db->getRow("UPDATE notlar SET ustnot_index = (?), yan_ust = (?), yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                            array($alici_not->ustnot_index, $alici_not->yan_ust, $alici_not->not_uindex, $userid, $tasidigim_not->not_uindex));
         
-    //     if($tasidigim_yanalt_not){
-    //         if($tasidigim_yanust_not){
-    //             $srg4 = $db->getRow("UPDATE notlar SET yan_ust = (?) WHERE userid = (?) AND not_uindex = (?)", 
-    //                                 array($tasidigim_yanust_not->not_uindex, $userid, $tasidigim_yanalt_not->not_uindex));
-    //             $srg5 = $db->getRow("UPDATE notlar SET yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
-    //                                 array($tasidigim_yanalt_not->not_uindex, $userid, $tasidigim_yanust_not->not_uindex));
-    //             // Sorgu2_Guncelle($tasidigim_yanalt_not->not_uindex, "yan_ust", $tasidigim_yanust_not->not_uindex);
-    //             // Sorgu2_Guncelle($tasidigim_yanust_not->not_uindex, "yan_alt", $tasidigim_yanalt_not->not_uindex);
-    //         }
-    //         else{
-    //             $srg6 = $db->getRow("UPDATE notlar SET yan_ust = (?) WHERE userid = (?) AND not_uindex = (?)", 
-    //                                 array(0, $userid, $tasidigim_yanalt_not->not_uindex));
-    //             // Sorgu2_Guncelle(0, "yan_ust", $tasidigim_yanalt_not->not_uindex);
-    //         }
-    //     }
-    //     else if($tasidigim_yanust_not){
-    //         $srg7 = $db->getRow("UPDATE notlar SET yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
-    //                             array(0, $userid, $tasidigim_yanust_not->not_uindex));
-    //         // Sorgu2_Guncelle(0, "yan_alt", $tasidigim_yanust_not->not_uindex);
-    //     }
+        if($alici_yanust_not){
+            $srg2 = $db->getRow("UPDATE notlar SET yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                                array($tasidigim_not->not_uindex, $userid, $alici_yanust_not->not_uindex));
+        }
 
-    // }
-    // else if(isset($_POST['Altina_Tasi'])) {
+        $srg3 = $db->getRow("UPDATE notlar SET yan_ust = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                            array($tasidigim_not->not_uindex, $userid, $alici_not->not_uindex));
+    } 
 
-    // }
+    if($tasidigim_yanalt_not){
+        if($tasidigim_yanust_not){
+            $srg4 = $db->getRow("UPDATE notlar SET yan_ust = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                                array($tasidigim_yanust_not->not_uindex, $userid, $tasidigim_yanalt_not->not_uindex));
+            $srg5 = $db->getRow("UPDATE notlar SET yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                                array($tasidigim_yanalt_not->not_uindex, $userid, $tasidigim_yanust_not->not_uindex));
+        }
+        else{
+            $srg6 = $db->getRow("UPDATE notlar SET yan_ust = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                                array(0, $userid, $tasidigim_yanalt_not->not_uindex));
+        }
+    }
+    else if($tasidigim_yanust_not){
+        $srg7 = $db->getRow("UPDATE notlar SET yan_alt = (?) WHERE userid = (?) AND not_uindex = (?)", 
+                            array(0, $userid, $tasidigim_yanust_not->not_uindex));
+    }
 
-    // $responseData["success"] = "Not tasima basarili"; 
-    // $responseData["notlar"] = Not_Listele();
-    // return $responseData;
+    $sorgu_2 = $db->getRows("SELECT not_uindex, baslik, ustnot_index, altnot_adet, altnotlari_gizle, yan_ust, yan_alt    
+                            FROM notlar WHERE userid = (?)", array($userid));
+    Sorgu2_Olustur($sorgu_2);   
+
+
+    $responseData["success"] = "Not tasima basarili"; 
+    $responseData["notlar"] = Not_Listele();
+    return $responseData;
 }
 
+function Notlar_Width_Kaydet(){
+    global $db, $userid, $sorgu_1;
+
+    $srg = $db->getRow("UPDATE config SET notlar_width = (?) WHERE userid = (?)", array($_POST["notlarwidth"], $userid));
+    $sorgu_1->notlar_width = $_POST["notlarwidth"];
+
+    $responseData["success"] = "Width kaydedildi"; 
+    return $responseData;
+}
 
 // -------------------------------------
 

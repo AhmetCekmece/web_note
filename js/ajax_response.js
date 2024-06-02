@@ -1,10 +1,6 @@
-var notbaslik_liste = null;
-
-document.addEventListener('DOMContentLoaded', function () {
-    notbaslik_liste = document.getElementById("notlar").getElementsByTagName("li");
-
-});
-
+var notbaslik_liste = document.getElementById("notlar").getElementsByTagName("li");
+//var notlardivs = notlar.getElementsByClassName("notlar_divs");
+var notlardivs = notlar_ul.children;
 
 function Response_Islem(_operation, _responseData) {
     switch (_operation) {
@@ -23,9 +19,11 @@ function Response_Islem(_operation, _responseData) {
             break;
 
         case 'baslik_kaydet':            //___________ DUZELT ____________
-            for (var i = 0; i < notbaslik_liste.length; i++) {
-                if (notbaslik_liste[i].getAttribute("not_uindex") === not_baslik.getAttribute("not_uindex")) {
-                    notbaslik_liste[i].textContent = _responseData.baslik;
+            
+            for (var i = 0; i < notlardivs.length; i++) { 
+                var baslikBtn = notlardivs[i].getElementsByClassName('notbaslik_btns')[0];               
+                if (baslikBtn.getAttribute("not_uindex") == not_baslik.getAttribute("not_uindex")) {
+                    baslikBtn.textContent = _responseData.baslik;
                     break; 
                 }
             }
@@ -40,6 +38,7 @@ function Response_Islem(_operation, _responseData) {
             break;
         
         case 'activenot_sec':         //___________ DUZELT ____________
+            notlar_ul.innerHTML = _responseData.notlar;
             Active_Not_Goster(_responseData.not_uindex, _responseData.baslik, _responseData.icerik);
 
             // for (var i = 0; i < notbaslik_liste.length; i++) {

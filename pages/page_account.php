@@ -55,8 +55,8 @@
                             <button class="toolbox" onclick="IleriAl();">↪</button>
                             <button class="toolbox" onclick="RemoveStyles()">Clr</button> 
                             <!-- <button class="toolbox" onclick="copyStyle()">Cpy</button>   -->
-                            <button style="background-color: red;" id="renk_btn" class="toolbox"  onclick="Color_type('bcolor');ToolAc('tools_renk');">C</button>
-                            <button style="color: red;" id="renk_btn" class="toolbox"  onclick="Color_type('color');ToolAc('tools_renk');">C</button>
+                            <button id="renk_btn" class="toolbox"  onclick="Color_type('bcolor');ToolAc('tools_renk');"><div style="background-color: black; width: 20px; height: 20px; margin: auto;">C</div></button>
+                            <button style="color: coral ;" id="renk_btn" class="toolbox"  onclick="Color_type('color');ToolAc('tools_renk');">C</button>
                             <button style="text-decoration: underline;" class="toolbox" onclick="AltiniCiz()">A</button> 
                             <button style="font-style: italic;" class="toolbox" onclick="Italiklestir()">T</button>
                             <button style="font-weight: bold;" class="toolbox" onclick="Kalinlastir()">K</button>  
@@ -113,7 +113,7 @@
             <div id="container_nonav_overflow">
                 <div id="container_nonav">
                     <div id="govde">
-                        <div id="notlar">
+                        <div id="notlar" style="width: <?php echo $sorgu_1->notlar_width; ?>px;">
                             <ul id='notlar_ul'>
                             <?php
                                 echo Not_Listele();

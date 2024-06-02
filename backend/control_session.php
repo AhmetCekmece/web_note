@@ -2,7 +2,7 @@
 session_start();
 $username = isset($_SESSION["username"]) ? $_SESSION["username"] : null;
 $userid = isset($_SESSION["userid"]) ? $_SESSION["userid"] : null;
-$sorgu_1 = isset($_SESSION["sorgu_1"]) ? $_SESSION["sorgu_1"] : null;       // userid - username - password - unique_index - active_notuindex
+$sorgu_1 = isset($_SESSION["sorgu_1"]) ? $_SESSION["sorgu_1"] : null;       // userid - username - password - unique_index - active_notuindex - notlar_width
 $sorgu_2 = isset($_SESSION["sorgu_2"]) ? $_SESSION["sorgu_2"] : null;       // (array) not_uindex - baslik - ustnot_index - altnot_adet - altnotlari_gizle
 $activenot = isset($_SESSION["activenot"]) ? $_SESSION["activenot"] : null; // (active) not_uindex - baslik - icerik - ustnot_index - altnot_adet - altnotlari_gizle
 
@@ -45,6 +45,12 @@ function Sorgu2_Guncelle($_not_uindex, $_hedefsutun, $_data){  //Calisiyor. elle
     $_SESSION["sorgu_2"] = $sorgu_2;
 }
 
+function Sorgu2_Olustur($_sorgu2){
+    global $sorgu_2;
+    $sorgu_2 = $_sorgu2;
+    $_SESSION["sorgu_2"] = $_sorgu2;
+}
+
 function  Sorgu2_Ekle($_not_uindex, $_baslik = 'isimsiz', $_ustnot_index = 0, $_altnot_adet = 0, $_altnotlari_gizle = false, $_yan_ust = 0, $_yan_alt = 0){
     global $sorgu_2;
     $yeni_satir = new stdClass();
@@ -79,7 +85,7 @@ function Sorgu2_Sil($not_uindexler) {
 // _________________________________________________________________________
 
 function Not_Listele(){
-    global $sorgu_2;
+    global $sorgu_2, $activenot;
 
     $html = "";
     $katman_sayac=0;
@@ -115,16 +121,26 @@ function Not_Listele(){
                         $ul_ekle .= "<ul>";
                         $ul_bitir .= "</ul>";
                     }
+
+                    $active_baslikcss = "";
+                    $active_divcss = "";
+                    if($activenot && ($activenot->not_uindex == $row->not_uindex)){
+                        $active_baslikcss = "activebaslik";
+                        $active_divcss = "activediv";
+                    }
+
                     
-                    $html .= "<div class='notlar_divs' not_uindex='" . $row->not_uindex . "'>";
+                    $html .= "<div class='notlar_divs " . $active_divcss . "' id='notlardivs" . $row->not_uindex . "' not_uindex='" . $row->not_uindex . "'>";  
                     $html .= $ul_ekle;
+                    $html .= "<div class='not_ustcizgi' id='not_ustcizgi" . $row->not_uindex . "' not_uindex='" . $row->not_uindex . "'></div>";
                     $html .= "<li>";                           
                     $html .= "<button class='notgizle_btns " . $display_btn . "' not_uindex='" . $row->not_uindex . "' onclick='Altnot_Gizle_Post(" . $row->not_uindex . "," . $istek_tipi . ");'>" . $isim_btn ."</button>";
-                    $html .= '<img src="../images/notepin.png" width="20px" height="25px">';
-                    $html .= "<button class='notbaslik_btns' id='notbaslik" . $row->not_uindex . "' not_uindex='" . $row->not_uindex . "' onclick='Activenot_Sec_Post(" . $row->not_uindex . ");' draggable='true' ondragstart='dragStart(event)' ondragend='dragEnd(event)' ondrop='drop(event)' ondragover='dragOver(event)'>" . $row->baslik . "</button>";                    
+                    $html .= '<img src="../images/notepin.png" width="19px" height="19px">';
+                    $html .= "<span class='notbaslik_btns " . $active_baslikcss . "'>" . $row->baslik . "</span>";                    
                     $html .= "</li>";  
+                    $html .= "<div class='not_altcizgi' id='not_altcizgi" . $row->not_uindex . "' not_uindex='" . $row->not_uindex . "'></div>";
                     $html .= $ul_bitir;
-                    $html .= "<div class='not_altcizgi' id='not_altcizgi" . $row->not_uindex . "' not_uindex='" . $row->not_uindex . "' ondragover='dragOverGizli(event)' ondragleave='dragLeaveGizli(event)' ondrop='drop(event)'></div>";
+                    $html .= "<div class='notbaslik_buttons' id='notbaslik" . $row->not_uindex . "' not_uindex='" . $row->not_uindex . "' onclick='Activenot_Sec_Post(" . $row->not_uindex . ");' onmousedown='dragStart(event, " . $row->not_uindex . ");' oncontextmenu='notbaslikSagtik(event, " . $row->not_uindex . ");'></div>";
                     $html .= "</div>";
                     
                     if ($alt_ilkot != 0 && $row->altnotlari_gizle == false) {
