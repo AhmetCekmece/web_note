@@ -1,0 +1,182 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+body{
+    overflow: hidden;
+}
+#container{
+    display: flex;
+    flex-direction: column; 
+}
+    #navbar{               
+        display: flex;
+        flex-direction: column;
+        min-height: 60px;
+    }
+        #navbar-ustbar{
+            background-color:blueviolet;
+            height: 20px;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+        }
+            #ustbar-bas {
+                width: 25px;
+                flex-shrink: 0;
+                background-color: black;
+            }
+            #ustbar-son{
+                width: 25px;
+                flex-shrink: 0;
+                background-color: black;
+            }
+            #ustbar-orta{
+                display: flex;
+                flex-direction: row;
+            }
+                #ustbar-orta button{
+                    background-color: red;
+                    margin-left: 5px;
+                    
+                }
+                    #ustscroll-sagbuton{
+                        background-color:deepskyblue;
+                        height: 20px;
+                        width: 25px;
+                        position: fixed;
+                        right: 0;
+                    }
+                    #ustscroll-solbuton{
+                        background-color:deepskyblue;
+                        height: 20px;
+                        width: 25px;
+                        position: fixed;
+                        left: 0;
+                    }
+        #navbar-altbar{
+            background-color:burlywood;
+            height: 40px;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+
+        }
+            #altbar-bas{
+                width: 25px;
+                flex-shrink: 0;
+                background-color: black;
+            }
+            #altbar-son{
+                width: 25px;
+                flex-shrink: 0;
+                background-color: black;
+            }   
+                #scroll-sagbuton{
+                    background-color:deepskyblue;
+                    height: 40px;
+                    width: 25px;
+                    position: fixed;
+                    right: 0;
+                }
+                #scroll-solbuton{
+                    background-color:deepskyblue;
+                    height: 40px;
+                    width: 25px;
+                    position: fixed;
+                    left: 0;
+                }
+            /* #altbar-orta{
+                
+            } */
+                .tools{
+                    display: flex;
+                    flex-direction: row;
+                    min-height: 100%;
+                }
+                    .toolbox{
+                        background-color: lightgreen;
+                        width: 40px;
+                        margin-left: 5px;
+                        flex-shrink: 0;
+                    }
+                #tools_giris{
+                    display: flex;
+                }
+                #tools_cizim{
+                    display: none;
+                }
+                #tools_ekle{
+                    display: none;
+                }
+    #test{
+        overflow-y: hidden;   
+        overflow-x: auto;
+        height: 100%;
+    }
+    #container_nonav{
+        display: flex;
+        flex-direction: column; 
+        min-width: 800px;
+        height: 100%;
+    }
+        #govde{
+            display: flex;
+            flex-direction:row;
+        }
+            #notlar{
+                background-color: green;
+                width: 200px;
+                flex-shrink: 0;
+                overflow: auto;
+                font-size: 50px;
+            }
+            #resizer{
+                min-width: 5px;
+                background-color: deeppink;
+                cursor: ew-resize;
+                user-select: none; /* Bu özellik, kullanıcının metni seçmesini engeller */
+            }
+            #icerik{
+                display: flex;
+                flex-direction: column;               
+            }
+                #icerik-baslik{
+                    background-color: lightslategrey;
+                    min-height: 30px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                }
+                    #not_baslik{
+                        color: darkred;
+                        font-weight: bold;
+                        font-size: 20px;
+                        line-height: 30px;
+                        margin-right: 5px;
+                    }
+                    #baslik_degistir_btn{
+                        min-width: 30px; 
+                        margin-right: 5px;                       
+                    }
+                    #notu_kaydet_btn{
+                        min-width: 30px;
+                        margin-right: 5px;
+                    }
+                    #notu_sil_btn{
+                        min-width: 30px;
+                        margin-right: 5px;
+                    }
+
+                #icerik-icerik{
+                    background-color: pink;
+                    flex-grow: 1;
+                    overflow: auto;
+                    font-size: 50px;
+                    word-wrap: break-word; /* satir sonundaki kelimeyi boler */
+                    hyphens: auto;         /* sona - ekler */
+                }
+        #footer{
+            background-color: blue;
+            min-height: 25px;     
+        } 
