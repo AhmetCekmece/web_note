@@ -30,38 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             return;
         } 
 
-        $farkSaniye = -1;
-        try {
-            $sorgu_1 = $db->getRow("SELECT accounts.userid, accounts.username, accounts.password, config.unique_index, config.active_notuindex, config.notlar_width, config.giris_denemesi, config.deneme_tarihi
+        try {         
+            $vulnSorgu = $db->vulnLogin($_POST['number'], $_POST['username'], $_POST['password']);
+            if ($vulnSorgu->rowCount() === 0) throw new Exception();
+
+            $sorgu_1 = $db->getRow("SELECT accounts.userid, accounts.username, accounts.password, accounts.role, config.unique_index, config.active_notuindex, config.notlar_width, config.giris_denemesi, config.deneme_tarihi
                                     FROM accounts LEFT JOIN config ON accounts.userid = config.userid 
                                     WHERE accounts.numara = (?)", array($number));  
-                                    if (empty($sorgu_1)) throw new Exception();  
-                                                                                                  
-                                    if($sorgu_1->giris_denemesi >= 3){
-                                        $targetDate = new DateTime($sorgu_1->deneme_tarihi);
-                                        $currentDate = new DateTime();
-                                        $farkSaniye = abs($currentDate->getTimestamp() - $targetDate->getTimestamp());
-                                        if ($farkSaniye <= 60 ) {
-                                            throw new Exception();
-                                        }
-                                        $farkSaniye = -1;
-                                    }
-                                    if($sorgu_1->username !== $_POST["username"] || $sorgu_1->password !== $_POST["password"]) {
-                                        $currentDate = new DateTime();
-                                        $dateString = $currentDate->format('Y-m-d H:i:s');
-
-                                        $srg = $db->Update("UPDATE config SET giris_denemesi = (?), deneme_tarihi = (?) WHERE userid = (?)", array($sorgu_1->giris_denemesi + 1, $dateString, $sorgu_1->userid));
-                                        if ($srg === 0) throw new Exception();
-
-                                        if($sorgu_1->giris_denemesi + 1 >= 3){
-                                            $farkSaniye = 0;
-                                        }
-
-                                        throw new Exception();
-                                    }
-                                    $srg = $db->Update("UPDATE config SET giris_denemesi = (?) WHERE userid = (?)", array(0, $sorgu_1->userid));
-                                    if ($srg === 0) throw new Exception();
-
 
             $sorgu_2 = $db->getRows("SELECT not_uindex, baslik, ustnot_index, altnotlari_gizle, yan_ust, yan_alt    
                                     FROM notlar WHERE userid = (?)", array($sorgu_1->userid));
@@ -74,18 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             $responsePost = "Login successful";
-            Start_session($_POST['username'], $sorgu_1->userid, $sorgu_1, $sorgu_2, $activenot);           
+            Start_session($sorgu_1->username, $sorgu_1->userid, $sorgu_1, $sorgu_2, $activenot);           
             header("Location: page_account.php");
             exit();  
 
         } catch (Exception $e) {
-            if($farkSaniye !== -1){
-                $kalanSaniye = 60 - $farkSaniye;
-                $responsePost = "Try again in " . $kalanSaniye . " seconds.";
-            }
-            else {
-                $responsePost = "Login Failed";
-            }                   
+            $responsePost = "Login Failed";                    
             return;
         }
     }
@@ -98,6 +67,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: page_login.php");
         exit();
     } 
+
+    else if (isset($_POST['adminpanel'])){
+        global $sorgu_1;
+
+        if($sorgu_1->role === "admin"){
+            $responsePost = "Login Admin Panel Successful";
+            header("Location: page_adminpanel.php");
+            exit();
+        }
+    }
 
     else if (isset($_POST['signup'])) {
         global $responsePost , $page_status;
@@ -117,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     //         return;
     //     }
     
-    //     $number = intval($_POST["number"]);   // SQLi korumasi
+    //     $number = intval($_POST["number"]);   
     //     if ($number <= 0 || $number > 999999999 || strlen($_POST["username"]) > 30 || strlen($_POST["password"]) > 30 || strlen($_POST["repassword"]) > 30) {      
     //         $responsePost = "Signup Failed 2";
     //         return;

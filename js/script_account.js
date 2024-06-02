@@ -31,7 +31,8 @@ const create_altnot_ismi = document.getElementById('altnot_ismi');
 const sifredegis_hesap_btn = document.getElementById('sifredegis_hesap_btn');
 const menuac_altyeninot = document.getElementById('menuac_altyeninot');
 const menuac_yeninot = document.getElementById('menuac_yeninot');
-const notlar_ul = document.getElementById('notlar_ul');
+const notlar_ul = document.getElementById('notlar_ul'); 
+const hesap_btn = document.getElementById('hesap_btn');
 
 //forms
 const sifredegisForm = document.getElementById('sifredegisForm');
@@ -144,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function () {
     not_baslik.addEventListener('keydown', function (event) {
         let text = this.textContent;
 
-        // Eğer basılan tuş "Enter" ise veya metnin uzunluğu 20'den fazlaysa ve basılan tuş bir karakter değilse varsayılan davranışını engelle
         if (text.length >= 500 && event.key.length === 1) {
             event.preventDefault();
         }
@@ -154,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    GuestControl();
 });
 
 function Boyut_Ayarla(_minGovdeWidth){
@@ -404,7 +405,16 @@ icerik_icerik.addEventListener("keydown", function(event) {
     }
 });
 
-
+function GuestControl(){
+    if(hesap_btn.textContent === "guest"){
+        baslik_degistir_btn.disabled = true;
+        notu_kaydet_btn.disabled = true;
+        notu_sil_btn.disabled = true;
+        menuac_yeninot.disabled = true;
+        menuac_altyeninot.disabled = true;
+        sifredegis_hesap_btn.style.display = 'none';
+    }
+}
 
 
 

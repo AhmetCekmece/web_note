@@ -24,6 +24,18 @@
                         <button id="ustscroll_solbuton"><</button>              
                     </div>
                     <div id="ustbar_orta">
+                        <?php
+                            if($sorgu_1->role === "admin"){
+                                echo 
+                                '
+                                <div>
+                                <form method="post" class="s_form" id="loginForm">
+                                    <button type="submit" id="adminpanel_btn" name="adminpanel" style="height:20px; background-color:rgb(120, 120, 0);">Admin Panel</button>
+                                </form>
+                                </div>
+                                ';
+                            }
+                        ?>                        
                         <button id="hesap_btn" onclick="ToolAc(this, 'tools_hesap');"><?php echo $username;?></button>                   
                         <button id="giris_btn" class="ta_active" onclick="ToolAc(this, 'tools_giris');">Giris</button>
                         <button id="cizim_btn" onclick="ToolAc(this, 'tools_cizim');">Cizim</button>
@@ -130,7 +142,7 @@
                                     }
                                 ?>                               
                                 >
-                                    <?php 
+                                    <?php    
                                         if($activenot != ""){
                                             echo $activenot->baslik;
                                         }
@@ -143,6 +155,11 @@
                                 <button id="notu_kaydet_btn" onclick="Notu_Kaydet_Post();" disabled>K</button>
                                 <button id="notu_sil_btn" onclick="Notu_Sil_Post();">S</button>
                             </div>
+                            <?php 
+                                if($sorgu_1->role === "guest"){
+                                    echo "<div style='display: flex; background: rgba(120, 0, 0, 0.9);'><span style='margin:auto;'>GUEST</span></div>"; 
+                                }
+                            ?>
                             <div id="icerik_icerik" contenteditable="true" spellcheck="false" icerikdegisti="false">
                                 <?php 
                                     if($activenot != ""){

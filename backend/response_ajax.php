@@ -18,43 +18,51 @@ if(empty($_GET["operation"]) || empty($db) || empty($username) || empty($userid)
 
 $operation=$_GET["operation"];
 $responseData=array();
-switch($operation){
+switch ($operation) {
     case 'not_olustur':
-        $responseData = Not_Olustur();       
-        break;
-
     case 'altnot_olustur':
-        $responseData = Altnot_Olustur();       
-        break;
-
     case 'not_kaydet':
-        $responseData = Not_Kaydet();
-        break;
-    
     case 'baslik_kaydet':
-        $responseData = Baslik_Kaydet();
+    case 'not_sil':
+    case 'altnot_gizle':
+    case 'not_tasi':
+    case 'notlar_width':
+        if ($sorgu_1->role !== "guest") {
+            switch ($operation) {
+                case 'not_olustur':
+                    $responseData = Not_Olustur();
+                    break;
+                case 'altnot_olustur':
+                    $responseData = Altnot_Olustur();
+                    break;
+                case 'not_kaydet':
+                    $responseData = Not_Kaydet();
+                    break;
+                case 'baslik_kaydet':
+                    $responseData = Baslik_Kaydet();
+                    break;
+                case 'not_sil':
+                    $responseData = Not_Sil();
+                    break;
+                case 'altnot_gizle':
+                    $responseData = Altnot_Gizle();
+                    break;
+                case 'not_tasi':
+                    $responseData = Not_Tasi();
+                    break;
+                case 'notlar_width':
+                    $responseData = Notlar_Width_Kaydet();
+                    break;
+            }
+        } else {
+            $responseData["error"] = "Bu islem icin yetkiniz yok!";
+        }
         break;
 
-    case 'not_sil':
-        $responseData = Not_Sil();
-        break;
-    
     case 'activenot_sec':
         $responseData = Active_Not_Sec();
         break;
 
-    case 'altnot_gizle':
-        $responseData = Altnot_Gizle();
-        break;
-
-    case 'not_tasi':
-        $responseData = Not_Tasi();
-        break;
-
-    case 'notlar_width':
-        $responseData = Notlar_Width_Kaydet();
-        break;
-            
     default:
         $responseData["error"] = "Islem Tanimli Degil!";
         break;
@@ -63,8 +71,6 @@ switch($operation){
 echo json_encode($responseData);
 exit;
 
-// NOT_UINDEX i bizim gondermemiz yanlis ilerde onu IPTAL ET (notolustur ve altnotolusturda)
-// ilerde not_uindex i veritabani versin bence (hatalari onlemek icin)
 function Not_Olustur(){  
     global $userid, $db, $sorgu_1, $activenot; 
 
@@ -205,7 +211,7 @@ function Baslik_Kaydet(){
         $_POST["baslik"] = trim($_POST["baslik"]);
 
         //XSS KORUMASI
-        $_POST["baslik"] = htmlspecialchars($_POST["baslik"], ENT_QUOTES, 'UTF-8');
+        //$_POST["baslik"] = htmlspecialchars($_POST["baslik"], ENT_QUOTES, 'UTF-8');
 
         if ($_POST["baslik"] === "") {
             $_POST["baslik"] = "isimsiz";
@@ -310,7 +316,7 @@ function Active_Not_Sec($_secilinot = null){
         return $responseData;
     }
 
-    global $userid, $db;
+    global $userid, $db, $sorgu_1;
 
     $srg = null;
     $db->MyTransaction();
@@ -318,8 +324,10 @@ function Active_Not_Sec($_secilinot = null){
         $srg = $db->getRow("SELECT * FROM notlar WHERE userid = (?) AND not_uindex = (?)", array($userid, $activenot));
         if (empty($srg)) throw new Exception();
 
-        $srg2 = $db->Update("UPDATE config SET active_notuindex = (?) WHERE userid = (?)", array($activenot, $userid));
-        if ($srg2 === 0) throw new Exception();
+        if($sorgu_1->role !== "guest"){
+            $srg2 = $db->Update("UPDATE config SET active_notuindex = (?) WHERE userid = (?)", array($activenot, $userid));
+            if ($srg2 === 0) throw new Exception();
+        }
 
         $db->MyCommit(); 
 

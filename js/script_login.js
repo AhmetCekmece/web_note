@@ -30,8 +30,8 @@ function FormDegistir(_formdegis){
     }
 }
 
-function TestAccountLogin() {  //SILINDI
-    document.getElementById("lnumber").value = "10";
+function TestAccountLogin() {  
+    document.getElementById("lnumber").value = "2";
     document.getElementById("lusername").value = "guest";
     document.getElementById("lpassword").value = "guest";
     document.getElementById("login").click();

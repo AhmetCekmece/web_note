@@ -3,20 +3,14 @@ const wait_container = document.getElementById('wait_container');
 function SendForm(_FormID, _operation) {
     var form = document.getElementById(_FormID);
     var formData = new FormData(form);
-
     // wait_container.style.display = "block";
-
     var xhr = new XMLHttpRequest();
     xhr.open("POST", '../backend/response_ajax.php?operation=' + _operation);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
 
             // setTimeout(function() {
-
-
-
             //     wait_container.style.display = "none";
-
                 if (xhr.status === 200) {
                     var responseData = "";
                     try {
@@ -43,9 +37,6 @@ function SendForm(_FormID, _operation) {
                 } else {
                     console.error('HATA: ' + xhr.status);
                 }
-
-
-
             // }, 500);
 
         }

@@ -35,6 +35,7 @@ function Response_Islem(_operation, _responseData) {
         case 'activenot_sec':        
             notlar_ul.innerHTML = _responseData.notlar;
             Active_Not_Goster(_responseData.not_uindex, _responseData.baslik, _responseData.icerik);
+            GuestControl();
             break;
 
         case 'altnot_gizle':
@@ -81,7 +82,7 @@ function Active_Not_Kontrol(){
 
 icerik_icerik.addEventListener('input', Icerik_degistimi);
 function Icerik_degistimi(){
-    if (icerik_icerik.getAttribute("icerikdegisti") == "false") {
+    if (icerik_icerik.getAttribute("icerikdegisti") == "false" && hesap_btn.textContent !== "guest") {
         console.log('İlk yazışma gerçekleşti!');
         icerik_icerik.setAttribute("icerikdegisti", true);
         icerik_icerik.removeEventListener('input', Icerik_degistimi);

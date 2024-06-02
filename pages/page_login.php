@@ -29,7 +29,7 @@
                         <div class="inputBox"><input type="password" id="lpassword" name="password" maxlength="30" placeholder="" > <i>Password</i> </div>
                         <div class="label_btns">
                             <label class="label_btn" onclick="FormDegistir(true);">Sign Up</label>
-                            <label class="label_btn" onclick="TestAccountLogin();"></label>    <!-- (Guest) test hesabi -->
+                            <label class="label_btn" onclick="TestAccountLogin();">Guest</label>    <!-- (Guest) test hesabi -->
                         </div>                       
                         <button class="submitBtn" type="submit" id="login" name="login">LOGIN</button> 
                         <label class="info_lbl" id="linfo_lbl"><?php echo $responsePost; ?></label> 

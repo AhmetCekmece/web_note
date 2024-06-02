@@ -6,9 +6,6 @@ $sorgu_1 = isset($_SESSION["sorgu_1"]) ? $_SESSION["sorgu_1"] : null;       // u
 $sorgu_2 = isset($_SESSION["sorgu_2"]) ? $_SESSION["sorgu_2"] : null;       // (array) not_uindex - baslik - ustnot_index - altnotlari_gizle - yan_ust - yan_alt
 $activenot = isset($_SESSION["activenot"]) ? $_SESSION["activenot"] : null; // (active) not_uindex - baslik - icerik - ustnot_index - altnotlari_gizle - yan_ust - yan_alt
 
-//post ile yolladigin HERSEY string dir.
-//normal bir post istegi fonksiyon calistirmak gibidir. return; ile calismasi sonlandirilir
-
 function Start_session ($_username, $_userid, $_sorgu_1, $_sorgu_2, $_activenot)
 {   
     $_SESSION["userid"] = $_userid;

@@ -5,7 +5,7 @@ use \PDO;
 use PDOException;
 class Database{
     private $HOST = "localhost";     // PostgreSQL sunucu adresi
-    private $PORT = "5403";          // PostgreSQL port numarası genellikle 5432'dir
+    private $PORT = "5403";          // PostgreSQL port numarası default 5432
     private $DB_NAME = "webnote";    // Veritabanı adı
     private $USERNAME = "postgres";  // Veritabanı kullanıcı adı
     private $PASSWORD = "abc123";    // Veritabanı şifresi
@@ -27,7 +27,7 @@ class Database{
             $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
 
         } catch (PDOException $e) {
-            //die('Cannot the connect to Database with PDO. '.$e->getMessage());
+            //die('DB baglantisi kurulamadi. '.$e->getMessage());
 			throw new Exception("DB baglantisi kurulamadi (construct): " . $e->getMessage());
         }
     }
@@ -45,6 +45,28 @@ class Database{
 		$this->pdo=NULL;
 		$this->isConn=FALSE;
 	}
+
+	//VULNERABLE
+	public function vulnLogin($_number, $_username, $_password){
+		try {
+			$query = "SELECT * FROM accounts WHERE numara = $_number AND username = '$_username' AND password = '$_password'";
+			return $this->stmt = $this->pdo->query($query);
+		} catch (PDOException $e) {
+			throw new Exception($e->getMessage());
+		}
+	}
+
+
+	
+
+
+
+
+
+
+
+
+
 	
 	public function myQuery($query, $params = null)
 	{
