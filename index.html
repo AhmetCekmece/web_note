@@ -5,86 +5,244 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #all{
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 0, 0, 0.2);
-            border:  5px solid green;
-            box-sizing: border-box;
-            top: 0;
-            left: 0;
-            position: fixed;
-
+        body{
+            margin: 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        #container{
             display: flex;
             flex-direction: column;
+            height: 100vh;
         }
-        #header{
-            box-sizing: border-box;
-            border: 5px solid red;
-            height: 5%;
+        #navbar{
+            background-color: red;         
             display: flex;
+            min-height: 50px;
+            min-width: 600px;
         }
+            #navbar-hesapbar{
+                background-color:aqua;
+                width: 200px;
+                flex-shrink: 0;
+            }
+            #navbar-toolbar{
+                background-color:blueviolet;
+                width: 200px;
+                flex-grow: 1;
+            }
+            #navbar-icerikbar{
+                background-color:bisque;
+                width: 200px;
+                flex-shrink: 0;
+            }
         #govde{
-            box-sizing: border-box;
-            border: 5px solid black;
-            height: 92%;
             display: flex;
+            flex-direction:row;
+            flex-grow: 1;
+            min-width: 600px;
         }
+            #notlar{
+                background-color: green;
+                width: 200px;
+                overflow: auto;
+            }
+            #resizer{
+                min-width: 5px;
+                height: 100%;
+                background-color: deeppink;
+                cursor: ew-resize;
+            }
+            #icerik{
+                background-color: yellow;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                font-size: 50px;
+            }
+                #icerik-baslik{
+                background-color: lightslategrey;
+                height: 25px;
+                }
+                #icerik-icerik{
+                background-color: pink;
+                flex-grow: 1;
+                }
         #footer{
-            box-sizing: border-box;
-            border: 5px solid blue;
-            height: 3%;
-        }
-
-        #govde-notlar{
-            box-sizing: border-box;
-            border: 5px solid violet;
-            width: 200px;
-        }
-        #govde-icerik{
-            box-sizing: border-box;
-            border: 5px solid yellow;
-            width: 90%;
-            display: flex;             
-            flex-direction: column; 
-        }
-        #icerik-baslik{
-            box-sizing: border-box;
-            border: 5px solid green;
-            height: 4%;
-        }
-        #header-hesapbar{
-            box-sizing: border-box;
-            border: 5px solid orange;
-            width: 200px;
-        }
-        #header-toolbar{
-            box-sizing: border-box;
-            border: 5px solid orange;
-            width: 1400px;
-        }
-        #header-icerikbar{
-            box-sizing: border-box;
-            border: 5px solid orange;
-            width: 400px;
-        }
+            background-color: blue;
+            min-width: 600px;
+            min-height: 25px;    
+        }  
 
     </style>
 </head>
 <body>
-    <div id="all">
-        <div id="header">
-            <div id="header-hesapbar"></div>
-            <div id="header-toolbar"></div>
-            <div id="header-icerikbar"></div>
+    <div id="container">
+        <div id="navbar">
+            <div id="navbar-hesapbar"></div>
+            <div id="navbar-toolbar"></div>
+            <div id="navbar-icerikbar"></div>
         </div>
         <div id="govde">
-            <div id="govde-notlar"></div>
-            <div id="govde-icerik">
+            <div id="notlar">
+                dslfvsdlnhfl
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdffsdfsd
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhflsdfsdf
+                dslfvsdlnhflsdfsdfsdf
+                dslfvsdlnhflsdfsdf
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhfl
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdffsdfsd
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhflsdfsdf
+                dslfvsdlnhflsdfsdfsdf
+                dslfvsdlnhflsdfsdf
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhfl
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdffsdfsd
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhflsdfsdf
+                dslfvsdlnhflsdfsdfsdf
+                dslfvsdlnhflsdfsdf
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhfl
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdffsdfsd
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhflsdfsdf
+                dslfvsdlnhflsdfsdfsdf
+                dslfvsdlnhflsdfsdf
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhfl
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdffsdfsd
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhflsdfsdf
+                dslfvsdlnhflsdfsdfsdf
+                dslfvsdlnhflsdfsdf
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhfl
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdffsdfsd
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhflsdfsdf
+                dslfvsdlnhflsdfsdfsdf
+                dslfvsdlnhflsdfsdf
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhfl
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdffsdfsd
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhflsdfsdf
+                dslfvsdlnhflsdfsdfsdf
+                dslfvsdlnhflsdfsdf
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhfl
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdffsdfsd
+                sdfvdsfvsdsdfdsfsdf
+                dslfvsdlnhflsdfsdf
+                dslfvsdlnhflsdfsdfsdf
+                dslfvsdlnhflsdfsdf
+                sdfvdsfvsdsdf
+                sdfvdsfvsdsdfdsfsdf
+            </div>
+            <div id="resizer"></div>
+            <div id="icerik"> 
                 <div id="icerik-baslik"></div>
+                <div id="icerik-icerik"></div>
             </div>
         </div>
         <div id="footer"></div>
     </div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const resizer = document.getElementById('resizer');
+            const notlar = document.getElementById('notlar');
+            const icerik = document.getElementById('icerik');
+    
+            let isResizing = false;
+            let lastDownX = 0;
+            let notlarWidth = parseInt(getComputedStyle(notlar).width); // İlk başta notlar bölümünün genişliği
+            let icerikWidth = window.innerWidth - notlarWidth; // İlk başta içerik bölümünün genişliği
+            
+            const minNotlarWidth = 100; // Minimum notlar genişliği
+            const maxNotlarWidth = 595; // Maksimum notlar genişliği
+    
+            resizer.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                lastDownX = e.clientX;
+            });
+    
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+    
+                const offsetX = e.clientX - lastDownX;
+    
+                let newNotlarWidth = notlarWidth + offsetX;
+                
+                // Minimum ve maksimum genişlik sınırları kontrol ediliyor
+                if (newNotlarWidth < minNotlarWidth) {
+                    newNotlarWidth = minNotlarWidth;
+                } else if (newNotlarWidth > maxNotlarWidth) {
+                    newNotlarWidth = maxNotlarWidth;
+                }
+    
+                // İçerik ve notlar genişlikleri güncelleniyor
+                notlar.style.width = `${newNotlarWidth}px`;
+                icerik.style.width = `${window.innerWidth - newNotlarWidth}px`;
+                
+                notlar.style.minWidth = `${newNotlarWidth}px`;
+                notlar.style.maxWidth = `${newNotlarWidth}px`;
+            });
+    
+            document.addEventListener('mouseup', function() {
+                isResizing = false;
+                // Yeniden boyutlandırıldıktan sonra notlar ve icerik genişliklerini güncelle
+                notlarWidth = parseInt(getComputedStyle(notlar).width);
+                icerikWidth = window.innerWidth - notlarWidth;
+            });
+
+
+            // ______________ Govde height ayar ____________
+
+            const container = document.getElementById('container');
+            const govde = document.getElementById('govde');
+            const footer = document.getElementById('footer');
+            const navbar = document.getElementById('navbar');
+
+            // Fonksiyonu çağırarak maksimum yükseklikleri eşitle
+            equalizeMaxHeights();
+
+            // Tarayıcının boyutu değiştiğinde veya sayfa yenilendiğinde maksimum yükseklikleri eşitle
+            window.addEventListener('resize', equalizeMaxHeights);
+
+            function equalizeMaxHeights() {
+                const footerHeight = footer.offsetHeight;
+                const navbarHeight = navbar.offsetHeight;
+                let tarayiciHeight = document.documentElement.clientHeight  //scrollbarsiz icerik boyu
+                let govdeHeight = tarayiciHeight - footerHeight - navbarHeight;
+
+                govde.style.maxHeight = govdeHeight + 'px';
+
+                // console.log("window.innerWidth: " + window.innerHeight);
+                // console.log("document.documentElement.clientWidth: " + document.documentElement.clientHeight);
+            }
+        });
+    </script>
 </body>
 </html>
