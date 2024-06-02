@@ -211,7 +211,7 @@ function Baslik_Kaydet(){
         $_POST["baslik"] = trim($_POST["baslik"]);
 
         //XSS KORUMASI
-        //$_POST["baslik"] = htmlspecialchars($_POST["baslik"], ENT_QUOTES, 'UTF-8');
+        $_POST["baslik"] = htmlspecialchars($_POST["baslik"], ENT_QUOTES, 'UTF-8');
 
         if ($_POST["baslik"] === "") {
             $_POST["baslik"] = "isimsiz";

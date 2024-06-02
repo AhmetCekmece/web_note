@@ -45,28 +45,6 @@ class Database{
 		$this->pdo=NULL;
 		$this->isConn=FALSE;
 	}
-
-	//VULNERABLE
-	public function vulnLogin($_number, $_username, $_password){
-		try {
-			$query = "SELECT * FROM accounts WHERE numara = $_number AND username = '$_username' AND password = '$_password'";
-			return $this->stmt = $this->pdo->query($query);
-		} catch (PDOException $e) {
-			throw new Exception($e->getMessage());
-		}
-	}
-
-
-	
-
-
-
-
-
-
-
-
-
 	
 	public function myQuery($query, $params = null)
 	{
