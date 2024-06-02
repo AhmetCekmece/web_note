@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 *{
   margin: 0;
@@ -25,8 +26,16 @@ body
   padding: 40px;
   border-radius: 4px;
   box-shadow: 0 0 0 0 transparent;
+  animation: pulse 1.5s infinite;
 }
-
+@keyframes pulse {
+  0%, 100% {
+      box-shadow: 0 0 0 0 darkred;
+  }
+  50% {
+      box-shadow: 0 0 0 0.3em darkred;         /*transparent;*/
+  }
+}
 
 .signin .content 
 {
@@ -73,6 +82,24 @@ body
 
 .signin .content .form .inputBox input:focus {
   box-shadow: 0 0 5px #444;
+}
+
+.signin .content .form .inputBox i 
+{
+  position: absolute;
+  left: 0;
+  padding: 15px 10px;
+  font-style: normal;
+  color: #aaa;
+  transition: 0.5s;
+  pointer-events: none;
+}
+.signin .content .form .inputBox input:focus ~ i,
+.signin .content .form .inputBox input:valid ~ i
+{
+  padding: 5px 10px;
+  font-size: 0.8em;
+  color: #888;
 }
 
 .signin .content .form .links 
