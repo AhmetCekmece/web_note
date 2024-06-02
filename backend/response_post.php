@@ -17,12 +17,12 @@ if (isset($_POST['login'])) {
             return;
         }
 
-        $sorgu_1 = $db->getRow("SELECT accounts.userid, accounts.username, accounts.password, config.unique_index, config.active_notuindex, config.son_not 
+        $sorgu_1 = $db->getRow("SELECT accounts.userid, accounts.username, accounts.password, config.unique_index, config.active_notuindex
                                 FROM accounts LEFT JOIN config ON accounts.userid = config.userid 
                                 WHERE accounts.numara = (?)", array($number));
 
         if($sorgu_1 && $sorgu_1->username === $_POST["username"] && $sorgu_1->password === $_POST["password"]){
-            $sorgu_2 = $db->getRows("SELECT not_uindex, baslik, ustnot_index, altnot_adet, altnotlari_gizle, yan_ust, yan_alt, alt_ilknot    
+            $sorgu_2 = $db->getRows("SELECT not_uindex, baslik, ustnot_index, altnot_adet, altnotlari_gizle, yan_ust, yan_alt    
             FROM notlar WHERE userid = (?)", array($sorgu_1->userid));
 
             $activenot = "";

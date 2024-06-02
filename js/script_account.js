@@ -25,6 +25,7 @@ const menu_altnotolustur = document.getElementById('menu_altnotolustur');
 const sifredegis_hesap_btn = document.getElementById('sifredegis_hesap_btn');
 const menuac_altyeninot = document.getElementById('menuac_altyeninot');
 const menuac_yeninot = document.getElementById('menuac_yeninot');
+const notlar_ul = document.getElementById('notlar_ul');
 
 //forms
 const sifredegisForm = document.getElementById('sifredegisForm');
@@ -43,6 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', function() {
         Boyut_Ayarla(minGovdeWidth);
     });
+    Notlar_boyut_ayar();
+
+   
 
     //___________________ RESIZER ______________________
 
@@ -58,28 +62,32 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.addEventListener('mousemove', function (e) {
-        if (!isResizing) return;
+        if (isResizing){
+            const offsetX = e.clientX - lastDownX;
 
-        const offsetX = e.clientX - lastDownX;
+            let newNotlarWidth = notlarWidth + offsetX;
+    
+            // Minimum ve maksimum genişlik sınırları kontrol ediliyor
+            if (newNotlarWidth < minNotlarWidth) {
+                newNotlarWidth = minNotlarWidth;
+            } else if (newNotlarWidth > maxNotlarWidth) {
+                newNotlarWidth = maxNotlarWidth;
+            }
+    
+            // İçerik ve notlar genişlikleri güncelleniyor
+            notlar.style.width = newNotlarWidth + 'px';
+            icerik.style.width = (govde.offsetWidth - notlar.offsetWidth - resizer.offsetWidth) + 'px'; 
+            Notlar_boyut_ayar();  
 
-        let newNotlarWidth = notlarWidth + offsetX;
-
-        // Minimum ve maksimum genişlik sınırları kontrol ediliyor
-        if (newNotlarWidth < minNotlarWidth) {
-            newNotlarWidth = minNotlarWidth;
-        } else if (newNotlarWidth > maxNotlarWidth) {
-            newNotlarWidth = maxNotlarWidth;
-        }
-
-        // İçerik ve notlar genişlikleri güncelleniyor
-        notlar.style.width = newNotlarWidth + 'px';
-        icerik.style.width = (govde.offsetWidth - notlar.offsetWidth - resizer.offsetWidth) + 'px';
+                    
+        }  
     });
 
-    document.addEventListener('mouseup', function () {
-        isResizing = false;
-        // Yeniden boyutlandırıldıktan sonra notlar ve icerik genişliklerini güncelle
-        notlarWidth = notlar.offsetWidth;
+    document.addEventListener('mouseup', function () { 
+        if(isResizing){
+            isResizing = false;
+            notlarWidth = notlar.offsetWidth;               
+        }           
     });
 
 
@@ -197,6 +205,7 @@ function Boyut_Ayarla(_minGovdeWidth){
         ustbar_bas.style.display = 'none';
         ustbar_son.style.display = 'none';
     }
+   
 }
 
 function Not_baslik_degis(_notbaslik_degis){
@@ -242,6 +251,58 @@ function MenuKapat() {
     altnotolusturForm.reset();
 }
 
+function Notlar_boyut_ayar(){
+    notlar_ul.style.width = "max-content";
+    if(notlar_ul.offsetWidth < notlar.offsetWidth - 10){
+        notlar_ul.style.width = notlar.offsetWidth - 10 + 'px';
+    }
+}
+
+
+// _____________________________  NOT TASIMA __________________________
+
+function dragStart(event) {   //tasima basladiginda butonun id sini text olarak tasir.
+    event.dataTransfer.setData("text", event.target.id);
+}
+
+function dragEnd(event) {     //tasima durdugunda islemi durdurur.
+    event.preventDefault();
+}
+
+function dragOver(event) {    //uzerine geldiginde ne yapsin
+    event.preventDefault();
+}
+
+function dragOverGizli(event) {    //uzerine geldiginde ne yapsin
+    event.preventDefault();
+    var targetButton = event.target;
+    targetButton.style.height = '25px';
+}
+
+function dragLeaveGizli(event) {         //uzerinden ayrildiginda ne yapsin
+    event.preventDefault();
+    var targetButton = event.target;
+    targetButton.style.height = '5px';
+}
+
+function drop(event) {
+    event.preventDefault();  //tasidigim butonun pozisyon degistirmesini engeller
+    var data = event.dataTransfer.getData("text");
+    var draggedButton = document.getElementById(data);   //tasidigim buton  
+    var dropTarget = event.target;                       //alici buton
+
+    if (dropTarget.classList.contains('not_altcizgi') && dropTarget.id !== draggedButton.id && dropTarget.getAttribute('not_uindex') !== draggedButton.getAttribute('not_uindex') ) {
+        dropTarget.style.height = '5px';
+        Not_Tasi_Post("Yanina_Tasi", draggedButton, dropTarget);
+    }
+    else if(dropTarget.classList.contains('notbaslik_btns') && dropTarget.id !== draggedButton.id && dropTarget.getAttribute('not_uindex') !== draggedButton.getAttribute('not_uindex') ){
+        //dropTarget.style.height = '5px';
+        Not_Tasi_Post("Altina_Tasi", draggedButton, dropTarget);
+    }
+    else if(dropTarget.classList.contains('not_altcizgi')){
+        dropTarget.style.height = '5px';
+    }
+}
 
 
 

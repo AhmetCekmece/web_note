@@ -62,7 +62,8 @@
                             <button style="font-weight: bold;" class="toolbox" onclick="Kalinlastir()">K</button>  
                             <button  class="toolbox" onclick="FontSize('7')">h1</button> 
                             <button  class="toolbox" onclick="FontSize('6')">h2</button>
-                            <button  class="toolbox" onclick="FontSize('5')">h3</button>     
+                            <button  class="toolbox" onclick="FontSize('5')">h3</button>  
+                            <button  class="toolbox toolbox_v2" onclick="Test_Post()">TEST</button>   
                             <!-- <button  class="toolbox" onclick="SubYazi()">A<span style="vertical-align: sub;">2</spans></button>    
                             <button  class="toolbox" onclick="SuperYazi()">A<span style="vertical-align: super;">2</spans></button> -->
                         </div>
@@ -113,9 +114,11 @@
                 <div id="container_nonav">
                     <div id="govde">
                         <div id="notlar">
-                        <?php
-                            echo Not_Listele();
-                        ?>
+                            <ul id='notlar_ul'>
+                            <?php
+                                echo Not_Listele();
+                            ?>
+                            </ul>
                         </div>
                         <div id="resizer"></div>
                         <div id="icerik">

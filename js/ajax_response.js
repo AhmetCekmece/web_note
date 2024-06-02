@@ -10,14 +10,16 @@ function Response_Islem(_operation, _responseData) {
     switch (_operation) {
         case 'not_olustur':
             MenuKapat();
-            notlar.innerHTML = _responseData.notlar;
+            notlar_ul.innerHTML = _responseData.notlar;
             Active_Not_Goster(_responseData.not_uindex, _responseData.baslik, "");
+            Notlar_boyut_ayar();
             break;
 
         case 'altnot_olustur':
             MenuKapat();
-            notlar.innerHTML = _responseData.notlar;
+            notlar_ul.innerHTML = _responseData.notlar;
             Active_Not_Goster(_responseData.not_uindex, _responseData.baslik, "");
+            Notlar_boyut_ayar();
             break;
 
         case 'baslik_kaydet':            //___________ DUZELT ____________
@@ -27,12 +29,14 @@ function Response_Islem(_operation, _responseData) {
                     break; 
                 }
             }
+            Notlar_boyut_ayar();
             break;
         
         case 'not_sil':
             console.log(_responseData.bagli_notlar);
-            notlar.innerHTML = _responseData.notlar;
+            notlar_ul.innerHTML = _responseData.notlar;
             Active_Not_Goster(); //bos donecek
+            Notlar_boyut_ayar();
             break;
         
         case 'activenot_sec':         //___________ DUZELT ____________
@@ -48,6 +52,24 @@ function Response_Islem(_operation, _responseData) {
             // }
             break;
 
+        case 'altnot_gizle':
+            notlar_ul.innerHTML = _responseData.notlar;
+            if(_responseData.baslik){  //activenot degistiyse
+                Active_Not_Goster(_responseData.not_uindex, _responseData.baslik, _responseData.icerik);
+            }            
+            Notlar_boyut_ayar();
+            break;
+
+        case 'not_tasi':
+            notlar_ul.innerHTML = _responseData.notlar;
+            Notlar_boyut_ayar();
+            break;
+        
+        case 'test':
+            console.log(_responseData.test1);
+            console.log(_responseData.test2);
+            break;
+        
         default:
             break;
     }

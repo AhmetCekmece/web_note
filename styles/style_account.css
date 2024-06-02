@@ -321,30 +321,47 @@ body{
                 }  
 
 ul {
-    padding-inline-start: 30px;
+    padding-inline-start: 20px;
     list-style-type: none;
 }
 li{
     display: flex;
-    
 }
-.notgizle_btns{
-    color: black;
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-}
-.notbaslik_btns{
-    color: black;
-    user-select: none;
-    cursor: pointer;
-    flex-grow: 1;
-    text-align: left;
-    padding: 5px;
-}
-#test{
-    width: 385px;
-}
-#bas_ul{
+#notlar_ul{
     padding: 0;
+    width: max-content;
 }
+    .notlar_divs{
+    }
+        .notgizle_btns{
+            background: none;
+            border: none;
+            color: red;
+            width: 20px;
+            height: 25px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .notbaslik_btns{
+            border: none;
+            color: red;
+            height: 25px;
+            user-select: none;
+            cursor: pointer;
+            flex-grow: 1;
+            text-align: left;
+            padding: 5px;
+            min-width: 100px;
+        }
+        .not_altcizgi{
+            transition: height 0.2s;
+            background: green;
+            height: 5px;
+        }
+
+
+.button_disabled {
+    opacity: 0.2; 
+    pointer-events: none;
+}
+
