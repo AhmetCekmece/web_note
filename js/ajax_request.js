@@ -15,7 +15,7 @@ function SendForm(_FormID, _operation) {
 
 
 
-                // wait_container.style.display = "none";
+            //     wait_container.style.display = "none";
 
                 if (xhr.status === 200) {
                     var responseData = "";

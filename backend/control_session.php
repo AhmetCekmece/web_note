@@ -1,7 +1,5 @@
 <?php
 session_start();
-$giris_deneme = isset($_SESSION["giris_deneme"]) ? $_SESSION["giris_deneme"] : null;
-$son_deneme_zamani = isset($_SESSION["son_deneme_zamani"]) ? $_SESSION["son_deneme_zamani"] : null; 
 $username = isset($_SESSION["username"]) ? $_SESSION["username"] : null;
 $userid = isset($_SESSION["userid"]) ? $_SESSION["userid"] : null;
 $sorgu_1 = isset($_SESSION["sorgu_1"]) ? $_SESSION["sorgu_1"] : null;       // userid - username - password - unique_index - active_notuindex - notlar_width
@@ -10,20 +8,6 @@ $activenot = isset($_SESSION["activenot"]) ? $_SESSION["activenot"] : null; // (
 
 //post ile yolladigin HERSEY string dir.
 //normal bir post istegi fonksiyon calistirmak gibidir. return; ile calismasi sonlandirilir
-
-function Giris_Denemesi($_sayi){
-    global $giris_deneme, $son_deneme_zamani;
-    $giris_deneme = $_sayi;
-    $_SESSION["giris_deneme"] = $_sayi;
-
-    if($_sayi !== 0){
-        $son_deneme_zamani = time();       
-    }
-    else {
-        $son_deneme_zamani = null;
-    }
-    $_SESSION['son_deneme_zamani'] = $son_deneme_zamani;
-}
 
 function Start_session ($_username, $_userid, $_sorgu_1, $_sorgu_2, $_activenot)
 {   
@@ -35,9 +19,7 @@ function Start_session ($_username, $_userid, $_sorgu_1, $_sorgu_2, $_activenot)
 }
 
 function Stop_session (){
-    global $giris_deneme, $son_deneme_zamani, $username, $userid, $sorgu_1, $sorgu_2, $activenot;
-    $giris_deneme = null; 
-    $son_deneme_zamani = null;
+    global $username, $userid, $sorgu_1, $sorgu_2, $activenot;
     $username = null;
     $userid = null;
     $sorgu_1 = null;      

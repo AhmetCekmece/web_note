@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let text = this.textContent;
 
         // Eğer basılan tuş "Enter" ise veya metnin uzunluğu 20'den fazlaysa ve basılan tuş bir karakter değilse varsayılan davranışını engelle
-        if (text.length >= 20 && event.key.length === 1) {
+        if (text.length >= 500 && event.key.length === 1) {
             event.preventDefault();
         }
         if (event.key === 'Enter'){

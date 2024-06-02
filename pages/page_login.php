@@ -24,9 +24,9 @@
                 <div id="hesap_menu">                   
                     <form method="post" class="s_form" id="loginForm" style="display:flex">
                         <img id="userpng" class="loginpng" src="../images/user.png" width="130px">                       
-                        <div class="inputBox"><input type="text" id="lnumber" name="number" maxlength="9" placeholder="" required> <i>Number</i> </div>
-                        <div class="inputBox"><input type="text" id="lusername" name="username" maxlength="30" placeholder="" required> <i>Username</i> </div>
-                        <div class="inputBox"><input type="password" id="lpassword" name="password" maxlength="30" placeholder="" required> <i>Password</i> </div>
+                        <div class="inputBox"><input type="text" id="lnumber" name="number" maxlength="9" placeholder="" > <i>Number</i> </div>
+                        <div class="inputBox"><input type="text" id="lusername" name="username" maxlength="30" placeholder="" > <i>Username</i> </div>
+                        <div class="inputBox"><input type="password" id="lpassword" name="password" maxlength="30" placeholder="" > <i>Password</i> </div>
                         <div class="label_btns">
                             <label class="label_btn" onclick="FormDegistir(true);">Sign Up</label>
                             <label class="label_btn" onclick="TestAccountLogin();"></label>    <!-- (Guest) test hesabi -->

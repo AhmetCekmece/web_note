@@ -203,10 +203,14 @@ function Baslik_Kaydet(){
     global $userid, $db, $activenot;
     if(isset($_POST['baslik']) && $activenot !== null){
         $_POST["baslik"] = trim($_POST["baslik"]);
+
+        //XSS KORUMASI
+        $_POST["baslik"] = htmlspecialchars($_POST["baslik"], ENT_QUOTES, 'UTF-8');
+
         if ($_POST["baslik"] === "") {
             $_POST["baslik"] = "isimsiz";
         }
-        else if(strlen($_POST["baslik"]) > 20){
+        else if(strlen($_POST["baslik"]) > 500){
             $responseData["error"] = "Baslik Guncellenemedi!"; 
             return $responseData;
         }
@@ -224,7 +228,7 @@ function Baslik_Kaydet(){
         Activenot_Tek_Guncelle("baslik", $_POST["baslik"]);
         
         $responseData["success"] = "Baslik Guncellendi"; 
-        $responseData["baslik"] = $_POST["baslik"];
+        $responseData["baslik"] = htmlspecialchars_decode($_POST["baslik"]);
         return $responseData;
     }
     else {
@@ -330,7 +334,7 @@ function Active_Not_Sec($_secilinot = null){
     Sorgu1_Tek_Guncelle("active_notuindex", $activenot);
 
     $responseData["success"] = "Not aktif edildi";
-    $responseData["baslik"] = $srg->baslik;
+    $responseData["baslik"] = htmlspecialchars_decode($srg->baslik);
     $responseData["icerik"] = $srg->icerik;
     $responseData["not_uindex"] = $srg->not_uindex;
     $responseData["notlar"] = Not_Listele();
