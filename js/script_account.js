@@ -2,6 +2,7 @@ const notlar = document.getElementById('notlar');
 const resizer = document.getElementById('resizer');
 const icerik = document.getElementById('icerik');
 const govde = document.getElementById('govde');
+const footer = document.getElementById('footer');
 const not_baslik = document.getElementById('not_baslik');
 const icerik_icerik = document.getElementById('icerik_icerik');
 const baslik_degistir_btn = document.getElementById('baslik_degistir_btn');
@@ -72,19 +73,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let newNotlarWidth = notlarWidth + offsetX;
     
-            // Minimum ve maksimum genişlik sınırları kontrol ediliyor
             if (newNotlarWidth < minNotlarWidth) {
                 newNotlarWidth = minNotlarWidth;
             } else if (newNotlarWidth > maxNotlarWidth) {
                 newNotlarWidth = maxNotlarWidth;
             }
     
-            // İçerik ve notlar genişlikleri güncelleniyor
             notlar.style.width = newNotlarWidth + 'px';
             icerik.style.width = (govde.offsetWidth - notlar.offsetWidth - resizer.offsetWidth) + 'px'; 
-            Notlar_boyut_ayar();  
-
-                    
+            Notlar_boyut_ayar();                      
         }  
     });
 
@@ -125,32 +122,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
-    //____________________________ MENU _______________________   
-
-    // for (let i = 0; i < menukapat_btn.length; i++) {
-    //     menukapat_btn[i].addEventListener('click', function () {
-    //         hesap_container.style.display = 'none'; // hesapMenu'yu gizle
-    //     });
-    // }
-
-    // sifredegis_hesap_btn.addEventListener('click', function () {
-    //     hesap_container.style.display = 'block';
-    //     menu_sifredegis.style.display = 'flex';
-    // });
-
-    // menuac_yeninot.addEventListener('click', function () {
-    //     hesap_container.style.display = 'block';
-    //     menu_notolustur.style.display = 'flex';
-    // });
-
-    // menuac_altyeninot.addEventListener('click', function () {
-    //     hesap_container.style.display = 'block';
-    //     menu_altnotolustur.style.display = 'flex';
-    // });
-
-
     //_____________________BASLIK DEGISTIRMEK_______________________
+
     let notbaslik_degis = false;
 
     baslik_degistir_btn.addEventListener("click", function() {
@@ -332,14 +305,12 @@ function dragStart(_dragElement){
             dragElement.classList.add("dragging");
             document.body.style.cursor = "grabbing";
         }
-    }, 150);
+    }, 100);
 }
 
 function dragEnter(_targetElement){
     if(isDragging){
         targetElement = _targetElement;
-        console.log("dragEnter Dragged element ID:", dragElement.id);
-        console.log("dragEnter Dropped element ID:", _targetElement.id);
         if(dragElement.getAttribute('not_uindex') != targetElement.getAttribute('not_uindex')){
             targetUstCizgi = targetElement.querySelector('.not_ustcizgi');
             targetAltCizgi = targetElement.querySelector('.not_altcizgi');
@@ -363,7 +334,6 @@ function dragLeave(_targetElement){
         targetUstCizgi = null;
         targetAltCizgi = null;
 
-        console.log("dragLeave" + _targetElement.id);                
     }
 }
 
@@ -379,9 +349,6 @@ function dragStop(_iptalmi){
     if(isDragging){
         isDragging = false;
         if(dropElement && targetElement && !_iptalmi){
-            console.log("dragStop drop:", dropElement.id);
-            console.log("dragStop target:", dragElement.id);
-
             if(dropElement.classList.contains("not_ustcizgi")){
                 Not_Tasi_Post("Ustune_Tasi", dragElement, dropElement);
             }
@@ -392,9 +359,7 @@ function dragStop(_iptalmi){
                 Not_Tasi_Post("Altina_Tasi", dragElement, dropElement);
             }
         }
-        else if (_iptalmi){
-            console.log("sinir disi");
-        }
+
         if(targetUstCizgi && targetAltCizgi){
             targetUstCizgi.classList.remove("dragging_cizgi");
             targetAltCizgi.classList.remove("dragging_cizgi");
@@ -411,7 +376,6 @@ function dragStop(_iptalmi){
 
 document.addEventListener("mouseup", function (e) {
     if(isDragging){
-        console.log("mouseup")
         dragStop(false);
     }
 });
@@ -425,6 +389,21 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
+
+icerik_icerik.addEventListener("keydown", function(event) {
+    if (event.key === "Tab") {
+        event.preventDefault(); 
+        var selection = window.getSelection();
+        var range = selection.getRangeAt(0);
+        var tabNode = document.createTextNode("\u00A0\u00A0\u00A0\u00A0"); // 4 boşluk
+        range.insertNode(tabNode);
+        range.setStartAfter(tabNode);
+        range.setEndAfter(tabNode);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+});
+
 
 
 

@@ -1,5 +1,3 @@
-var notbaslik_liste = document.getElementById("notlar").getElementsByTagName("li");
-//var notlardivs = notlar.getElementsByClassName("notlar_divs");
 var notlardivs = notlar_ul.children;
 
 function Response_Islem(_operation, _responseData) {
@@ -34,18 +32,9 @@ function Response_Islem(_operation, _responseData) {
             Notlar_boyut_ayar();
             break;
         
-        case 'activenot_sec':         //___________ DUZELT ____________
+        case 'activenot_sec':        
             notlar_ul.innerHTML = _responseData.notlar;
             Active_Not_Goster(_responseData.not_uindex, _responseData.baslik, _responseData.icerik);
-
-            // for (var i = 0; i < notbaslik_liste.length; i++) {
-            //     if (notbaslik_liste[i].getAttribute("not_uindex") === not_baslik.getAttribute("not_uindex")) {
-            //         notbaslik_liste[i].style.color = 'red';
-            //     }
-            //     else {
-            //         notbaslik_liste[i].style.color = 'white';
-            //     }
-            // }
             break;
 
         case 'altnot_gizle':
@@ -59,11 +48,6 @@ function Response_Islem(_operation, _responseData) {
         case 'not_tasi':
             notlar_ul.innerHTML = _responseData.notlar;
             Notlar_boyut_ayar();
-            break;
-        
-        case 'test':
-            console.log(_responseData.test1);
-            console.log(_responseData.test2);
             break;
         
         default:
@@ -109,5 +93,5 @@ function Icerik_degistimi(){
 
 const CikisEngelle = (event) => {
     event.preventDefault();
-    event.returnValue = true;  // Included for legacy support, e.g. Chrome/Edge < 119
+    event.returnValue = true;  
 };

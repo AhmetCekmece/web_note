@@ -306,11 +306,11 @@ body{
                 background-color:#444;
                 min-height: 25px;     
                 margin-bottom: 5px;
+                line-height: 25px;
+                padding-left: 5px;
+                font-size: 15px;
             } 
 
-    /* #hesap_container * {   
-        color: black;
-    } */
     #hesap_container{ 
         display: none;        
         width: 100%;
@@ -320,7 +320,7 @@ body{
         top: 0; 
         z-index: 2;
     }
-        #karart_container{
+        .karart_container{
             width: 100%;
             height: 100%;  
             position: absolute;      
@@ -433,9 +433,6 @@ li{
         position: relative;
         background-color: transparent;
     }
-    /* .notlar_divs:hover {
-        background-color: #666;        
-    } */
         .notgizle_btns{
             font-weight: bold;
             background: none;
@@ -462,7 +459,6 @@ li{
         }
         .not_altcizgi{
             position: relative;
-            /* transition: opacity 0.4s; */
             background: #222;
             height: 8px;
             margin-left: 20px;
@@ -471,7 +467,6 @@ li{
         }
         .not_ustcizgi{
             position: relative;
-            /* transition: opacity 0.4s; */
             background: #222;
             height: 8px;
             margin-left: 20px;
@@ -510,3 +505,23 @@ li{
     pointer-events: none;
 }
 
+#wait_container{ 
+    display: none;        
+    width: 100%;
+    height: 100%;      
+    position: absolute;
+    left: 0;
+    top: 0; 
+    z-index: 3;
+}
+    .karart_container_2{
+        width: 100%;
+        height: 100%;  
+        position: absolute;      
+        background-color: black;
+        opacity: 0.8;
+        display: flex;
+    }
+        #wait_gif{  
+            margin: auto;
+        }

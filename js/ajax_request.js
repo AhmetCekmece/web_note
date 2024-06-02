@@ -1,35 +1,53 @@
+const wait_container = document.getElementById('wait_container');
 
 function SendForm(_FormID, _operation) {
     var form = document.getElementById(_FormID);
     var formData = new FormData(form);
 
+    // wait_container.style.display = "block";
+
     var xhr = new XMLHttpRequest();
     xhr.open("POST", '../backend/response_ajax.php?operation=' + _operation);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var responseData = "";
-                try {
-                    responseData = JSON.parse(xhr.responseText);
-                    if (responseData.error) {
-                        console.log("ERROR: " + responseData.error);
-                    } else if (responseData.success) {
-                        console.log("SUCCESS: " + responseData.success);
+
+            // setTimeout(function() {
+
+
+
+                // wait_container.style.display = "none";
+
+                if (xhr.status === 200) {
+                    var responseData = "";
+                    try {
+                        responseData = JSON.parse(xhr.responseText);
                         if(responseData.test1){
                             console.log("Test1: " + responseData.test1);
                         }
                         if(responseData.test2){
                             console.log("Test2: " + responseData.test2);
                         }
-                        form.reset();  //formun icerigini siler
-                        Response_Islem(_operation, responseData);
+    
+                        if (responseData.error) {
+                            console.log("ERROR: " + responseData.error);
+                            footer.innerHTML = ("<span style='color:red; font-weight:bold;'>ERROR: </span>" + responseData.error);
+                        } else if (responseData.success) {
+                            console.log("SUCCESS: " + responseData.success);
+                            form.reset();  
+                            footer.innerHTML = ("<span style='color:yellowgreen; font-weight:bold;'>SUCCESS: </span>" + responseData.success);
+                            Response_Islem(_operation, responseData);
+                        }
+                    } catch (error) {
+                        console.log("BIGHATA: " + xhr.responseText)
                     }
-                } catch (error) {
-                    console.log("BIGHATA: " + xhr.responseText)
+                } else {
+                    console.error('HATA: ' + xhr.status);
                 }
-            } else {
-                console.error('HATA: ' + xhr.status);
-            }
+
+
+
+            // }, 500);
+
         }
     };
     xhr.send(formData);
@@ -51,7 +69,7 @@ function Notu_Kaydet_Post(){
     let input1 = document.createElement('input');
     input1.setAttribute('type', 'hidden');
     input1.setAttribute('name', 'icerik');
-    input1.setAttribute('value', document.getElementById('icerik_icerik').innerHTML);  //burada birseyler yapman gerek icerikte <div> yazisi varsa bozuluyor*(bozulmuyomus)
+    input1.setAttribute('value', document.getElementById('icerik_icerik').innerHTML);  
     form.appendChild(input1);
 
     document.body.appendChild(form);
@@ -90,20 +108,12 @@ function Not_Olustur_Post(){
         Notu_Kaydet_Post();
     }
 
-    // let formButtons = notolusturForm.querySelectorAll('button, input[type="button"], input[type="submit"]');
-    // formButtons.forEach(function(button) {
-    //     button.disabled = true;
-    // });
     create_not_ismi.value = create_not_ismi.value.trim();
     if(create_not_ismi.value == ""){
         create_not_ismi.value = "isimsiz";
     }
 
-    SendForm(notolusturForm.id,'not_olustur');
-
-    // formButtons.forEach(function(button) {
-    //     button.disabled = false;
-    // });    
+    SendForm(notolusturForm.id,'not_olustur');    
 }
 
 function Altnot_Olustur_Post(){
@@ -188,9 +198,6 @@ function Not_Tasi_Post(_tasimaTuru, _draggedButton, _dropTarget){   //tasimaTuru
     form.appendChild(input3);
 
     document.body.appendChild(form);
-    // setTimeout(function() {
-    //     SendForm(form.id,'not_tasi');
-    // }, 50);
     SendForm(form.id,'not_tasi');
     form.remove();
 }
@@ -208,18 +215,5 @@ function Notlarwidth_Kaydet_Post(_notlarwidth){
 
     document.body.appendChild(form);
     SendForm(form.id,'notlar_width');
-    form.remove();
-}
-
-
-//-----------------------------------------------------
-
-function Test_Post(){
-    let form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('id', 'testForm');
-
-    document.body.appendChild(form);
-    SendForm(form.id,'test');
     form.remove();
 }

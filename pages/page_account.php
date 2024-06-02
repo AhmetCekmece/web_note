@@ -46,7 +46,7 @@
                         </div>
                         <div id="tools_giris" class="tools">
                             <button class="toolbox" onclick="MenuAc('notolustur');" id="menuac_yeninot">+</button>
-                            <button class="toolbox" onclick="MenuAc('altnotolustur');" id="menuac_altyeninot">++</button>
+                            <button class="toolbox" onclick="MenuAc('altnotolustur');" id="menuac_altyeninot">+<sub>+</sub></button>
                             <button class="toolbox" onclick="GeriAl();">↩</button>
                             <button class="toolbox" onclick="IleriAl();">↪</button>
                             <button class="toolbox" onclick="RemoveStyles()">Clr</button> 
@@ -61,8 +61,7 @@
                             <button  class="toolbox" onclick="FontSize('5')">h3</button>  
                             <button  class="toolbox" onclick="FontSize('4')">h4</button> 
                             <button  class="toolbox" onclick="FontSize('3')">h5</button>
-                            <button  class="toolbox" onclick="FontSize('2')">h6</button> 
-                            <button  class="toolbox toolbox_v2" onclick="Test_Post()">TEST</button>   
+                            <button  class="toolbox" onclick="FontSize('2')">h6</button>   
                             <!-- <button  class="toolbox" onclick="SubYazi()">A<span style="vertical-align: sub;">2</spans></button>    
                             <button  class="toolbox" onclick="SuperYazi()">A<span style="vertical-align: super;">2</spans></button> -->
                         </div>
@@ -136,7 +135,7 @@
                                             echo $activenot->baslik;
                                         }
                                         else{
-                                            echo ""; //baslik_degistir_btn enable false yap 
+                                            echo ""; 
                                         }
                                     ?>
                                 </div>
@@ -150,7 +149,7 @@
                                         echo $activenot->icerik;
                                     }
                                     else{
-                                        echo ""; //icerik_icerik contenteditable false yap 
+                                        echo ""; 
                                     }
                                 ?>
                             </div>
@@ -162,31 +161,8 @@
         </div>
 
         <div id="hesap_container">
-            <div id="karart_container"></div>
+            <div class="karart_container"></div>
             <div id="hesap_menu_overflow">
-                <!-- <div id="menu_sifredegis">
-                    <button class="menukapat_btn" onclick="MenuKapat();">X</button>
-                    <form id="sifredegisForm">
-                        <input class="menu_inputbox" type="password" placeholder="eski sifre gir">
-                        <input class="menu_inputbox" type="password" placeholder="yeni sifre gir">
-                        <input class="menu_inputbox" type="password" placeholder="yeni sifre tekrar gir">
-                        <input type="button" value="Sifre Degistir">
-                    </form>
-                </div> -->
-                <!-- <div id="menu_notolustur">
-                    <button class="menukapat_btn" onclick="MenuKapat();">X</button>
-                    <form id="notolusturForm">
-                        <input type="text" class="menu_inputbox" id="not_ismi" name="not_ismi" placeholder="Not ismi" onkeydown="MenuPostYolla(event , 'notolustur');">
-                        <button type="button" onclick="Not_Olustur_Post();">Not Olustur</button>
-                    </form>
-                </div> -->
-                <!-- <div id="menu_altnotolustur">
-                    <button class="menukapat_btn" onclick="MenuKapat();">X</button>
-                    <form id="altnotolusturForm">
-                        <input type="text" class="menu_inputbox" id="altnot_ismi" name="altnot_ismi" placeholder="Alt Not ismi" onkeydown="MenuPostYolla(event , 'altnotolustur');">
-                        <button type="button" onclick="Altnot_Olustur_Post();">Alt Not Olustur</button>
-                    </form>
-                </div> -->
                 <div id="menu_sifredegis">
                     <div class="menu_baslik">Sifre Degistir</div>
                     <form id="sifredegisForm">
@@ -223,7 +199,11 @@
         </div>
     </div>
 
-
+    <div id="wait_container">
+        <div class="karart_container_2">
+            <img id="wait_gif"  src="../images/wait.gif" width="100px">
+        </div>   
+    </div>
 
     <script src="../js/script_account.js"></script>
     <script src="../js/ajax_request.js"></script>
@@ -287,3 +267,5 @@
     </script>
 </body>
 </html>
+
+<?php exit;

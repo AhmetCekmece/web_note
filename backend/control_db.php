@@ -27,7 +27,8 @@ class Database{
             $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
 
         } catch (PDOException $e) {
-            die('Cannot the connect to Database with PDO. '.$e->getMessage());
+            //die('Cannot the connect to Database with PDO. '.$e->getMessage());
+			throw new Exception("DB baglantisi kurulamadi (construct): " . $e->getMessage());
         }
     }
     public function MyTransaction(){
@@ -39,9 +40,8 @@ class Database{
 	public function MyRollBack(){
 		$this->pdo->rollBack();
 	}
-    public function __destruct()
+    public function __destruct()   // Bağlantıyı kapatma 
 	{
-		// Bağlantıyı kapatma
 		$this->pdo=NULL;
 		$this->isConn=FALSE;
 	}
@@ -77,66 +77,78 @@ class Database{
 		}
 	}
 
-	public function getColumn($query,$params=null)   
-	{   // Tek bir değer almak için kullanılır (Tek satir tek sutun nokta atisi)
+	public function getColumn($query,$params=null)    // Tek bir değer almak için kullanılır (Tek satir tek sutun nokta atisi)
+	{   
 		try{
-		return $this->myQuery($query, $params)->fetchColumn();
+		return $this->myQuery($query, $params)->fetchColumn();   
 		}catch(PDOException $e){
-			die($e->getMessage()); 
+			//die($e->getMessage()); 
+			throw new Exception($e->getMessage());
 		}
 	}
-	public function getRow($query,$params=null)
-	{	// Tek bir satır almak için kullanılır
+	public function getRow($query,$params=null)   // Tek bir satır almak için kullanılır
+	{	
 		try{
-		return $this->myQuery($query, $params)->fetch();
+		return $this->myQuery($query, $params)->fetch();         
 		}catch(PDOException $e){
-			die($e->getMessage()); 
+			//die($e->getMessage()); 
+			throw new Exception($e->getMessage());
 		}
 	}
-	public function getRows($query,$params=null)
-	{	// Tüm satırları almak için kullanılır
+	public function getRows($query,$params=null)   // Tüm satırları almak için kullanılır
+	{	
 		try{
-		return $this->myQuery($query, $params)->fetchAll();
+		return $this->myQuery($query, $params)->fetchAll();       
 		}catch(PDOException $e){
-			die($e->getMessage()); 
-		}
-		
+			//die($e->getMessage()); 
+			throw new Exception($e->getMessage());
+		}		
 	}
-	public function Insert($query,$params=null)  //Sanirsam notid degeri donduruyor. ilerde not_uindex i veritabani versin bence (hatalari onlemek icin)
-	{   // Veri Eklemek için
+	public function Insert($query,$params=null)  // Veri Eklemek için
+	{   
 		try{
 		$this->myQuery($query, $params);
-		return $this->pdo->lastInsertId();  //serial key i bulup dondurur (yoksa hata verir)
+		return $this->pdo->lastInsertId();  
 		}catch(PDOException $e){
-			if (strpos($e->getMessage(), 'accounts_username_key') !== false) {    // Unique olmasi gerekirse bu hatayi istek yapilan yere iteler
-				throw new Exception("UNIQUE_USERNAME"); 
-			}else if (strpos($e->getMessage(), 'accounts_numara_key') !== false) {
-				throw new Exception("UNIQUE_NUMARA");     
-			}else if ($e->getCode() == '22001') {
-				throw new Exception("TOOLONG");      // Karakter sayisi sinirini asinca
-			}else {				
-				die($e->getMessage());
-				//throw new Exception($e->getMessage());
-			}
+			//die($e->getMessage());
+			throw new Exception($e->getMessage());
 		}
 	}
-	public function Update($query,$params=null)
-	{   // Veri Güncellemek için
+	public function Update($query,$params=null)    // Veri Güncellemek için
+	{   
 		try{	
-		return $this->myQuery($query, $params)->rowCount();
+		return $this->myQuery($query, $params)->rowCount();    
 		}catch(PDOException $e){
-			die($e->getMessage()); 
+			//die($e->getMessage()); 
+			throw new Exception($e->getMessage());
 		}
 	}
-	public function Delete($query,$params=null)
-	{	// Veri Silmek için
-		return $this->Update($query,$params);
+	public function Delete($query,$params=null){	 // Veri Silmek için
+		return $this->Update($query,$params);                
 		
 	}
-	public function TableOperations($query){ 
-		//tablo operasyonları için
+	public function TableOperations($query){  //tablo operasyonları için		
 		$myTable=$this->pdo->query($query);
 		return $myTable;
 	}
 
 }
+
+
+
+// getColumn   SELECT (tek deger)     HATA KONTOL: if (empty($srg)) throw new Exception();  (stdClass $srg)
+// getRow      SELECT (tek satir)     HATA KONTOL: if (empty($srg)) throw new Exception();  (stdClass $srg->sutun)        
+// getRows     SELECT (tum satirlar)  HATA KONTOL: if (empty($srg)) throw new Exception();  (stdClass $srg->satir->sutun) 
+// Insert      INSERT                 HATA KONTOL: if (empty($srg)) throw new Exception();  (string)  (eklenen son serial key degerini verir) 
+// Update      UPDATE                 HATA KONTOL: if ($srg === 0) throw new Exception();   (integer) (degisen satir sayisini verir)
+// Delete      DELETE                 HATA KONTOL: if ($srg === 0) throw new Exception();   (integer) (degisen satir sayisini verir)
+
+
+// $srg = $db->getColumn("SELECT username FROM accounts WHERE userid = (?)", array(1));                  // echo $srg;
+// $srg = $db->getRow("SELECT * FROM accounts WHERE userid = (?)", array(1));                            // echo $srg->username;
+// $srg = $db->getRows("SELECT * FROM accounts");                                                        // echo $srg[0]->username;
+// $srg = $db->Insert("INSERT INTO accounts (username, password) VALUES (?,?)", array("ali","veli"));
+// $srg = $db->Update("UPDATE accounts SET username = (?), password = (?) WHERE userid = (?)", array("ali", "veli", 1));
+// $srg = $db->Delete("DELETE FROM accounts WHERE userid = (?)", array(1));
+
+
