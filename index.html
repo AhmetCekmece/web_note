@@ -14,15 +14,14 @@
                     <button id="ustscroll-solbuton"><</button>              
                 </div>
                 <div id="ustbar-orta">
-                    <button id="hesap_btn">Hesap</button>
-                    <button id="giris_btn">Giris</button>
-                    <button id="cizim_btn">Cizim</button>
-                    <button id="ekle_btn">Ekle</button>
-                    <button id="ekle_btn">Bos1</button>
-                    <button id="ekle_btn">Bos2</button>
-                    <button id="ekle_btn">Bos3</button>
-                    <button id="ekle_btn">Bos4</button>
-                    <button id="ekle_btn">Bos5</button>
+                    <button id="hesap_btn" onclick="ToolAc('tools_hesap');">Ahmet</button>                   
+                    <button id="giris_btn" onclick="ToolAc('tools_giris');">Giris</button>
+                    <button id="cizim_btn" onclick="ToolAc('tools_cizim');">Cizim</button>
+                    <button id="ekle_btn" onclick="ToolAc('tools_ekle');">Ekle</button>
+                    <button id="ekle_btn" >Bos1</button>
+                    <button id="ekle_btn" >Bos2</button>
+                    <button id="ekle_btn" >Bos3</button>
+                    <button id="ekle_btn">Bos4</button>                   
                 </div>
                 <div id="ustbar-son">
                     <button id="ustscroll-sagbuton">></button>
@@ -33,28 +32,48 @@
                     <button id="scroll-solbuton"><</button>              
                 </div>
                 <div id="altbar-orta">
+                    <div id="tools_hesap" class="tools">
+                        <button style="font-size: small;" id="cikis_hesap_btn" class="toolbox toolbox_v2">Cikis</button>
+                        <button style="font-size: small;" id="sifredegis_hesap_btn" class="toolbox toolbox_v2">Sifre Degistir</button>
+                    </div>
                     <div id="tools_giris" class="tools">
-                        <div class="toolbox">g1</div>
-                        <div class="toolbox">g2</div>
-                        <div class="toolbox">g3</div>
-                        <div class="toolbox">g4</div>
-                        <div class="toolbox">g5</div>
-                        <div class="toolbox">g6</div>
-                        <div class="toolbox">g7</div>
-                        <div class="toolbox">g8</div>
-                        <div class="toolbox">g9</div>
-                        <div class="toolbox">g10</div>
-                        <div class="toolbox">g11</div>
-                        <div class="toolbox">g12</div>
-                        <div class="toolbox">g13</div>
-                        <div class="toolbox">g14</div>
-                        <div class="toolbox">g15</div>
-                        <div class="toolbox">g16</div>
-                        <div class="toolbox">g17</div>
-                        <div class="toolbox">g18</div>
+                        <button class="toolbox" onclick="GeriAl();">↩</button>
+                        <button class="toolbox" onclick="IleriAl();">↪</button>
+                        <button class="toolbox" onclick="removeStyles()">Clr</button> 
+                        <button class="toolbox" onclick="copyStyle()">Cpy</button>                     
+                        <button style="background-color: red;" id="renk_btn" class="toolbox"  onclick="Color_type('bcolor');ToolAc('tools_renk');">C</button>
+                        <button style="color: red;" id="renk_btn" class="toolbox"  onclick="Color_type('color');ToolAc('tools_renk');">C</button>
+                        <button style="text-decoration: underline;" class="toolbox" onclick="AltiniCiz()">A</button> 
+                        <button style="font-style: italic;" class="toolbox" onclick="Italiklestir()">T</button>
+                        <button style="font-weight: bold;" class="toolbox" onclick="Kalinlastir()">K</button>  
+                        <button  class="toolbox" onclick="FontSize('7')">h1</button> 
+                        <button  class="toolbox" onclick="FontSize('6')">h2</button>
+                        <button  class="toolbox" onclick="FontSize('5')">h3</button>     
+                        <!-- <button  class="toolbox" onclick="SubYazi()">A<span style="vertical-align: sub;">2</spans></button>    
+                        <button  class="toolbox" onclick="SuperYazi()">A<span style="vertical-align: super;">2</spans></button> -->
+                    </div>
+                    <div id="tools_renk" class="tools">
+                        <button class="toolbox" onclick="ToolAc('tools_giris');"><</button>
+                        <button style="background-color: white;" class="toolbox" onclick="RenkDegistir('white');"></button>
+                        <button style="background-color: black;" class="toolbox" onclick="RenkDegistir('black');"></button>
+                        <button style="background-color: red;" class="toolbox" onclick="RenkDegistir('red');"></button>
+                        <button style="background-color: green;" class="toolbox" onclick="RenkDegistir('green');"></button>
+                        <button style="background-color: blue;" class="toolbox" onclick="RenkDegistir('blue');"></button>
+                        <button style="background-color: yellow;" class="toolbox" onclick="RenkDegistir('yellow');"></button>
+                        <button style="background-color: cyan;" class="toolbox" onclick="RenkDegistir('cyan');"></button>
+                        <button style="background-color: magenta;" class="toolbox" onclick="RenkDegistir('magenta');"></button>
+                        <button style="background-color: purple;" class="toolbox" onclick="RenkDegistir('purple');"></button>
+                        <button style="background-color: orange;" class="toolbox" onclick="RenkDegistir('orange');"></button>
+                        <button style="background-color: gray;" class="toolbox" onclick="RenkDegistir('gray');"></button>
+                        <button style="background-color: yellowgreen;" class="toolbox" onclick="RenkDegistir('yellowgreen');"></button>
+                        <button style="background-color: brown;" class="toolbox" onclick="RenkDegistir('brown');"></button>
+                        <button style="background-color: lime;" class="toolbox" onclick="RenkDegistir('lime');"></button>
+                        <button style="background-color: turquoise;" class="toolbox" onclick="RenkDegistir('turquoise');"></button>
+                        <button style="background-color: plum;" class="toolbox" onclick="RenkDegistir('plum');"></button>
+                        <button style="background-color: cornflowerblue;" class="toolbox" onclick="RenkDegistir('cornflowerblue');"></button>
                     </div>
                     <div id="tools_cizim" class="tools">
-                        <div class="toolbox">c1</div>
+                        <input type="text" class="toolbox">
                         <div class="toolbox">c2</div>
                         <div class="toolbox">c3</div>
                         <div class="toolbox">c4</div>
@@ -86,15 +105,14 @@
                     <div id="resizer"></div>
                     <div id="icerik"> 
                         <div id="icerik-baslik">
-                            <div id="not_baslik">Lorem,,ipsum,doloraa</div>
+                            <div id="not_baslik" contenteditable="true" spellcheck="false">Lorem</div>
                             <button id="baslik_degistir_btn">!</button>
                             <button id="notu_kaydet_btn">K</button>
                             <button id="notu_sil_btn">S</button>
                             
                         </div>
-                        <div id="icerik-icerik">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam natus deserunt, numquam quod explicabo tempore, praesentium porro illum vel iusto sed tempora, id illo neque veritatis quis distinctio culpa aut pariatur expedita rerum cupiditate soluta. Quia exercitationem voluptates dolorum quae neque ea sint. Maiores placeat corporis, voluptatem facere vero, ipsa aliquid voluptatibus aliquam molestiae quis, tempora illo quam amet ullam nihil quisquam reprehenderit dolore autem illum blanditiis consequatur neque aut minus perferendis. Consequatur nemo aspernatur, dolores in, possimus eius nihil blanditiis consectetur fugit, dolorem explicabo at ad. Provident neque, ex laboriosam dolor consectetur esse doloremque, omnis sunt quos ipsam adipisci?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat alias quae nisi. Quo, excepturi? Dolores non distinctio sint quisquam, facere ea earum possimus exercitationem unde deleniti voluptates quasi velit labore similique explicabo aliquid perspiciatis porro, molestiae tempora debitis nostrum, tenetur praesentium quam ut. Dolorem nulla aliquam sit illo molestiae? Magnam non minima obcaecati adipisci corporis quam aspernatur ad, assumenda consectetur! Voluptatibus iste, illo quas voluptatem expedita maxime cupiditate consectetur dicta. Dicta alias quisquam illo inventore quas. Necessitatibus eaque similique provident eligendi beatae ratione hic non odit placeat, voluptatem est nam consequuntur tempora et culpa error totam quis, nihil quibusdam aliquid.      
+                        <div id="icerik-icerik" contenteditable="true" spellcheck="false">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione, fugiat.
                         </div>
                     </div>
                 </div>
@@ -102,14 +120,81 @@
             </div>      
         </div>
         
+        <div id="hesap_container">
+            <div id="karart_container"></div>
+            <div id="hesap_menu_overflow">
+                <div id="hesap_menu">
+                    <button class="menukapat_btn">X</button>
+                    <form id="sifredegis_form">
+                        <input type="password" placeholder="eski sifre gir">
+                        <input type="password" placeholder="yeni sifre gir">
+                        <input type="password" placeholder="yeni sifre tekrar gir">
+                        <input type="button" value="Sifre Degistir">
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
     
     <script src="javascript.js"></script>
+    <script>
+        function GeriAl(){
+            document.execCommand('undo');
+        }
+        function IleriAl(){
+            document.execCommand('redo');
+        }
+
+        let color_type = "color"  //bcolor - color
+        function Color_type(_color_type){
+            color_type = _color_type;
+        }
+        function RenkDegistir(_renk) {
+            if(color_type == "color"){
+                document.execCommand("styleWithCSS", null, true);
+                document.execCommand("foreColor", false, _renk);
+            }
+            else if(color_type == "bcolor"){
+                document.execCommand("styleWithCSS", false, true);
+                document.execCommand("hiliteColor", false, _renk);
+            }          
+            ToolAc('tools_giris');
+        }
+
+        function Kalinlastir() {
+            document.execCommand("styleWithCSS", null, true);
+            document.execCommand("bold", false, null);
+        }
+
+        function Italiklestir() {
+            document.execCommand("styleWithCSS", false, true);
+            document.execCommand("italic", false, null);
+        }
+
+        function AltiniCiz() {
+            document.execCommand("styleWithCSS", false, true);
+            document.execCommand("underline", false, null);
+        }
+
+        function FontSize(_fontsize) {
+            document.execCommand("styleWithCSS", false, true);    
+            document.execCommand('fontSize', false, _fontsize);
+        }
+
+        function removeStyles() {
+            document.execCommand("removeFormat", false, null);           
+        }
+
+        // function SubYazi(){
+        //     document.execCommand("subscript", false, null);
+        // }
+
+        // function SuperYazi(){
+        //     document.execCommand("superscript", false, null);
+        // }
+
+    </script>
 </body>
 </html>
 
-<!-- yapılacaklar
-
-    hesap islemleri css
-
--->
