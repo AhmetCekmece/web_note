@@ -102,11 +102,11 @@ class Database{
 		}
 		
 	}
-	public function Insert($query,$params=null)
+	public function Insert($query,$params=null)  //Sanirsam notid degeri donduruyor. ilerde not_uindex i veritabani versin bence (hatalari onlemek icin)
 	{   // Veri Eklemek için
 		try{
 		$this->myQuery($query, $params);
-		return $this->pdo->lastInsertId();
+		return $this->pdo->lastInsertId();  //serial key i bulup dondurur (yoksa hata verir)
 		}catch(PDOException $e){
 			if (strpos($e->getMessage(), 'accounts_username_key') !== false) {    // Unique olmasi gerekirse bu hatayi istek yapilan yere iteler
 				throw new Exception("UNIQUE_USERNAME"); 

@@ -1,0 +1,350 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+*::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #333;
+}
+
+*::-webkit-scrollbar
+{
+	background-color: black;
+    width: 10px; /* Dikey scroll barın genişliği */
+    height: 10px; /* Yatay scroll barın yüksekliği */
+}
+
+*::-webkit-scrollbar-thumb
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #c00;
+}
+*::-webkit-scrollbar-corner{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #333;
+}
+body{
+    overflow: hidden;
+}
+
+#container{
+    background-color:black;
+    display: flex;
+    flex-direction: column;   
+    height: 100vh;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+    #navbar{               
+        display: flex;
+        flex-direction: column;
+        min-height: 60px;
+    }
+        #navbar_ustbar{
+            height: 20px;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+        }
+            #ustbar_bas {
+                width: 25px;
+                flex-shrink: 0;
+            }
+            #ustbar_son{
+                width: 25px;
+                flex-shrink: 0;
+            }
+            #ustbar_orta{
+                display: flex;
+                flex-direction: row;
+            }
+                #ustbar_orta button{
+                    background-color: black;
+                    margin-left: 7.5px;
+                    margin-right: 7.5px;
+                    border: none;
+                }
+                #ustscroll_sagbuton{
+                    border: none;
+                    background-color:darkred;
+                    height: 20px;
+                    width: 25px;
+                    position: fixed;
+                    right: 10px;
+                    border-bottom-right-radius: 4px;
+                    border-top-right-radius: 4px;
+                }
+                #ustscroll_solbuton{
+                    border: none;
+                    background-color:darkred;
+                    height: 20px;
+                    width: 25px;
+                    position: fixed;
+                    left: 10px;
+                    border-bottom-left-radius: 4px;
+                    border-top-left-radius: 4px;
+                }
+        #navbar_altbar{
+            border-radius: 4px;
+            background-color:#444;
+            height: 40px;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+        }
+            #altbar_bas{
+                width: 25px;
+                flex-shrink: 0;
+            }
+            #altbar_son{
+                width: 25px;
+                flex-shrink: 0;
+            }   
+            /* #altbar_orta{
+                
+            } */
+                #scroll_sagbuton{
+                    border: none;
+                    background-color:darkred;
+                    height: 40px;
+                    width: 25px;
+                    position: fixed;
+                    right: 10px;
+                    border-bottom-right-radius: 4px;
+                    border-top-right-radius: 4px;                   
+                }
+                #scroll_solbuton{
+                    border: none;
+                    background-color:darkred;
+                    height: 40px;
+                    width: 25px;
+                    position: fixed;
+                    left: 10px;
+                    border-bottom-left-radius: 4px;
+                    border-top-left-radius: 4px;
+                }
+                .tools{
+                    display: flex;
+                    flex-direction: row;
+                    min-height: 100%;
+                }
+                    .toolbox{
+                        background-color: lightgreen;
+                        width: 40px;
+                        margin-left: 2.5px;
+                        margin-right: 2.5px;
+                        flex-shrink: 0;
+                        font-size: large;
+                    }
+                    .toolbox_v2{
+                        width: 85px;                       
+                    }
+                #tools_hesap{
+                    display: none;
+                }
+                #tools_giris{
+                    display: flex;
+                }
+                #tools_renk{
+                    display: none;
+                }
+                #tools_cizim{
+                    display: none;
+                }
+                #tools_ekle{
+                    display: none;
+                }       
+    #container_nonav_overflow{
+        height: 100%;
+        overflow-y: hidden;   
+        overflow-x: auto;
+    }
+        #container_nonav{
+            height: 100%;
+            display: flex;
+            flex-direction: column; 
+            min-width: 800px;               
+        }
+            #govde{
+                height: calc(100% - 40px);  /* footer asagi gitmesin diye */
+                display: flex;
+                flex-direction:row;                   
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+                #notlar{
+                    background-color: #444;
+                    width: 200px;
+                    flex-shrink: 0;
+                    overflow: auto;
+                    font-size: x-large;
+                    border-top-left-radius: 4px;
+                    border-bottom-left-radius: 4px;
+                    padding: 5px;
+                }
+
+                #resizer{
+                    min-width: 5px;
+                    background-color: black;
+                    cursor: ew-resize;
+                    user-select: none; 
+                }
+                #icerik{
+                    display: flex;
+                    flex-direction: column;        
+                    flex-grow: 1;      
+                }
+                    #icerik_baslik{
+                        background-color: #333;
+                        min-height: 30px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-end;
+                        border-top-right-radius: 4px;
+                    }
+                        #not_baslik{
+                            min-width: 30px;
+                            color: yellowgreen;
+                            font-weight: bold;
+                            font-size: 20px;
+                            line-height: 30px;
+                            margin-right: 5px;
+                            text-align: right;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            padding-left: 3px;
+                            padding-right: 3px;
+                        }
+                        #baslik_degistir_btn{
+                            background-color: red;
+                            min-width: 30px; 
+                            margin-right: 5px;                       
+                        }
+                        #notu_kaydet_btn{
+                            background-color: red;
+                            min-width: 30px;
+                            margin-right: 5px;
+                        }
+                        #notu_sil_btn{
+                            background-color: red;
+                            min-width: 30px;
+                            margin-right: 5px;
+                        }
+                    #icerik_icerik{
+                        outline: 0;
+                        background-color: #222;
+                        flex-grow: 1;
+                        overflow: auto;
+                        font-size: x-large;
+                        word-wrap: break-word; 
+                        hyphens: auto;  
+                        border-bottom-right-radius: 4px;  
+                        padding: 5px;      
+                    }
+            #footer{
+                border-radius: 4px;
+                background-color:#444;
+                min-height: 25px;     
+                margin-bottom: 5px;
+            } 
+
+    #hesap_container * {   /* kalkacak */
+        color: black;
+    }
+    #hesap_container{ 
+        display: none;        
+        width: 100%;
+        height: 100%;      
+        position: absolute;
+        left: 0;
+        top: 0; 
+    }
+        #karart_container{
+            width: 100%;
+            height: 100%;  
+            position: absolute;      
+            background-color: black;
+            opacity: 0.8;
+        }
+        #hesap_menu_overflow{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            flex-direction:row;      
+            overflow: auto;
+        }
+            .menukapat_btn{
+                width: 30px;
+                height: 30px;
+                margin-top: 10px;
+                margin-right: 10px;
+                margin-left: auto;
+            }
+            #menu_sifredegis{   
+                display: none;
+                flex-direction:column; 
+                margin: auto; 
+                border-radius: 10px;
+                background-color: #888;  
+                width: 250px;             
+                min-width: 250px;
+                min-height: 150px;
+            }
+                #sifredegisForm{   /* guzellestir */
+                    flex-grow: 1;  
+                    margin: 10px;
+                    display: flex;
+                    flex-direction:column;
+                    justify-content: center;               
+                }   
+            #menu_notolustur, #menu_altnotolustur{   
+                display: none;
+                flex-direction:column; 
+                margin: auto; 
+                border-radius: 10px;
+                background-color: #888;  
+                width: 250px;             
+                min-width: 250px;
+                min-height: 150px;
+            }
+                #notolusturForm, #altnotolusturForm{   /* guzellestir */
+                    flex-grow: 1;  
+                    margin: 10px;
+                    display: flex;
+                    flex-direction:column;
+                    justify-content: center;  
+                }  
+
+ul {
+    padding-inline-start: 30px;
+    list-style-type: none;
+}
+li{
+    display: flex;
+    
+}
+.notgizle_btns{
+    color: black;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+}
+.notbaslik_btns{
+    color: black;
+    user-select: none;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: left;
+    padding: 5px;
+}
+#test{
+    width: 385px;
+}
+#bas_ul{
+    padding: 0;
+}
