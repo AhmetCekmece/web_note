@@ -1,32 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>LOGIN</title>
-    <link rel="stylesheet" href="./style-login.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style_login.css">
 </head>
-
 <body>
-    <div class="signin">      
-        <div class="content">
-            <form class="form" method="post">
-                <div class="inputBox">
-                    <input id="numara" name="numara" type="text" required> <i>Numara</i>
+    <div id="page_status" style="display:none">signin</div>
+    <div id="container">
+        <div id="hesap_container">
+            <div id="karart_container"></div>
+            <div id="hesap_menu_overflow">
+                <div id="hesap_menu">                   
+                    <form method="post" class="s_form" id="loginForm" style="display:flex">
+                        <img id="userpng" class="loginpng" src="user.png" width="130px">                       
+                        <div class="inputBox"><input type="text" id="lnumber" name="number" maxlength="12" placeholder="" required> <i>Number</i> </div>
+                        <div class="inputBox"><input type="text" id="lusername" name="username" maxlength="30" placeholder="" required> <i>Username</i> </div>
+                        <div class="inputBox"><input type="password" id="lpassword" name="password" maxlength="30" placeholder="" required> <i>Password</i> </div>
+                        <div class="label_btns">
+                            <label class="label_btn" onclick="">Sign Up</label>
+                            <label class="label_btn" onclick="">Guest</label>
+                        </div>                       
+                        <button class="submitBtn" type="submit" id="login" name="login">LOGIN</button> 
+                        <label class="info_lbl" id="linfo_lbl"></label> 
+                    </form>
                 </div>
-                <div class="inputBox">
-                    <input id="username" name="username" type="text" required> <i>Username</i>
-                </div>
-                <div class="inputBox">
-                    <input id="password" name="password" type="password" required> <i>Password</i>
-                </div>
-                <div class="inputBox">
-                    <input id="loginButton" type="submit" value="LOGIN">
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </body>
-
 </html>
