@@ -1,0 +1,32 @@
+ul{
+    list-style-type: none;
+    padding-inline-start: 30px;
+}
+
+li{
+    display: block;
+}
+
+.button_disabled {
+    opacity: 0.5; 
+    pointer-events: none;
+}
+
+.button_disabled_v2 {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.display_none {
+    display: none;
+}
+
+.notGizliButon{
+    transition: height 0.2s; 
+    margin-left: 30px;
+    height: 8px;
+    width: 100px;
+    display: block; 
+    opacity: 0.2;
+}
+
