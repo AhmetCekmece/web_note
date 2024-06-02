@@ -5,183 +5,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        body{
+        * {
+            box-sizing: border-box;
             margin: 0;
-            overflow-x: auto;
-            overflow-y: hidden;
+        }
+        body{
+            overflow: hidden;
         }
         #container{
             display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-        #navbar{
-            background-color: red;         
-            display: flex;
-            min-height: 50px;
+            flex-direction: column; 
             min-width: 600px;
         }
-            #navbar-hesapbar{
-                background-color:aqua;
-                width: 200px;
-                flex-shrink: 0;
-            }
-            #navbar-toolbar{
-                background-color:blueviolet;
-                width: 200px;
-                flex-grow: 1;
-            }
-            #navbar-icerikbar{
-                background-color:bisque;
-                width: 200px;
-                flex-shrink: 0;
-            }
-        #govde{
-            display: flex;
-            flex-direction:row;
-            flex-grow: 1;
-            min-width: 600px;
-        }
-            #notlar{
-                background-color: green;
-                width: 200px;
-                overflow: auto;
-            }
-            #resizer{
-                min-width: 5px;
-                height: 100%;
-                background-color: deeppink;
-                cursor: ew-resize;
-            }
-            #icerik{
-                background-color: yellow;
-                flex-grow: 1;
+            #navbar{               
                 display: flex;
                 flex-direction: column;
-                font-size: 50px;
+                min-height: 60px;
             }
-                #icerik-baslik{
-                background-color: lightslategrey;
-                height: 25px;
+                #navbar-ustbar{
+                    background-color:blueviolet;
+                    height: 20px;
                 }
-                #icerik-icerik{
-                background-color: pink;
-                flex-grow: 1;
+                #navbar-altbar{
+                    background-color:burlywood;
+                    height: 40px;
+                    display: flex;
+                    flex-direction: row;
                 }
-        #footer{
-            background-color: blue;
-            min-width: 600px;
-            min-height: 25px;    
-        }  
-
+                    #altbar-bas{
+                        width: 20px;
+                        flex-shrink: 0;
+                    }
+                    #altbar-son{
+                        width: 20px;
+                        flex-shrink: 0;
+                        
+                    }   
+                        .okcubuk{
+                            background-color:deepskyblue;
+                            height: 40px;
+                            
+                        }
+                    #altbar-orta{
+                        display: flex;
+                        flex-direction: row;
+                        flex-grow: 1;
+                    }
+                        .toolbox{
+                            background-color: lightgreen;
+                            width: 40px;
+                            margin-left: 5px;
+                            flex-shrink: 0;
+                        }
+                        .ayirac{
+                            background-color: black;
+                            width: 1px;
+                            margin-left: 5px;
+                            flex-shrink: 0;
+                        }
+            #govde{
+                display: flex;
+                flex-direction:row;
+            }
+                #notlar{
+                    background-color: green;
+                    width: 200px;
+                    flex-shrink: 0;
+                    overflow: auto;
+                    font-size: 50px;
+                }
+                #resizer{
+                    min-width: 5px;
+                    background-color: deeppink;
+                    cursor: ew-resize;
+                }
+                #icerik{
+                    display: flex;
+                    flex-direction: column;               
+                }
+                    #icerik-baslik{
+                        background-color: lightslategrey;
+                        min-height: 25px;
+                    }
+                    #icerik-icerik{
+                        background-color: pink;
+                        flex-grow: 1;
+                        overflow: auto;
+                        font-size: 50px;
+                        word-wrap: break-word; /* satir sonundaki kelimeyi boler */
+                        hyphens: auto;         /* sona - ekler */
+                    }
+            #footer{
+                background-color: blue;
+                min-height: 25px;    
+            }  
     </style>
 </head>
 <body>
     <div id="container">
         <div id="navbar">
-            <div id="navbar-hesapbar"></div>
-            <div id="navbar-toolbar"></div>
-            <div id="navbar-icerikbar"></div>
+            <div id="navbar-ustbar"></div>
+            <div id="navbar-altbar">
+                <div id="altbar-bas">
+                    <div class="okcubuk"><</div>
+                </div>
+                <div id="altbar-orta">
+                    <div class="toolbox">1</div>
+                    <div class="toolbox">2</div>
+                    <div class="ayirac"></div>
+                    <div class="toolbox">3</div>
+                    <div class="toolbox">4</div>
+                    <div class="toolbox">5</div>
+                    <div class="toolbox">6</div>
+                    <div class="toolbox">7</div>
+                    <div class="ayirac"></div>
+                    <div class="toolbox">8</div>
+                    <div class="toolbox">9</div>
+                    <div class="toolbox">10</div>
+                    <div class="toolbox">11</div>
+                    <div class="toolbox">12</div>
+                    <div class="toolbox">13</div>
+                    <div class="toolbox">14</div>
+                    <div class="ayirac"></div>
+                    <div class="toolbox">15</div>
+                    <div class="toolbox">16</div>
+                    <div class="toolbox">17</div>
+                    <div class="toolbox">18</div>
+                </div>
+                <div id="altbar-son">
+                    <div class="okcubuk">></div>
+                </div>
+            </div>
         </div>
         <div id="govde">
             <div id="notlar">
-                dslfvsdlnhfl
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdffsdfsd
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhflsdfsdf
-                dslfvsdlnhflsdfsdfsdf
-                dslfvsdlnhflsdfsdf
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhfl
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdffsdfsd
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhflsdfsdf
-                dslfvsdlnhflsdfsdfsdf
-                dslfvsdlnhflsdfsdf
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhfl
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdffsdfsd
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhflsdfsdf
-                dslfvsdlnhflsdfsdfsdf
-                dslfvsdlnhflsdfsdf
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhfl
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdffsdfsd
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhflsdfsdf
-                dslfvsdlnhflsdfsdfsdf
-                dslfvsdlnhflsdfsdf
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhfl
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdffsdfsd
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhflsdfsdf
-                dslfvsdlnhflsdfsdfsdf
-                dslfvsdlnhflsdfsdf
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhfl
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdffsdfsd
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhflsdfsdf
-                dslfvsdlnhflsdfsdfsdf
-                dslfvsdlnhflsdfsdf
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhfl
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdffsdfsd
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhflsdfsdf
-                dslfvsdlnhflsdfsdfsdf
-                dslfvsdlnhflsdfsdf
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhfl
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdffsdfsd
-                sdfvdsfvsdsdfdsfsdf
-                dslfvsdlnhflsdfsdf
-                dslfvsdlnhflsdfsdfsdf
-                dslfvsdlnhflsdfsdf
-                sdfvdsfvsdsdf
-                sdfvdsfvsdsdfdsfsdf
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit earum voluptate animi labore qui nesciunt excepturi quas necessitatibus quia incidunt facere, ipsum commodi aut aperiam reprehenderit laudantium natus et ipsa aliquid nisi quos fuga perspiciatis. Voluptates eligendi, sapiente consequatur earum numquam quae culpa, assumenda quibusdam maxime quia pariatur corporis. Aspernatur debitis quasi quisquam beatae, maxime eveniet asperiores vitae corporis amet facere ullam cupiditate eum officia deleniti iusto, adipisci odio, quos minima est magni delectus. Consequuntur repudiandae iusto possimus corporis architecto voluptatibus inventore pariatur a facere illum quibusdam amet dolores ex ut fugiat, ad repellat nobis hic. Totam aperiam illum fugit.
             </div>
             <div id="resizer"></div>
             <div id="icerik"> 
                 <div id="icerik-baslik"></div>
-                <div id="icerik-icerik"></div>
+                <div id="icerik-icerik">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam natus deserunt, numquam quod explicabo tempore, praesentium porro illum vel iusto sed tempora, id illo neque veritatis quis distinctio culpa aut pariatur expedita rerum cupiditate soluta. Quia exercitationem voluptates dolorum quae neque ea sint. Maiores placeat corporis, voluptatem facere vero, ipsa aliquid voluptatibus aliquam molestiae quis, tempora illo quam amet ullam nihil quisquam reprehenderit dolore autem illum blanditiis consequatur neque aut minus perferendis. Consequatur nemo aspernatur, dolores in, possimus eius nihil blanditiis consectetur fugit, dolorem explicabo at ad. Provident neque, ex laboriosam dolor consectetur esse doloremque, omnis sunt quos ipsam adipisci?
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat alias quae nisi. Quo, excepturi? Dolores non distinctio sint quisquam, facere ea earum possimus exercitationem unde deleniti voluptates quasi velit labore similique explicabo aliquid perspiciatis porro, molestiae tempora debitis nostrum, tenetur praesentium quam ut. Dolorem nulla aliquam sit illo molestiae? Magnam non minima obcaecati adipisci corporis quam aspernatur ad, assumenda consectetur! Voluptatibus iste, illo quas voluptatem expedita maxime cupiditate consectetur dicta. Dicta alias quisquam illo inventore quas. Necessitatibus eaque similique provident eligendi beatae ratione hic non odit placeat, voluptatem est nam consequuntur tempora et culpa error totam quis, nihil quibusdam aliquid.      
+                </div>
             </div>
         </div>
         <div id="footer"></div>
     </div>
-
-
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const resizer = document.getElementById('resizer');
+            let tarayiciHeight = 0;
+            let tarayiciWidth = 0;
+            const container = document.getElementById('container');
+            const navbar = document.getElementById('navbar');
+            const govde = document.getElementById('govde');
+            const footer = document.getElementById('footer');            
             const notlar = document.getElementById('notlar');
+            const resizer = document.getElementById('resizer');
             const icerik = document.getElementById('icerik');
-    
+
+            // Tarayıcının boyutu değiştiğinde veya sayfa yenilendiğinde maksimum yükseklikleri eşitle
+            equalizeMaxHeights();
+            window.addEventListener('resize', equalizeMaxHeights);
+            function equalizeMaxHeights() {
+
+                if (govde.offsetWidth <= 600) {
+                    document.body.style.overflowX = 'auto';
+                } else {
+                    document.body.style.overflowX = 'hidden';
+                }
+
+                tarayiciHeight = document.documentElement.clientHeight;
+                container.style.height = tarayiciHeight + 'px';    
+                govde.style.height = (container.offsetHeight - navbar.offsetHeight - footer.offsetHeight) + 'px';
+                icerik.style.width = (govde.offsetWidth - notlar.offsetWidth - resizer.offsetWidth) + 'px';
+            }
+
+            // console.log(notlar.offsetWidth);                         //scrollu sayar  100
+            // console.log(parseInt(getComputedStyle(notlar).width));   //scrollu saymaz  83
+
+
+            //____________________________ RESIZER _______________________
+  
             let isResizing = false;
             let lastDownX = 0;
-            let notlarWidth = parseInt(getComputedStyle(notlar).width); // İlk başta notlar bölümünün genişliği
-            let icerikWidth = window.innerWidth - notlarWidth; // İlk başta içerik bölümünün genişliği
+            let notlarWidth = notlar.offsetWidth; // İlk başta notlar bölümünün genişliği
             
             const minNotlarWidth = 100; // Minimum notlar genişliği
-            const maxNotlarWidth = 595; // Maksimum notlar genişliği
+            const maxNotlarWidth = 495; // Maksimum notlar genişliği
     
             resizer.addEventListener('mousedown', function(e) {
                 isResizing = true;
@@ -203,45 +214,15 @@
                 }
     
                 // İçerik ve notlar genişlikleri güncelleniyor
-                notlar.style.width = `${newNotlarWidth}px`;
-                icerik.style.width = `${window.innerWidth - newNotlarWidth}px`;
-                
-                notlar.style.minWidth = `${newNotlarWidth}px`;
-                notlar.style.maxWidth = `${newNotlarWidth}px`;
+                notlar.style.width = newNotlarWidth + 'px';
+                icerik.style.width = (govde.offsetWidth - notlar.offsetWidth - resizer.offsetWidth) + 'px';
             });
     
             document.addEventListener('mouseup', function() {
                 isResizing = false;
                 // Yeniden boyutlandırıldıktan sonra notlar ve icerik genişliklerini güncelle
-                notlarWidth = parseInt(getComputedStyle(notlar).width);
-                icerikWidth = window.innerWidth - notlarWidth;
+                notlarWidth = notlar.offsetWidth;
             });
-
-
-            // ______________ Govde height ayar ____________
-
-            const container = document.getElementById('container');
-            const govde = document.getElementById('govde');
-            const footer = document.getElementById('footer');
-            const navbar = document.getElementById('navbar');
-
-            // Fonksiyonu çağırarak maksimum yükseklikleri eşitle
-            equalizeMaxHeights();
-
-            // Tarayıcının boyutu değiştiğinde veya sayfa yenilendiğinde maksimum yükseklikleri eşitle
-            window.addEventListener('resize', equalizeMaxHeights);
-
-            function equalizeMaxHeights() {
-                const footerHeight = footer.offsetHeight;
-                const navbarHeight = navbar.offsetHeight;
-                let tarayiciHeight = document.documentElement.clientHeight  //scrollbarsiz icerik boyu
-                let govdeHeight = tarayiciHeight - footerHeight - navbarHeight;
-
-                govde.style.maxHeight = govdeHeight + 'px';
-
-                // console.log("window.innerWidth: " + window.innerHeight);
-                // console.log("document.documentElement.clientWidth: " + document.documentElement.clientHeight);
-            }
         });
     </script>
 </body>
