@@ -19,15 +19,30 @@
                         <div class="inputBox"><input type="text" id="lusername" name="username" maxlength="30" placeholder="" required> <i>Username</i> </div>
                         <div class="inputBox"><input type="password" id="lpassword" name="password" maxlength="30" placeholder="" required> <i>Password</i> </div>
                         <div class="label_btns">
-                            <label class="label_btn" onclick="">Sign Up</label>
+                            <label class="label_btn" onclick="FormDegistir(true);">Sign Up</label>
                             <label class="label_btn" onclick="">Guest</label>
                         </div>                       
                         <button class="submitBtn" type="submit" id="login" name="login">LOGIN</button> 
                         <label class="info_lbl" id="linfo_lbl"></label> 
                     </form>
+                    <form method="post" class="s_form" id="signupForm" style="display:none">
+                        <img id="userartipng" class="loginpng" src="user_arti.png" width="130px"> 
+                        <div class="inputBox"><input type="text" id="cnumber" name="number" maxlength="12" placeholder="" required> <i>Number</i> </div>
+                        <div class="inputBox"><input type="text" id="cusername" name="username" maxlength="30" placeholder="" required> <i>Username</i> </div>
+                        <div class="inputBox"><input type="password" id="cpassword" name="password" maxlength="30" placeholder="" required> <i>Password</i> </div>
+                        <div class="inputBox"><input type="password" id="crepassword" name="repassword" maxlength="30" placeholder="" required> <i>Password Again</i> </div>
+                        <div class="label_btns">
+                            <label class="label_btn" onclick="FormDegistir(false);">Login</label>
+                            <label class="label_btn"></label>
+                        </div>
+                        <button class="submitBtn" type="submit" id="signup" name="signup">SIGNUP</button>  
+                        <label class="info_lbl" id="cinfo_lbl"></label> 
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="script_login.js"></script>
 </body>
 </html>
